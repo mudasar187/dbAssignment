@@ -50,7 +50,6 @@ public class DBHandler {
      */
     public void createDataBase()
     {
-
         String createDBName = "CREATE DATABASE " + dbConnection.getDbName();
 
         try (Connection connection = dbConnection.getConnection();
@@ -63,6 +62,9 @@ public class DBHandler {
         catch (SQLException se)
         {
             SQLException(se.getErrorCode());
+            System.out.print(
+                    "### Enter 'new' for creating new name or 'overwrite' to overwrite the exist database: ");
+            createNewDatabaseOrOverwriteIfExists();
         }
     }
 
@@ -74,11 +76,12 @@ public class DBHandler {
      */
     private void createNewDatabaseOrOverwriteIfExists()
     {
+
         String userOption = userInput.next().toLowerCase();
 
         if(userOption.equals("new"))
         {
-            System.out.print("### Enter new name for the database: ");
+            System.out.print("### Database name: ");
             String newDbName = userInput.next();
             dbConnection.setDbName(newDbName);
             createDataBase();
@@ -98,8 +101,7 @@ public class DBHandler {
             }
             catch (SQLException se)
             {
-                System.out.println("### Please check your database name, only letters are approved ###");
-                createNewDatabaseOrOverwriteIfExists();
+                SQLException(se.getErrorCode());
             }
         }
         else
@@ -518,19 +520,12 @@ public class DBHandler {
      */
     public void SQLException(int se)
     {
-
         switch (se) {
             case 1064:
-                System.out.println("### Please check your database name, only letters are approved ###");
-                System.out.print(
-                        "### Enter 'new' for creating new name or 'overwrite' to overwrite the exist database: ");
-                createNewDatabaseOrOverwriteIfExists();
+                System.out.println("### SQl syntax error ###");
                 break;
             case 1007:
                 System.out.println("### Database name exist ###");
-                System.out.print(
-                        "### Enter 'new' for creating new name or 'overwrite' to overwrite the exist database: ");
-                createNewDatabaseOrOverwriteIfExists();
                 break;
             case 1136:
                 System.out.println("### Column count doesn't match row count, please check file ###");
@@ -548,7 +543,7 @@ public class DBHandler {
                 System.out.println("### Table exists ###");
                 break;
             case 1051:
-                System.out.println("Table not exists ###");
+                System.out.println("### Table not exists ###");
                 break;
             case 1062:
                 System.out.println("### Duplicates entry ###");

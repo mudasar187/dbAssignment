@@ -21,7 +21,7 @@ public class ProgramHelper {
     }
 
     public String[] setListOfFiles() {
-        listOfFiles[0] = "lecturer";
+        listOfFiles[0] = null;
         listOfFiles[1] = "room";
         listOfFiles[2] = "subject";
         listOfFiles[3] = "semester";

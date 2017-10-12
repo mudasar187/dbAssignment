@@ -49,15 +49,22 @@ public class Pogram {
                         break;
 
                     case "2":
-                        for (int i = 0; i < programHelper.getListOfFiles().length; i++)
+                        try
                         {
-                            DBTable table = new DBTable();
-                            dbFileHandler.makeTable(
-                                    "src/main/java/inputFiles/" + programHelper.getListOfFiles()[i] + ".txt", table);
-                            if (dbFileHandler.isCheckStatusOfValidationOfFile() != false)
+                            for (int i = 0; i < programHelper.getListOfFiles().length; i++)
                             {
-                                dbHandler.createTable(table);
+                                DBTable table = new DBTable();
+                                dbFileHandler.makeTable(
+                                        "src/main/java/inputFiles/" + programHelper.getListOfFiles()[i] + ".txt",
+                                        table);
+                                if (dbFileHandler.isCheckStatusOfValidationOfFile() != false)
+                                {
+                                    dbHandler.createTable(table);
+                                }
                             }
+                        } catch (Exception e)
+                        {
+                            System.out.println("### Cannot create tables, please check files and try again ###");
                         }
                         System.out.println();
                         break;
