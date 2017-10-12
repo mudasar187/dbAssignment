@@ -66,7 +66,7 @@ public class Program {
                             }
                         } catch (Exception e)
                         {
-                            System.out.println("### Cannot create tables, please check files and try again ###");
+                            System.out.println("### Please check file and file content ###");
                         }
                         System.out.println();
                         break;
