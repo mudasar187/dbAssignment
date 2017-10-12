@@ -1,5 +1,0 @@
-subjectandroom
-subjectId/roomId/start/end/date
-VARCHAR(11) NOT NULL/VARCHAR(11) NOT NULL/time/time/date
-subjectId,roomId,date
-------------------------------------------------------------

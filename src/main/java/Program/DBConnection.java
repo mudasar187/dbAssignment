@@ -12,9 +12,10 @@ import java.util.Properties;
  * @author Mudasar Ahmad
  * @version 1.0
  *
+ * DBConnection
  * Class for connection to database
  *
- * Last modified 04 october 2017
+ * Last modified 11 october 2017
  *
  */
 
@@ -32,9 +33,11 @@ public class DBConnection {
     private Properties propFile;
     private MysqlDataSource mysqlDataSource;
 
+
     /**
      * Default constructor
      * Read the file properties and set hostName, dbName, userName, password, port
+     * @param properties, path where file is located
      */
     public DBConnection(String properties)
     {
@@ -58,7 +61,7 @@ public class DBConnection {
         }
         catch (NullPointerException n)
         {
-            System.out.println("### Something wrong with properties file, please check file and try again ###");
+            System.out.println("### Properties file not added ###");
         }
     }
 
@@ -91,10 +94,9 @@ public class DBConnection {
 
 
     /**
-     * Get and Set for dbName (database name)
-     * I have set and get dbName so i can use it in DBHandler class in createDatabase() method
+     * Get and Set Methods so I can access them in the DBHandler class
+     * @return dbName
      */
-
     public String getDbName() {
         return dbName;
     }
@@ -102,4 +104,21 @@ public class DBConnection {
     public void setDbName(String dbName) {
         this.dbName = dbName;
     }
+
+
+    /**
+     * Checks if connection is valid or not
+     * Have this method so I can launch the application in the Application class if connection is valid,
+     * if it is not valid then the program does not run and u will get an error message
+     * @return true if connection is valid, return false if connection is not valid
+     */
+    public boolean isConnected() {
+        if(getConnection() != null)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
 }

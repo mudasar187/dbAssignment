@@ -2,7 +2,6 @@ package Program;
 
 import java.sql.*;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -11,14 +10,13 @@ import java.util.concurrent.TimeUnit;
  *
  * Class for handling tables and queries
  *
- * Last modified 04 october 2017
+ * Last modified 11 october 2017
  *
  */
 
 public class DBHandler {
 
     private DBConnection dbConnection;
-    private DBFileHandler dbFileHandler;
 
     // Creating this variable to keep where i want to start if i have an AUTO_INCREMENT in my first index in dataTypes[0]
     private int startFrom = 0;
@@ -26,46 +24,22 @@ public class DBHandler {
     // Creating scanner so user can send in input to terminal
     private Scanner userInput = new Scanner(System.in);
 
-    // Return value from checkIfDataTypeIndex0HaveTheWordAutoIncrement() method
-    private int getStartFrom() { return startFrom; }
-
-
 
     /**
      * Constructor
      * All dependency injections in constructor
      */
-    public DBHandler(DBConnection dbConnection, DBFileHandler dbFileHandler)
+    public DBHandler(DBConnection dbConnection)
     {
         this.dbConnection = dbConnection;
-        this.dbFileHandler = dbFileHandler;
     }
 
 
     /**
-     * Get the method of readFile() in DBFileHandler
+     * Get status for the connection from DBConnection, using that in Application.class
      */
-    public boolean getDbFileHandler(String fileName)
-    {
-        if(dbFileHandler.readFile(fileName) == true) {
-            return true;
-        }
-        return false;
-    }
-
-
-    /**
-     * Checks if connection is valid or not
-     * Have this method so I can launch the application in the Application class if connection is valid,
-     * if it is not valid then the program does not run
-     * @return true if connection is valid, return false if connection is not valid
-     */
-    public boolean isConnected() {
-        if(dbConnection.getConnection() != null)
-        {
-            return true;
-        }
-        return false;
+    public boolean getDBStatus() {
+        return dbConnection.isConnected();
     }
 
 
@@ -100,8 +74,6 @@ public class DBHandler {
      */
     private void createNewDatabaseOrOverwriteIfExists()
     {
-        System.out.print(
-                "### Enter 'new' for creating new name or 'overwrite' to overwrite the exist database: ");
         String userOption = userInput.next().toLowerCase();
 
         if(userOption.equals("new"))
@@ -139,124 +111,130 @@ public class DBHandler {
 
 
     /**
-     * Create table
-     * This method creates the tables based on the meta data in the file,
-     * the first 3 lines are meta data needed to create the tables as long as the user follows the instructions for how the file should be set up,
-     * this method will create your tables anyway
+     * This method creates a table based on the information retrieved from  getQueryCreateTable() method call
+     * @param table, Table object to extract data from
      */
-    public void createTable()
-    {
-        try
-        {
-            {
-                String chooseDBName = "USE " + dbConnection.getDbName();
-                String createTable = "CREATE TABLE " + dbFileHandler.getTableName() + " (";
-
-                for (int i = 0; i < dbFileHandler.getLengthOfColumns(); i++)
-                {
-                    createTable += dbFileHandler.getColumns(i) + " " + dbFileHandler.getDataTypes(i) + ",";
-                }
-                createTable += "PRIMARY KEY(" + dbFileHandler.getPrimaryKey() + "));";
-
-                try (Connection connection = dbConnection.getConnection();
-                     PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-                     PreparedStatement preparedStatement2 = connection.prepareStatement(createTable))
-                {
-                    preparedStatement.executeUpdate();
-                    preparedStatement2.executeUpdate();
-
-                    System.out.println(
-                            "### Table " + "'" + dbFileHandler.getTableName() + "'" + " created succsessfully ###");
-                }
-                catch (SQLException se)
-                {
-                    SQLException(se.getErrorCode());
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("### Cannot create table ###");
-        }
-    }
-
-
-    /**
-     * Insert data
-     * This method enters data from the file, here is a danger to SQL Injection, referring to this link, how to actually do it ->
-     * https://www.owasp.org/index.php/SQL_Injection_Prevention_Cheat_Sheet
-     */
-    public void insertDataIntoTable()
+    public void createTable(DBTable table)
     {
         String chooseDBName = "USE " + dbConnection.getDbName();
+        String createTable = getQueryCreateTable(table);
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-             PreparedStatement preparedStatement1 = connection.prepareStatement(""))
+             PreparedStatement createQ = connection.prepareStatement(createTable))
         {
-            // Check if dataType[0] is auto_increment or not
-            checkIfDataTypeIndex0HaveTheWordAutoIncrement();
-
-            String insertData = "INSERT INTO " + dbFileHandler.getTableName() + " (";
-
-            // Here i call for the getStartFrom(), if its auto_increment in index 0, then start from 1, and if its not, start from 0
-            for (int i = getStartFrom(); i < dbFileHandler.getLengthOfColumns(); i++)
-            {
-                insertData += dbFileHandler.getColumns(i);
-                if (i < dbFileHandler.getLengthOfColumns() -1) insertData += ", ";
-            }
-            insertData += ") VALUES ";
-
-            String[][] lines = dbFileHandler.splitLinesInFile();
-
-            for (int i = 0; i < lines.length; i++)
-            {
-                insertData += "(";
-                for (int j = 0; j < lines[0].length; j++)
-                {
-                    insertData += "'" + lines[i][j] + "'";
-                    if (j < lines[0].length - 1) insertData += ", ";
-                }
-                if (i < lines.length - 1) insertData += "), ";
-            }
-
-            insertData += ");";
-
             preparedStatement.executeUpdate();
-
-            int result = preparedStatement1.executeUpdate(insertData);
-
-            System.out.println("### " + result + " rows are inserted into table " +"'"+ dbFileHandler.getTableName() +"'");
+            createQ.executeUpdate();
+            System.out.println("### Table " + table.getTableName() + " created succsessfully ###");
         }
         catch (SQLException se)
         {
             SQLException(se.getErrorCode());
-        } catch (NullPointerException ne)
-        {
-            // ne.printStackTrace();
         }
     }
 
 
     /**
-     * Empty table
-     * This method is designed to delete all content in the table without deleting the table,
-     * this allows users to update only in the file, whether the user wishes to enter more rows,
-     * or delete any rows. User can also update the rows and when running the program,
-     * you can choose to delete everything earlier and update with new content.
+     * This method extracts the information from table object needed to create table and sends query to createTable()
+     * @param table, The table object sent into createTable () its parameter
+     * @return the create table query
      */
-    public void truncateTable(String tableName) {
-        String chooseDBName = "USE " + dbConnection.getDbName();
-        String truncateTable = "TRUNCATE " + tableName;
+    public String getQueryCreateTable(DBTable table)
+    {
+            StringBuilder createTableQuery = new StringBuilder("CREATE TABLE " + table.getTableName() + " (\n");
+            for (int i = 0; i < table.getColumnsName().length; i++)
+            {
+                createTableQuery.append(table.getColumnsName()[i] + " " + table.getDataTypes()[i] + ",\n");
+            }
+            createTableQuery.append("PRIMARY KEY " + "(" + table.getPrimaryKey() + ")))");
 
-        try(Connection connection = dbConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-            PreparedStatement preparedStatement1 = connection.prepareStatement(truncateTable))
+            return createTableQuery.toString().substring(0, createTableQuery.length() - 2) + "\n);";
+    }
+
+
+    /**
+     * This method insert data based on the information retrieved from the object via the getInsertDataQuery() method call
+     * @param table, Table object to extract data from
+     */
+    public void insertData(DBTable table)
+    {
+        String chooseDBName = "USE " + dbConnection.getDbName();
+        String insertData = getInsertDataQuery(table);
+
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
+             PreparedStatement preparedStatement1 = connection.prepareStatement(insertData))
         {
             preparedStatement.executeUpdate();
+            int i = 1;
+            for (int k = 0; k < table.getJustDataWithoutMetaData().size(); k++)
+            {
+                for (int j = 0; j < table.getJustDataWithoutMetaData().get(k).length; )
+                    preparedStatement1.setString(i++, table.getJustDataWithoutMetaData().get(k)[j++]);
+            }
             preparedStatement1.executeUpdate();
-            System.out.println("### Table "+tableName+" refreshed, you can now insert data ###");
+            int rows = preparedStatement.executeUpdate();
+            System.out.println("### Inserted rows in table " + table.getTableName()+" ###");
+        } catch (SQLException se)
+        {
+            SQLException(se.getErrorCode());
+        }
+    }
 
-        } catch (SQLException se) {
-            System.out.println("### Table not exists ###");
+
+    /**
+     * This method extracts the information from arraylist = justDataWithoutMetaData needed to put  and sends query to createTable()
+     * @param table, The table object sent into createTable () its parameter
+     * @return the create table query
+     */
+    public String getInsertDataQuery(DBTable table)
+    {
+        // Add meta data
+        checkIfDataTypeIndex0HaveTheWordAutoIncrement(table);
+        StringBuilder insertDataQuery = new StringBuilder("INSERT INTO " + table.getTableName() + " (");
+        for (int i = startFrom; i < table.getColumnsName().length - 1; i++)
+        {
+            insertDataQuery.append(table.getColumnsName()[i] + ", ");
+        }
+        insertDataQuery.append(table.getColumnsName()[table.getColumnsName().length - 1] + ")\nVALUES\n(");
+
+        // Add data
+        for (int i = 0; i < table.getJustDataWithoutMetaData().size(); i++)
+        {
+            String[] raw = table.getJustDataWithoutMetaData().get(i);
+            for (int j = 0; j < raw.length - 1; j++)
+            {
+                insertDataQuery.append("?" + ", ");
+            }
+            insertDataQuery.append("?" + "),\n(");
+        }
+        return insertDataQuery.toString().substring(0, insertDataQuery.length() - 3);
+    }
+
+
+    /**
+     * Check for auto_increment
+     * This method ensures that if you have chosen to set the first column as auto increment,
+     * this method will handle the input of the insertDataIntoTable () method.
+     * Then, this jump over the first column that is set to auto_increment and make sure it does not make any trouble to enter the data
+     */
+    private void checkIfDataTypeIndex0HaveTheWordAutoIncrement(DBTable table)
+    {
+        try
+        {
+            String dataTypeIndex0 = table.getDataTypes()[0];
+            String auto_increment = "AUTO_INCREMENT";
+
+            if (dataTypeIndex0.toLowerCase().indexOf(auto_increment.toLowerCase()) != -1)
+            {
+                startFrom = 1;
+            } else
+            {
+                startFrom = 0;
+            }
+        } catch (NullPointerException ne)
+        {
+            // ne.printStackTrace();
         }
     }
 
@@ -288,47 +266,28 @@ public class DBHandler {
 
 
     /**
-     * Check for auto_increment
-     * This method ensures that if you have chosen to set the first column as auto increment,
-     * this method will handle the input of the insertDataIntoTable () method.
-     * Then, this jump over the first column that is set to auto_increment and make sure it does not make any trouble to enter the data
+     * Empty table
+     * This method is designed to delete all content in the table without deleting the table,
+     * this allows users to update only in the file, whether the user wishes to enter more rows,
+     * or delete any rows. User can also update the rows and when running the program,
+     * you can choose to delete everything earlier and update with new content.
      */
-    private void checkIfDataTypeIndex0HaveTheWordAutoIncrement()
-    {
-        try
-        {
-            String dataTypeIndex0 = dbFileHandler.getDataTypes(0);
-            String auto_increment = "AUTO_INCREMENT";
+    public void truncateTable(String tableName) {
+        String chooseDBName = "USE " + dbConnection.getDbName();
+        String truncateTable = "TRUNCATE " + tableName;
 
-            if (dataTypeIndex0.toLowerCase().indexOf(auto_increment.toLowerCase()) != -1)
-            {
-                startFrom = 1;
-            } else
-            {
-                startFrom = 0;
-            }
-        } catch (NullPointerException ne)
+        try(Connection connection = dbConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
+            PreparedStatement preparedStatement1 = connection.prepareStatement(truncateTable))
         {
-            // ne.printStackTrace();
+            preparedStatement.executeUpdate();
+            preparedStatement1.executeUpdate();
+            System.out.println("### Table "+tableName+" refreshed, you can now insert data ###");
+
+        } catch (SQLException se) {
+            System.out.println("### Table not exists ###");
         }
     }
-
-
-//    /**
-//     * Split the lines after reading from the file
-//     * This method splits the lines from the input to be inserted into insertDataIntoTable () in DBHandler class,
-//     * so if you want to distinguish with other characters,
-//     * you must change "/" in this method and in the readFile ()
-//     */
-//    private String[][] splitLinesInFile()
-//    {
-//        String[][] objectsFromFile = new String[dbFileHandler.getListSize().size()][dbFileHandler.getLengthOfColumns()];
-//        for (int i = 0; i < dbFileHandler.getListSize().size(); i++)
-//        {
-//            objectsFromFile[i] = dbFileHandler.getListIndex(i).split("/");
-//        }
-//        return objectsFromFile;
-//    }
 
 
     /**
@@ -517,7 +476,7 @@ public class DBHandler {
      * getAnyValueFromAnyTable()
      * showAllTables()
      */
-    private String printResult(ResultSet resultSet)
+    public String printResult(ResultSet resultSet)
     {
         try
         {
@@ -545,44 +504,13 @@ public class DBHandler {
 
 
 //    /**
-//     * TODO: Method for connecting the tables, simple query, can make it out dynamic
 //     * 'lecturerandsubject' ,
 //     * 'subjectandprogram',
 //     * 'subjectandroom'
 //     */
 //     public void connectTables()
 //     {
-//         String chooseDBName = "USE " + dbConnection.getDbName();
-//
-//         String lecturerandsubject = "ALTER TABLE `lecturerandsubject`\n" +
-//                 "  ADD CONSTRAINT `fk_lecturerId_id` FOREIGN KEY (`lecturerId`) REFERENCES `lecturer` (`id`),\n" +
-//                 "  ADD CONSTRAINT `fk_subjectId_id` FOREIGN KEY (`subjectId`) REFERENCES `subject` (`id`)";
-//
-//         String subjectandprogram = "ALTER TABLE `subjectandprogram`\n" +
-//                 "  ADD CONSTRAINT `subjectandprogram___fk_subjectAndProg_program` FOREIGN KEY (`programId`) REFERENCES `program` (`id`),\n" +
-//                 "  ADD CONSTRAINT `subjectandprogram___fk_subjectAndProg_subject` FOREIGN KEY (`subjectId`) REFERENCES `subject` (`id`)";
-//
-//         String subjectandroom = "ALTER TABLE `subjectandroom`\n" +
-//                 "  ADD CONSTRAINT `subjectandroom___fk_rook` FOREIGN KEY (`roomId`) REFERENCES `room` (`id`),\n" +
-//                 "  ADD CONSTRAINT `subjectandroom___fk_subject` FOREIGN KEY (`subjectId`) REFERENCES `subject` (`id`)";
-//
-//         try(Connection connection = dbConnection.getConnection();
-//         PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-//         PreparedStatement preparedStatement1 = connection.prepareStatement(lecturerandsubject);
-//         PreparedStatement preparedStatement2 = connection.prepareStatement(subjectandprogram);
-//         PreparedStatement preparedStatement3 = connection.prepareStatement(subjectandroom))
-//         {
-//
-//             preparedStatement.executeUpdate();
-//             preparedStatement1.executeUpdate();
-//             preparedStatement2.executeUpdate();
-//             preparedStatement3.executeUpdate();
-//
-//             System.out.println("### Tables "+lecturerandsubject+", "+subjectandprogram+", "+subjectandprogram+" are also created ### ");
-//         } catch (SQLException se)
-//         {
-//             se.printStackTrace();
-//         }
+         // TODO: Method for connecting the tables, simple query, can make it out dynamic
 //     }
 
     /**
@@ -594,10 +522,14 @@ public class DBHandler {
         switch (se) {
             case 1064:
                 System.out.println("### Please check your database name, only letters are approved ###");
+                System.out.print(
+                        "### Enter 'new' for creating new name or 'overwrite' to overwrite the exist database: ");
                 createNewDatabaseOrOverwriteIfExists();
                 break;
             case 1007:
                 System.out.println("### Database name exist ###");
+                System.out.print(
+                        "### Enter 'new' for creating new name or 'overwrite' to overwrite the exist database: ");
                 createNewDatabaseOrOverwriteIfExists();
                 break;
             case 1136:
@@ -624,21 +556,5 @@ public class DBHandler {
                 break;
 
         }
-    }
-
-
-
-    // Just for fancy loading
-    public void connectionLoader() throws InterruptedException {
-        TimeUnit.MILLISECONDS.sleep(300);
-        System.out.print(".");
-        TimeUnit.MILLISECONDS.sleep(300);
-        System.out.print(".");
-        TimeUnit.MILLISECONDS.sleep(300);
-        System.out.print(".");
-        TimeUnit.MILLISECONDS.sleep(300);
-        System.out.print(".");
-        TimeUnit.MILLISECONDS.sleep(300);
-        System.out.println("\n");
     }
 }

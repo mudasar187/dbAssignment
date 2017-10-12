@@ -3,3 +3,11 @@ subjectId/programId
 VARCHAR(11) NOT NULL/INT(11) NOT NULL
 subjectId,programId
 ------------------------------------------------------------
+PGR200/1
+PGR200/3
+PG3400/2
+IS3100/4
+DS3300/4
+PG3300/1
+PG3300/2
+PG3300/5

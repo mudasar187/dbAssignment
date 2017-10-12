@@ -1,63 +1,68 @@
 package Program;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import java.util.NoSuchElementException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static org.junit.Assert.*;
 
 public class DBFileHandlerTest {
 
+    private DBFileHandler dbFileHandler;
+    private String fileWithNoContent = "src/test/resources/inputFilesTest/fileWithNoContent.txt";
+    private String fileWithWrongLayout = "src/test/resources/inputFilesTest/fileWithWrongLayout.txt";
 
-    /**
-     * Test if file is valid
-     */
-    @Test
-    public void testFileReaderIfFileIsValid() {
-        DBFileHandler dbFileHandler = new DBFileHandler();
-
-        boolean check = dbFileHandler.readFile("src/test/resources/inputFilesTest/lecturerTestRight.txt");
-
-        assertTrue(check);
+    @Before
+    public void setUp() {
+        dbFileHandler = new DBFileHandler();
     }
 
-
-    /**
-     * Test with null parameter
-     */
     @Test
-    public void testFileReaderIfParameterNull() {
-        DBFileHandler dbFileHandler = new DBFileHandler();
+    public void testFillTableWithRightFile() {
 
-        boolean check = dbFileHandler.readFile(null);
+        // Arrange
+        DBTable table = new DBTable();
 
-        assertFalse(check);
+        // Act
+        dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
+
+        // Assert
+        assertEquals(table.getTableName(), "Employee");
+        assertEquals(table.getColumnsName()[0], "id");
+        assertEquals(table.getColumnsName()[1], "firstName");
+        assertEquals(table.getColumnsName()[2], "lastName");
+        assertEquals(table.getColumnsName()[3], "email");
+        assertEquals(table.getDataTypes()[0],"INT(11) AUTO_INCREMENT");
+        assertEquals(table.getDataTypes()[1],"VARCHAR(255) NOT NULL");
+        assertEquals(table.getDataTypes()[2],"VARCHAR(255) NOT NULL");
+        assertEquals(table.getDataTypes()[3],"VARCHAR(255) NOT NULL UNIQUE");
+        assertEquals(table.getPrimaryKey(), "id");
     }
 
+    @Test(expected = NullPointerException.class)
+    public void testFillTableWithNoFile() {
 
-    /**
-     * Test if file not exists
-     */
-    @Test
-    public void testFileReaderIfFileNotExists() {
-        DBFileHandler dbFileHandler = new DBFileHandler();
+        // Arrange
+        DBTable table = new DBTable();
 
-        boolean check = dbFileHandler.readFile("sdsggs");
-
-        assertFalse(check);
+        // Act
+        dbFileHandler.makeTable("fdfddfd", table);
     }
 
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testFillTableWithFileHasNoContent() {
+        DBTable table = new DBTable();
 
-    /**
-     * Test if file exists but there is no content in the file
-     */
-    @Test
-    public void testFileReaderIfThereIsNoContentInFile() {
-        DBFileHandler dbFileHandler = new DBFileHandler();
-
-        boolean check = dbFileHandler.readFile("src/test/resources/inputFilesTest/lecturerTestWithNoContent.txt");
-
-        assertFalse(check);
-
+        dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileWithNoContent.txt", table);
     }
+
+    @Test
+    public void testFillTableWithWrongLayOut() {
+        DBTable table = new DBTable();
+
+        dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileWithWrongLayout.txt", table);
+    }
+
 }

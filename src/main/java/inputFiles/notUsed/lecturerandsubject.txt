@@ -3,3 +3,8 @@ lecturerId/subjectId
 INT(11) NOT NULL/VARCHAR(11) NOT NULL
 lecturerId, subjectId
 ------------------------------------------------------------
+1/PGR200
+2/PG3400
+3/IS3100
+3/DS3300
+5/PG3300

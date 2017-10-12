@@ -1,9 +1,0 @@
-id/firstName/lastName/email
-INT(11) AUTO_INCREMENT/VARCHAR(255) NOT NULL/VARCHAR(255) NOT NULL/VARCHAR(255) NOT NULL UNIQUE
-lecturer
-id
-------------------------------------------------------------
-Per/Lauvås/per@ansatt.westerdals.no
-Tor-Morten/Grønli/tor@westerdals.no
-Andrea/Arcuri/andrea@ansatt.westerdals.no
-Rolando/Gomez/rolando@ansatt.westerdals.no

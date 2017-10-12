@@ -1,0 +1,5 @@
+Employee
+id/firstName
+INT(11) AUTO_INCREMENT/VARCHAR(255) NOT NULL/VARCHAR(255) NOT NULL/VARCHAR(255) NOT NULL UNIQUE
+------------------------------------------------------------
+Nicholas/Cage/nicholascage@hotmail.com
