@@ -15,7 +15,7 @@ import Program.DBTable;
  *
  */
 
-public class Pogram {
+public class Program {
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -24,7 +24,9 @@ public class Pogram {
         DBHandler dbHandler = new DBHandler(
                 new DBConnection("src/main/resources/database.properties"));
         DBFileHandler dbFileHandler = new DBFileHandler();
-        ProgramHelper programHelper = new ProgramHelper();
+
+        // Remember to set the right file to read to get the files that needed to create tables and add data
+        ProgramHelper programHelper = new ProgramHelper("src/main/java/helpMaterials/files.txt");
 
 
         // Checks if connection is connected, if yes run while loop, if not, throw message that connection is not connected
@@ -51,11 +53,11 @@ public class Pogram {
                     case "2":
                         try
                         {
-                            for (int i = 0; i < programHelper.getListOfFiles().length; i++)
+                            for (int i = 0; i < programHelper.getFiles().size(); i++)
                             {
                                 DBTable table = new DBTable();
                                 dbFileHandler.makeTable(
-                                        "src/main/java/inputFiles/" + programHelper.getListOfFiles()[i] + ".txt",
+                                        "src/main/java/inputFiles/" + programHelper.getFiles().get(i) + ".txt",
                                         table);
                                 if (dbFileHandler.isCheckStatusOfValidationOfFile() != false)
                                 {
@@ -70,26 +72,26 @@ public class Pogram {
                         break;
 
                     case "3":
-                        for (int i = 0; i < programHelper.getListOfFiles().length; i++)
+                        for (int i = 0; i < programHelper.getFiles().size(); i++)
                         {
-                            dbHandler.dropTable(programHelper.getListOfFiles()[i]);
+                            dbHandler.dropTable(programHelper.getFiles().get(i));
                         }
                         break;
 
                     case "4":
-                        for (int i = 0; i < programHelper.getListOfFiles().length; i++)
+                        for (int i = 0; i < programHelper.getFiles().size(); i++)
                         {
                             DBTable table = new DBTable();
-                            dbFileHandler.makeTable("src/main/java/inputFiles/"+programHelper.getListOfFiles()[i]+".txt", table);
+                            dbFileHandler.makeTable("src/main/java/inputFiles/"+programHelper.getFiles().get(i)+".txt", table);
                             dbHandler.insertData(table);
                         }
                         System.out.println();
                         break;
 
                     case "5":
-                        for (int i = 0; i < programHelper.getListOfFiles().length; i++)
+                        for (int i = 0; i < programHelper.getFiles().size(); i++)
                         {
-                            dbHandler.truncateTable(programHelper.getListOfFiles()[i]);
+                            dbHandler.truncateTable(programHelper.getFiles().get(i));
                         }
                         System.out.println();
                         break;

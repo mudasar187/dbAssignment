@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class DBTable
 {
-    public DBTable() {}
+    public DBTable() { }
 
     private String tableName;
     private String[] columnsName;

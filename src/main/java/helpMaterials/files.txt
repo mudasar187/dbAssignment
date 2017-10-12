@@ -1,0 +1,6 @@
+lecturer
+room
+subject
+semester
+program
+availability

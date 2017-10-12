@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -7,6 +11,7 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  *
  * This is a helper to Application.class, i created this so it becomes more readable in the Application class
+ * and also adding the files that needed to be added to run the program
  *
  * Last modified 11 october 2017
  *
@@ -14,26 +19,50 @@ import java.util.concurrent.TimeUnit;
 
 public class ProgramHelper {
 
-    private String [] listOfFiles = new String[6];
+    private ArrayList<String> files = new ArrayList<>();
+    private Scanner read;
 
-    public ProgramHelper() {
-        setListOfFiles();
+
+    /**
+     * Constructor
+     * Set the file that needed to be read
+     */
+    public ProgramHelper(String fileName) {
+        readFiles(fileName);
     }
 
-    public String[] setListOfFiles() {
-        listOfFiles[0] = null;
-        listOfFiles[1] = "room";
-        listOfFiles[2] = "subject";
-        listOfFiles[3] = "semester";
-        listOfFiles[4] = "program";
-        listOfFiles[5] = "availability";
-        return listOfFiles;
+    /**
+     * Read the files.txt in 'helpMaterials', this file contain name of the all files that need to be read to create tables and add data
+     * @param fileName
+     * @return files
+     */
+    private ArrayList<String> readFiles(String fileName)
+    {
+        try
+        {
+            read = new Scanner(new File(fileName));
+
+            while (read.hasNextLine()) {
+                String file = read.nextLine();
+                files.add(file);
+            }
+        }
+        catch (FileNotFoundException f)
+        {
+            System.out.println("### Check if there is a files.txt file in the folder 'helpMaterials' ###");
+            System.out.println("This file is needed to add files to run the program ###");
+        }
+        return files;
     }
 
-    public String[] getListOfFiles() {
-
-        return listOfFiles;
+    /**
+     * Method to i can access this in Program.class to get the file that contain all files needed to be read
+     * @return files
+     */
+    public ArrayList<String> getFiles() {
+        return files;
     }
+
 
     // Scanner for getting the input from user
     Scanner userInput = new Scanner(System.in);
