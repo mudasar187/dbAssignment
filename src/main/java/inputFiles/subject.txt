@@ -1,0 +1,9 @@
+subject
+id/name/program/participants
+VARCHAR(11) NOT NULL/VARCHAR(255) NOT NULL UNIQUE/VARCHAR(255) NOT NULL/INT(10) NOT NULL
+id
+------------------------------------------------------------
+PGR200/Avansert Java/Programmering/60
+PG3400/Programmering i C/Intelligente Systemer/40
+IS3100/ERP-Systemer/E-Buiness/20
+DS3300/Interaksjonsdesign/Interaktiv Design/50

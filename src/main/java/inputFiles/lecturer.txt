@@ -1,0 +1,9 @@
+lecturer
+id/firstName/lastName/email
+INT(11) AUTO_INCREMENT/VARCHAR(255) NOT NULL/VARCHAR(255) NOT NULL/VARCHAR(255) NOT NULL UNIQUE
+id
+------------------------------------------------------------
+Per/Lauvås/per@ansatt.westerdals.no
+Tor-Morten/Grønli/tor@ansatt.westerdals.no
+Andrea/Arcuri/andrea@ansatt.westerdals.no
+Rolando/Gomez/rolando@ansatt.westerdals.no

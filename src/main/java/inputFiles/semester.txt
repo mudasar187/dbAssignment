@@ -1,0 +1,6 @@
+semester
+id/name/start/end
+INT(11) AUTO_INCREMENT/VARCHAR(255) NOT NULL/date NOT NULL UNIQUE/date NOT NULL UNIQUE
+id
+------------------------------------------------------------
+Høst/2017-08-20/2017-12-20

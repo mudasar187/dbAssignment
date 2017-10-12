@@ -1,0 +1,9 @@
+program
+id/name
+INT(11) AUTO_INCREMENT/VARCHAR(255) NOT NULL UNIQUE
+id
+------------------------------------------------------------
+Programmering
+Intelligente systemer
+Mobil programmering
+E-Buiness

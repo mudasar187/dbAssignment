@@ -1,0 +1,9 @@
+room
+id/capacity/roomType
+VARCHAR(11) NOT NULL/INT(10) NOT NULL/VARCHAR(255) NOT NULL
+id
+------------------------------------------------------------
+F101/150/Stor auditorium,med overhead
+F201/40/Liten klasserom,uten overhead
+F311/60/Liten auditorium,med overhead
+F401/20/Liten musikkrom

@@ -1,0 +1,5 @@
+subjectandprogram
+subjectId/programId
+VARCHAR(11) NOT NULL/INT(11) NOT NULL
+subjectId,programId
+------------------------------------------------------------
