@@ -11,9 +11,6 @@ import static org.junit.Assert.assertNull;
 public class DBConnectionTest {
 
 
-    /**
-     * Test with valid data in properties file
-     */
     @Test
     public void testConnectionIfValidFile() {
 
@@ -28,9 +25,6 @@ public class DBConnectionTest {
     }
 
 
-    /**
-     * Test with invalid data in properties file
-     */
     @Test
     public void testConnectionIfNotValidFile() {
 
@@ -45,9 +39,6 @@ public class DBConnectionTest {
     }
 
 
-    /**
-     * Test with null parameter
-     */
     @Test
     public void testConnectionIfNullInParameter() {
 
@@ -62,9 +53,6 @@ public class DBConnectionTest {
     }
 
 
-    /**
-     * Test if property file not exists
-     */
     @Test
     public void testConnectionIfFileNotExist() {
 

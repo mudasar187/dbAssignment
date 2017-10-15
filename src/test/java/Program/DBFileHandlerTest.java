@@ -3,21 +3,17 @@ package Program;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import static org.junit.Assert.*;
 
 public class DBFileHandlerTest {
 
     private DBFileHandler dbFileHandler;
-    private String fileWithNoContent = "src/test/resources/inputFilesTest/fileWithNoContent.txt";
-    private String fileWithWrongLayout = "src/test/resources/inputFilesTest/fileWithWrongLayout.txt";
 
     @Before
     public void setUp() {
         dbFileHandler = new DBFileHandler();
     }
+
 
     @Test
     public void testFillTableWithRightFile() {
@@ -41,15 +37,15 @@ public class DBFileHandlerTest {
         assertEquals(table.getPrimaryKey(), "id");
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testFillTableWithNoFile() {
 
-        // Arrange
+    @Test(expected = NullPointerException.class)
+    public void testFillTableWithNoFileExistsInParameter() {
+
         DBTable table = new DBTable();
 
-        // Act
-        dbFileHandler.makeTable("fdfddfd", table);
+        dbFileHandler.makeTable("fsdfsdf", table);
     }
+
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void testFillTableWithFileHasNoContent() {
@@ -57,6 +53,7 @@ public class DBFileHandlerTest {
 
         dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileWithNoContent.txt", table);
     }
+
 
     @Test
     public void testFillTableWithWrongLayOut() {

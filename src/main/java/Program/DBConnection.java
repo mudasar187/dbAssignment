@@ -2,6 +2,7 @@ package Program;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
@@ -119,6 +120,4 @@ public class DBConnection {
         }
         return false;
     }
-
-
 }

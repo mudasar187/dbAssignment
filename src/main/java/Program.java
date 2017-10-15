@@ -59,14 +59,14 @@ public class Program {
                                 dbFileHandler.makeTable(
                                         "src/main/java/inputFiles/" + programHelper.getFiles().get(i) + ".txt",
                                         table);
-                                if (dbFileHandler.isCheckStatusOfValidationOfFile() != false)
+                                if (dbFileHandler.isCheckStatusOfValidationOfFile())
                                 {
                                     dbHandler.createTable(table);
                                 }
                             }
                         } catch (Exception e)
                         {
-                            System.out.println("### Please check file and file content ###");
+                            System.out.println("### Please check the input file where all file name are located ###");
                         }
                         System.out.println();
                         break;
