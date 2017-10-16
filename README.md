@@ -29,7 +29,7 @@ Author: Mudasar Ahmad, version 1.0
 
 **11** Check in 'helpMaterials', in this folder you will find 'files.txt' here you enter the names of the files you want to read for creating tables and rows. It is important that the files to read are only ".txt" files and that they are in the 'inputFiles' folder
 
-**12** Now run the application and enjoy using the program
+**12** Run the program from RunProgram.class !
 
 #Functionality
 
