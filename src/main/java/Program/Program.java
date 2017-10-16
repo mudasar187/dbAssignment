@@ -229,7 +229,6 @@ public class Program {
                                 System.out.println("---------------");
                                 System.out.print("Tablename: ");
                                 String userOptionChooseTable = programHelper.userInput.nextLine().toLowerCase();
-                                dbHandler.getColumnNamesInTable(userOptionChooseTable);
                                 System.out.print("Column name: ");
                                 String userOptionChooseColumn = programHelper.userInput.nextLine();
                                 System.out.print("Search value: ");

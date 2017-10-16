@@ -304,34 +304,6 @@ public class DBHandler {
 
 
     /**
-     * This method extracts the column name in the tables
-     */
-    public void getColumnNamesInTable(String tableName) throws SQLException
-    {
-        String chooseDBName = "USE " + dbConnection.getDbName();
-        String selectFromTable = "SELECT * FROM " + tableName;
-
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-             PreparedStatement preparedStatement1 = connection.prepareStatement(selectFromTable))
-        {
-            preparedStatement.executeUpdate();
-            ResultSet resultSet = preparedStatement1.executeQuery();
-            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-
-            int rowCount = resultSetMetaData.getColumnCount();
-
-            System.out.println("\n------------------------------------------------------------------");
-            for (int i = 0; i < rowCount; i++)
-            {
-                System.out.printf("%-15s", resultSetMetaData.getColumnName(i+1));
-            }
-            System.out.println("\n------------------------------------------------------------------");
-        }
-    }
-
-
-    /**
      * Show all table names in database
      *
      */
@@ -376,7 +348,7 @@ public class DBHandler {
                 output += "\n";
 
             }
-            if (output.length() == 0) return "### No data in table or no matching value ###";
+            if (output.length() == 0) return "### No matching value ###";
             return output;
         }
         catch (SQLException se)
