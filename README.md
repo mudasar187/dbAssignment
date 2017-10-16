@@ -4,7 +4,7 @@
 * MySql
 * JDBC
 
-#Functionality
+# Functionality
 
 * Create database
 
