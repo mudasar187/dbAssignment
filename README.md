@@ -41,8 +41,6 @@ Author: Mudasar Ahmad, version 1.0
 
 -Insert data from files in inputFiles folder
 
--Refresh tables (This option is whenever you have updated the data in .txt files, recommended to refresh and insert again to update the database)
-
 -Show all table names
 
 -Get metadata from each table

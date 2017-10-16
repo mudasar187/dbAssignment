@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.SQLException;
+
 import static org.junit.Assert.*;
 
 
@@ -29,7 +31,7 @@ public class DBHandlerTest {
 
 
     @Test
-    public void testGetQueryForCreateTable() {
+    public void testGetQueryForCreateTableIfFileContentIsRight() {
 
         dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
 
@@ -45,7 +47,7 @@ public class DBHandlerTest {
     }
 
     @Test
-    public void testCreateTable() {
+    public void testCreateTable() throws SQLException {
 
         dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
 
@@ -53,7 +55,7 @@ public class DBHandlerTest {
     }
 
     @Test
-    public void testGetQueryForInsertData() {
+    public void testGetQueryForInsertData() throws SQLException {
 
         dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
 
@@ -65,22 +67,16 @@ public class DBHandlerTest {
     }
 
     @Test
-    public void testInsertDataIntoTable() {
+    public void testInsertDataIntoTable() throws SQLException {
 
         dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
 
         dbHandler.insertData(table);
     }
 
-    @Test
-    public void testTruncateTable() {
-
-        dbHandler.truncateTable("Employee");
-
-    }
 
     @Test
-    public void testDropTable() {
+    public void testDropTable() throws SQLException {
 
         dbHandler.dropTable("Employee");
     }

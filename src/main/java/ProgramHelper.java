@@ -50,7 +50,7 @@ public class ProgramHelper {
         catch (FileNotFoundException f)
         {
             System.out.println("### Check if there is a files.txt file in the folder 'helpMaterials' ###");
-            System.out.println("This file is needed to add files to run the program ###");
+            System.out.println("### This file is needed to add files to run the program ###");
         }
         return files;
     }
@@ -76,7 +76,6 @@ public class ProgramHelper {
                     "2      Create tables \n" +
                     "3      Drop tables \n" +
                     "4      Insert data into tables \n" +
-                    "5      Refresh tables (Empty data in tables) \n" +
                     "### Type 'queries' to make queries or type 'exit' to exit program ###\n" +
                     "\nYour choice: ";
 
@@ -102,6 +101,9 @@ public class ProgramHelper {
     boolean stopWhileLoopOne = false;
     // Creating a boolean for the second while loop
     boolean stopWhileLoopTwo = false;
+
+    // Check if you have created database and tables before entry options2menu
+    int createdTables = 0;
 
 
     // Just for fancy loading

@@ -21,9 +21,6 @@ public class DBHandler {
     // Creating this variable to keep where i want to start if i have an AUTO_INCREMENT in my first index in dataTypes[0]
     private int startFrom = 0;
 
-    // Creating scanner so user can send in input to terminal
-    private Scanner userInput = new Scanner(System.in);
-
 
     /**
      * Constructor
@@ -44,70 +41,21 @@ public class DBHandler {
 
 
     /**
-     * Creating the database name based on properties file
-     * Here, the database name is created based on the user selected in the properties file,
-     * but also handles if the name exists from the previous database
+     * Creating the database name based on properties file, but first drop the database if it exists
      */
-    public void createDataBase()
+    public String createDataBase() throws SQLException
     {
+        String dropDatabase = "DROP DATABASE IF EXISTS " + dbConnection.getDbName();
         String createDBName = "CREATE DATABASE " + dbConnection.getDbName();
 
         try (Connection connection = dbConnection.getConnection();
-             PreparedStatement createDbName = connection.prepareStatement(createDBName))
+             PreparedStatement preparedStatement = connection.prepareStatement(dropDatabase);
+             PreparedStatement preparedStatement1 = connection.prepareStatement(createDBName))
         {
-            createDbName.executeUpdate();
-            System.out.println("### Database created successfully ###\n");
+            preparedStatement.executeUpdate();
+            preparedStatement1.executeUpdate();
 
-        }
-        catch (SQLException se)
-        {
-            SQLException(se.getErrorCode());
-            System.out.print(
-                    "### Enter 'new' for creating new name or 'overwrite' to overwrite the exist database: ");
-            createNewDatabaseOrOverwriteIfExists();
-        }
-    }
-
-
-    /**
-     * Create new database or overwrite exists database
-     * The user enters this method if the database name exists,
-     * then the user gets 2 choices either to create a new name or overwrite the existing database
-     */
-    private void createNewDatabaseOrOverwriteIfExists()
-    {
-
-        String userOption = userInput.next().toLowerCase();
-
-        if(userOption.equals("new"))
-        {
-            System.out.print("### Database name: ");
-            String newDbName = userInput.next();
-            dbConnection.setDbName(newDbName);
-            createDataBase();
-        }
-        else if(userOption.equals("overwrite"))
-        {
-            String dropDatabase = "DROP DATABASE " + dbConnection.getDbName();
-            String createDatabase = "CREATE DATABASE " + dbConnection.getDbName();
-
-            try(Connection connection = dbConnection.getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(dropDatabase);
-                PreparedStatement preparedStatement1 = connection.prepareStatement(createDatabase))
-            {
-                preparedStatement.executeUpdate();
-                preparedStatement1.executeUpdate();
-                System.out.println("\n### Overwriting your exists database ###\n");
-            }
-            catch (SQLException se)
-            {
-                SQLException(se.getErrorCode());
-            }
-        }
-        else
-        {
-            System.out.print("### Not valid option, enter 'new' or 'overwrite' only: ");
-            createNewDatabaseOrOverwriteIfExists();
+            return "### Database created successfully ###\n";
         }
     }
 
@@ -116,7 +64,7 @@ public class DBHandler {
      * This method creates a table based on the information retrieved from  getQueryCreateTable() method call
      * @param table, Table object to extract data from
      */
-    public void createTable(DBTable table)
+    public String createTable(DBTable table) throws SQLException
     {
         String chooseDBName = "USE " + dbConnection.getDbName();
         String createTable = getQueryCreateTable(table);
@@ -127,11 +75,8 @@ public class DBHandler {
         {
             preparedStatement.executeUpdate();
             createQ.executeUpdate();
-            System.out.println("### Table " + table.getTableName() + " created succsessfully ###");
-        }
-        catch (SQLException se)
-        {
-            SQLException(se.getErrorCode());
+
+            return "### Table " + table.getTableName() + " created succsessfully ###";
         }
     }
 
@@ -158,7 +103,7 @@ public class DBHandler {
      * This method insert data based on the information retrieved from the object via the getInsertDataQuery() method call
      * @param table, Table object to extract data from
      */
-    public void insertData(DBTable table)
+    public String insertData(DBTable table) throws SQLException
     {
         String chooseDBName = "USE " + dbConnection.getDbName();
         String insertData = getInsertDataQuery(table);
@@ -174,12 +119,9 @@ public class DBHandler {
                 for (int j = 0; j < table.getJustDataWithoutMetaData().get(k).length; )
                     preparedStatement1.setString(i++, table.getJustDataWithoutMetaData().get(k)[j++]);
             }
-            preparedStatement1.executeUpdate();
-            int rows = preparedStatement.executeUpdate();
-            System.out.println("### Inserted rows in table " + table.getTableName()+" ###");
-        } catch (SQLException se)
-        {
-            SQLException(se.getErrorCode());
+            int rows = preparedStatement1.executeUpdate();
+
+            return "### Inserted " + rows + " rows in table " + table.getTableName()+" ###";
         }
     }
 
@@ -191,7 +133,6 @@ public class DBHandler {
      */
     public String getInsertDataQuery(DBTable table)
     {
-        // Add meta data
         checkIfDataTypeIndex0HaveTheWordAutoIncrement(table);
         StringBuilder insertDataQuery = new StringBuilder("INSERT INTO " + table.getTableName() + " (");
         for (int i = startFrom; i < table.getColumnsName().length - 1; i++)
@@ -200,7 +141,6 @@ public class DBHandler {
         }
         insertDataQuery.append(table.getColumnsName()[table.getColumnsName().length - 1] + ")\nVALUES\n(");
 
-        // Add data
         for (int i = 0; i < table.getJustDataWithoutMetaData().size(); i++)
         {
             String[] raw = table.getJustDataWithoutMetaData().get(i);
@@ -247,7 +187,7 @@ public class DBHandler {
      * you can do that by dropping the tables and creating others as long as you follow the instructions in the Readme file
      * for how the setup should be for the program to run correctly.
      */
-    public void dropTable(String tableName) {
+    public String dropTable(String tableName) throws SQLException {
         String chooseDBName = "USE " + dbConnection.getDbName();
         String dropTable = "DROP TABLE " + tableName;
 
@@ -258,36 +198,7 @@ public class DBHandler {
             preparedStatement.executeUpdate();
             preparedStatement1.executeUpdate();
 
-            System.out.println("### Table " + tableName + " is dropped ###");
-
-        } catch (SQLException se)
-        {
-            SQLException(se.getErrorCode());
-        }
-    }
-
-
-    /**
-     * Empty table
-     * This method is designed to delete all content in the table without deleting the table,
-     * this allows users to update only in the file, whether the user wishes to enter more rows,
-     * or delete any rows. User can also update the rows and when running the program,
-     * you can choose to delete everything earlier and update with new content.
-     */
-    public void truncateTable(String tableName) {
-        String chooseDBName = "USE " + dbConnection.getDbName();
-        String truncateTable = "TRUNCATE " + tableName;
-
-        try(Connection connection = dbConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-            PreparedStatement preparedStatement1 = connection.prepareStatement(truncateTable))
-        {
-            preparedStatement.executeUpdate();
-            preparedStatement1.executeUpdate();
-            System.out.println("### Table "+tableName+" refreshed, you can now insert data ###");
-
-        } catch (SQLException se) {
-            System.out.println("### Table not exists ###");
+            return "### Table " + tableName + " is dropped ###";
         }
     }
 
@@ -296,7 +207,7 @@ public class DBHandler {
      * Metadata from tables
      * This method extracts meta data about the tables, column names, data types and size
      */
-    public void getMetaDataFromTable(String tableName)
+    public void getMetaDataFromTable(String tableName) throws SQLException
     {
         String chooseDBName = "USE " + dbConnection.getDbName();
         String selectFromTable = "SELECT * FROM " + tableName;
@@ -322,18 +233,13 @@ public class DBHandler {
             }
             System.out.println("\n------------------------------------");
         }
-        catch (SQLException se)
-        {
-            // se.printStackTrace();
-            SQLException(se.getErrorCode());
-        }
     }
 
     /**
      * Data from tables
      * This method extracts all the data in the table and calls the printResult () method to print the result
      */
-    public String getDataFromTable(String tableName)
+    public String getDataFromTable(String tableName) throws SQLException
     {
         String chooseDBName = "USE " + dbConnection.getDbName();
         String selectFromTable = "SELECT * FROM " + tableName;
@@ -348,11 +254,6 @@ public class DBHandler {
             return printResult(resultSet);
 
         }
-        catch (SQLException se)
-        {
-            // se.printStackTrace();
-            return "### Table not exists ###";
-        }
     }
 
 
@@ -360,7 +261,7 @@ public class DBHandler {
      * Number of rows in table
      * This method retrieves the number of rows in a table and calls the printResult () method to print the result
      */
-    public String getCountRowsFromTable(String tableName)
+    public String getCountRowsFromTable(String tableName) throws SQLException
     {
         String chooseDbName = "USE " + dbConnection.getDbName();
         String selectCountRowFromTable = "SELECT COUNT(*) as 'Number of rows' FROM " + tableName;
@@ -375,11 +276,6 @@ public class DBHandler {
             return printResult(resultSet);
 
         }
-        catch (SQLException se)
-        {
-            // se.printStackTrace();
-            return "### Table not exists ###";
-        }
     }
 
 
@@ -388,7 +284,7 @@ public class DBHandler {
      * This method allows you to search whatever you want, no matter what table,
      * you must define the table name you want to search in, column and the word you are searching for
      */
-    public String getAnyValueFromAnyTable(String tableName, String column, String search)
+    public String getAnyValueFromAnyTable(String tableName, String column, String search) throws SQLException
     {
         String chooseDBName = "USE " + dbConnection.getDbName();
         String selectFromTable = "SELECT * FROM " + tableName + " WHERE " + column + " LIKE " + "'"+search+"'";
@@ -403,18 +299,13 @@ public class DBHandler {
             return printResult(resultSet);
 
         }
-        catch (SQLException se)
-        {
-            // se.printStackTrace();
-            return "### Error creating query ###";
-        }
     }
 
 
     /**
      * This method extracts the column name in the tables
      */
-    public void getColumnNamesInTable(String tableName)
+    public void getColumnNamesInTable(String tableName) throws SQLException
     {
         String chooseDBName = "USE " + dbConnection.getDbName();
         String selectFromTable = "SELECT * FROM " + tableName;
@@ -436,11 +327,6 @@ public class DBHandler {
             }
             System.out.println("\n------------------------------------------------------------------");
         }
-        catch (SQLException se)
-        {
-            // se.printStackTrace();
-            SQLException(se.getErrorCode());
-        }
     }
 
 
@@ -448,7 +334,7 @@ public class DBHandler {
      * Show all table names in database
      *
      */
-    public String showAllTables()
+    public String showAllTables() throws SQLException
     {
         String chooseDBName = "USE " + dbConnection.getDbName();
         String showTables = "SHOW tables";
@@ -462,11 +348,6 @@ public class DBHandler {
             ResultSet resultSet = preparedStatement1.executeQuery();
 
             return printResult(resultSet);
-        }
-        catch (SQLException se)
-        {
-            // se.printStackTrace();
-            return "### Error showing tables ###\n";
         }
     }
 
@@ -512,44 +393,6 @@ public class DBHandler {
 //     */
 //     public void connectTables()
 //     {
-         // TODO: Method for connecting the tables, simple query, can make it out dynamic
+         // TODO: Method for connecting the tables
 //     }
-
-    /**
-     * Handling SQLExceptions
-     */
-    public void SQLException(int se)
-    {
-        switch (se) {
-            case 1064:
-                System.out.println("### SQl syntax error ###");
-                break;
-            case 1007:
-                System.out.println("### Database name exist ###");
-                break;
-            case 1136:
-                System.out.println("### Column count doesn't match row count, please check file ###");
-                break;
-            case 1146:
-                System.out.println("### Table not exists ###");
-                break;
-            case 1046:
-                System.out.println("### No database exist ###");
-                break;
-            case 1049:
-                System.out.println("### No database exists ###");
-                break;
-            case 1050:
-                System.out.println("### Table exists ###");
-                break;
-            case 1051:
-                System.out.println("### Table not exists ###");
-                break;
-            case 1062:
-                System.out.println("### Duplicates entry ###");
-                System.out.println("### Refresh your table before inserting data into table");
-                break;
-
-        }
-    }
 }

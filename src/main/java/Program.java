@@ -2,7 +2,9 @@ import Program.DBConnection;
 import Program.DBFileHandler;
 import Program.DBHandler;
 import Program.DBTable;
+import Program.ExceptionHandling;
 
+import java.sql.SQLException;
 
 /**
  *
@@ -24,8 +26,7 @@ public class Program {
         DBHandler dbHandler = new DBHandler(
                 new DBConnection("src/main/resources/database.properties"));
         DBFileHandler dbFileHandler = new DBFileHandler();
-
-        // Remember to set the right file to read to get the files that needed to create tables and add data
+        ExceptionHandling exceptionHandling = new ExceptionHandling();
         ProgramHelper programHelper = new ProgramHelper("src/main/java/helpMaterials/files.txt");
 
 
@@ -35,9 +36,10 @@ public class Program {
             System.out.print("Loading");
             programHelper.connectionLoader();
 
-            System.out.println("### Welcome to Database application, please enter the number to make your choice ###\n");
+            System.out.println(
+                    "### Welcome to Database application, please enter the number to make your choice ###\n");
 
-            while(!programHelper.stopWhileLoopOne)
+            while (!programHelper.stopWhileLoopOne)
             {
                 System.out.print(programHelper.options1menu);
                 programHelper.options1 = programHelper.userInput.nextLine().toLowerCase();
@@ -45,9 +47,15 @@ public class Program {
                         "--------------------------------------------------------------------------------------\n");
                 switch (programHelper.options1)
                 {
-
                     case "1":
-                        dbHandler.createDataBase();
+                        try
+                        {
+                            System.out.println(dbHandler.createDataBase());
+                        }
+                        catch (SQLException se)
+                        {
+                            System.out.println(exceptionHandling.SQLException(se.getErrorCode()));
+                        }
                         break;
 
                     case "2":
@@ -61,10 +69,20 @@ public class Program {
                                         table);
                                 if (dbFileHandler.isCheckStatusOfValidationOfFile())
                                 {
-                                    dbHandler.createTable(table);
+                                    try
+                                    {
+                                        System.out.println(dbHandler.createTable(table));
+                                        programHelper.createdTables = 1;
+                                    }
+                                    catch (SQLException se)
+                                    {
+
+                                        System.out.println(exceptionHandling.SQLException(se.getErrorCode()));
+                                    }
                                 }
                             }
-                        } catch (Exception e)
+                        }
+                        catch (Exception e)
                         {
                             System.out.println("### Please check the input file where all file name are located ###");
                         }
@@ -74,30 +92,46 @@ public class Program {
                     case "3":
                         for (int i = 0; i < programHelper.getFiles().size(); i++)
                         {
-                            dbHandler.dropTable(programHelper.getFiles().get(i));
+                            try
+                            {
+                                System.out.println(dbHandler.dropTable(programHelper.getFiles().get(i)));
+                            }
+                            catch (SQLException se)
+                            {
+                                System.out.println(exceptionHandling.SQLException(se.getErrorCode()));
+                            }
                         }
+                        System.out.println();
                         break;
 
                     case "4":
                         for (int i = 0; i < programHelper.getFiles().size(); i++)
                         {
                             DBTable table = new DBTable();
-                            dbFileHandler.makeTable("src/main/java/inputFiles/"+programHelper.getFiles().get(i)+".txt", table);
-                            dbHandler.insertData(table);
-                        }
-                        System.out.println();
-                        break;
+                            dbFileHandler.makeTable(
+                                    "src/main/java/inputFiles/" + programHelper.getFiles().get(i) + ".txt", table);
+                            try
+                            {
+                                System.out.println(dbHandler.insertData(table));
+                            }
+                            catch (SQLException se)
+                            {
 
-                    case "5":
-                        for (int i = 0; i < programHelper.getFiles().size(); i++)
-                        {
-                            dbHandler.truncateTable(programHelper.getFiles().get(i));
+                                System.out.println(exceptionHandling.SQLException(se.getErrorCode()));
+                            }
                         }
                         System.out.println();
                         break;
 
                     case "queries":
-                        programHelper.stopWhileLoopOne = true;
+                        if(programHelper.createdTables == 1)
+                        {
+                            programHelper.stopWhileLoopOne = true;
+                        }
+                        else
+                        {
+                            System.out.println("### Please create database and tables first ###\n");
+                        }
                         break;
 
                     case "exit":
@@ -112,80 +146,116 @@ public class Program {
                         break;
                 }
             }
-            while (!programHelper.stopWhileLoopTwo) {
+                while (!programHelper.stopWhileLoopTwo)
+                {
+                    System.out.print(programHelper.options2menu);
+                    programHelper.options2 = programHelper.userInput.nextLine().toLowerCase();
+                    System.out.println(
+                            "--------------------------------------------------------------------------------------\n");
+                    switch (programHelper.options2)
+                    {
+                        case "1":
+                            try
+                            {
+                                System.out.println("All tables: ");
+                                System.out.println("---------------");
+                                System.out.println(dbHandler.showAllTables());
+                            }
+                            catch (SQLException se)
+                            {
+                                System.out.println(exceptionHandling.SQLException(se.getErrorCode()));
+                            }
+                            System.out.println();
+                            break;
 
-                System.out.print(programHelper.options2menu);
-                programHelper.options2 = programHelper.userInput.nextLine().toLowerCase();
-                System.out.println(
-                        "--------------------------------------------------------------------------------------\n");
-                switch (programHelper.options2) {
-                    case "1":
-                        System.out.println("All tables: ");
-                        System.out.println("---------------");
-                        System.out.println(dbHandler.showAllTables());
-                        break;
+                        case "2":
+                            try
+                            {
+                                System.out.println(dbHandler.showAllTables());
+                                System.out.println("---------------");
+                                System.out.print("Tablename: ");
+                                String userOptionMetaData = programHelper.userInput.nextLine().toLowerCase();
+                                dbHandler.getMetaDataFromTable(userOptionMetaData);
+                            }
+                            catch (SQLException se)
+                            {
 
-                    case "2":
-                        System.out.println("Which table do you want to get metadata of ?");
-                        System.out.println("---------------");
-                        System.out.println(dbHandler.showAllTables());
-                        System.out.print("Tablename: ");
-                        String userOptionMetaData = programHelper.userInput.nextLine().toLowerCase();
-                        dbHandler.getMetaDataFromTable(userOptionMetaData);
-                        break;
+                                System.out.println(exceptionHandling.SQLException(se.getErrorCode()));
+                            }
+                            System.out.println();
+                            break;
 
-                    case "3":
-                        System.out.println("Which table do you want to show ?");
-                        System.out.println("---------------");
-                        System.out.println(dbHandler.showAllTables());
-                        System.out.print("Tablename: ");
-                        String userOptionGetInformationFromTable = programHelper.userInput.nextLine().toLowerCase();
-                        System.out.println("\n--------------------------------------");
-                        System.out.println("Table name: " + "'" + userOptionGetInformationFromTable + "'" + "\n");
-                        System.out.println(dbHandler.getDataFromTable(userOptionGetInformationFromTable));
-                        break;
+                        case "3":
+                            try
+                            {
+                                System.out.println(dbHandler.showAllTables());
+                                System.out.println("---------------");
+                                System.out.print("Tablename: ");
+                                String userOptionGetInformationFromTable = programHelper.userInput.nextLine().toLowerCase();
+                                System.out.println();
+                                System.out.println(dbHandler.getDataFromTable(userOptionGetInformationFromTable));
+                            }
+                            catch (SQLException se)
+                            {
+                                System.out.println(exceptionHandling.SQLException(se.getErrorCode()));
+                            }
+                            System.out.println();
+                            break;
 
-                    case "4":
-                        System.out.println("Which table do you want to count rows in ?");
-                        System.out.println("---------------");
-                        System.out.println(dbHandler.showAllTables());
-                        System.out.print("Tablename: ");
-                        String userOptionGetNumberOfRows = programHelper.userInput.nextLine().toLowerCase();
-                        System.out.print("\nRows in table " + "'" + userOptionGetNumberOfRows + "'" + ": ");
-                        System.out.println(dbHandler.getCountRowsFromTable(userOptionGetNumberOfRows));
-                        break;
+                        case "4":
+                            try
+                            {
+                                System.out.println(dbHandler.showAllTables());
+                                System.out.println("---------------");
+                                System.out.print("Tablename: ");
+                                String userOptionGetNumberOfRows = programHelper.userInput.nextLine().toLowerCase();
+                                System.out.print("\nRows in table: ");
+                                System.out.println(dbHandler.getCountRowsFromTable(userOptionGetNumberOfRows));
 
-                    case "5":
-                        System.out.println("Which table do you want to search in ? ");
-                        System.out.println("---------------");
-                        System.out.println(dbHandler.showAllTables());
-                        System.out.print("Tablename: ");
-                        String userOptionChooseTable = programHelper.userInput.nextLine().toLowerCase();
-                        System.out.println("Which column you want to search in ?");
-                        dbHandler.getColumnNamesInTable(userOptionChooseTable);
-                        System.out.print("Column name: ");
-                        String userOptionChooseColumn = programHelper.userInput.nextLine();
-                        System.out.println("Type the word you want to search for ?");
-                        System.out.print("Search for word: ");
-                        String userOptionChooseAnyWord = programHelper.userInput.nextLine().toLowerCase();
-                        System.out.println();
-                        System.out.println(
-                                dbHandler.getAnyValueFromAnyTable(userOptionChooseTable, userOptionChooseColumn,
-                                        userOptionChooseAnyWord));
-                        break;
+                            }
+                            catch (SQLException se)
+                            {
+                                System.out.println(exceptionHandling.SQLException(se.getErrorCode()));
+                            }
+                            System.out.println();
+                            break;
 
-                    case "exit":
-                        System.out.print("\n\nDisconnecting");
-                        programHelper.connectionLoader();
-                        System.out.println("Good bye !");
-                        System.exit(0);
-                        break;
+                        case "5":
+                            try
+                            {
+                                System.out.println(dbHandler.showAllTables());
+                                System.out.println("---------------");
+                                System.out.print("Tablename: ");
+                                String userOptionChooseTable = programHelper.userInput.nextLine().toLowerCase();
+                                dbHandler.getColumnNamesInTable(userOptionChooseTable);
+                                System.out.print("Column name: ");
+                                String userOptionChooseColumn = programHelper.userInput.nextLine();
+                                System.out.print("Search value: ");
+                                String userOptionChooseAnyWord = programHelper.userInput.nextLine().toLowerCase();
+                                System.out.println(
+                                        dbHandler.getAnyValueFromAnyTable(userOptionChooseTable, userOptionChooseColumn,
+                                                userOptionChooseAnyWord));
+                            }
+                            catch (SQLException se)
+                            {
+                                System.out.println(exceptionHandling.SQLException(se.getErrorCode()));
+                            }
+                            System.out.println();
+                            break;
 
-                    default:
-                        System.out.println("### Invalid command, try again\n");
-                        break;
+                        case "exit":
+                            System.out.print("\n\nDisconnecting");
+                            programHelper.connectionLoader();
+                            System.out.println("Good bye !");
+                            System.exit(0);
+                            break;
+
+                        default:
+                            System.out.println("### Invalid command, try again\n");
+                            break;
+                    }
                 }
             }
         }
+
     }
-}

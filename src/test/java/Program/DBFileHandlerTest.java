@@ -49,6 +49,7 @@ public class DBFileHandlerTest {
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void testFillTableWithFileHasNoContent() {
+
         DBTable table = new DBTable();
 
         dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileWithNoContent.txt", table);
@@ -57,6 +58,7 @@ public class DBFileHandlerTest {
 
     @Test
     public void testFillTableWithWrongLayOut() {
+
         DBTable table = new DBTable();
 
         dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileWithWrongLayout.txt", table);

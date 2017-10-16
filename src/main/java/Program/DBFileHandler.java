@@ -120,8 +120,6 @@ public class DBFileHandler {
     {
         if (!isDataValid(list)) {
             System.out.println("### File is empty or not valid ###");
-
-
         }
     }
 
@@ -166,13 +164,14 @@ public class DBFileHandler {
         return true;
     }
 
+    // TODO: Lag sjekken for at primary key er en av kolonnenavn
+    public void checkPrimaryKeyIsEqualsToOneOfTheColumnNames() {
+    }
+
 
     /**
      * Here I get the value if the validation went well or not, as used in Application.class where I create tables
      * @return status
      */
-    public boolean isCheckStatusOfValidationOfFile() {
-
-        return checkStatusOfValidationOfFile;
-    }
+    public boolean isCheckStatusOfValidationOfFile() { return checkStatusOfValidationOfFile; }
 }

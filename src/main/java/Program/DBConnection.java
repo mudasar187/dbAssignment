@@ -95,15 +95,11 @@ public class DBConnection {
 
 
     /**
-     * Get and Set Methods so I can access them in the DBHandler class
+     * Get method so I can access them in the DBHandler class
      * @return dbName
      */
     public String getDbName() {
         return dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
     }
 
 
