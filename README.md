@@ -24,4 +24,4 @@
 
 * Find any result from any table
 
-* For more information, read the information.txt file inside 'helpMaterials'
+* Important to read the information.pdf file inside 'helpMaterials' for how use the program
