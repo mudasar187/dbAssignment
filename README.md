@@ -23,7 +23,7 @@ Author: Mudasar Ahmad, version 1.0
 
 **8** To avoid duplicates, at least one column should be unique (UNIQUE) or a composite primary key
 
-**9** Before starting the program, download xampp from https://www.apachefriends.org/download.html or one you prefer to use and turn it on before run Program and testes
+**9** Before starting the program, download xampp from https://www.apachefriends.org/download.html or one you prefer to use and turn it on before run Program.Program and testes
 
 **10** Go to database.properties file in resources folder and set your hostName, dbName to one you prefer to name your database, dont need to check if it exist or not, application will handle it, then set your userName and passWord to your own and which port you want to use, default is 3306 or 3307
 

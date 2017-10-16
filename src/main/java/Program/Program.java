@@ -1,3 +1,5 @@
+package Program;
+
 import Program.DBConnection;
 import Program.DBFileHandler;
 import Program.DBHandler;
@@ -11,15 +13,15 @@ import java.sql.SQLException;
  * @author Mudasar Ahmad
  * @version 1.0
  *
- * Main class to run application with help from ProgramHelper.class
+ * Main class to run application with help from Program.ProgramHelper.class
  *
- * Last modified 11 october 2017
+ * Last modified 16 october 2017
  *
  */
 
 public class Program {
 
-    public static void main(String[] args) throws InterruptedException {
+    public void runProgram() throws InterruptedException {
 
         // Creating new instance of DBHandler and DBFileReader to run the application
         // DBHandler is injected with constructor from DBConnection
@@ -256,6 +258,6 @@ public class Program {
                     }
                 }
             }
-        }
+         }
 
-    }
+}

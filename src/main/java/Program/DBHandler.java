@@ -10,7 +10,7 @@ import java.util.Scanner;
  *
  * Class for handling tables and queries
  *
- * Last modified 11 october 2017
+ * Last modified 16 october 2017
  *
  */
 
@@ -235,6 +235,7 @@ public class DBHandler {
         }
     }
 
+
     /**
      * Data from tables
      * This method extracts all the data in the table and calls the printResult () method to print the result
@@ -381,7 +382,6 @@ public class DBHandler {
         catch (SQLException se)
         {
             return "### Error creating print ###";
-            // se.printStackTrace();
         }
     }
 

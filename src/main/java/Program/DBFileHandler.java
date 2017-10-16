@@ -14,7 +14,7 @@ import java.util.Scanner;
  * Class for reading files and retrieving data from files as well as validating data
  * And also send data to DBTable.class to create an object of information
  *
- * Last modified 11 october 2017
+ * Last modified 16 october 2017
  *
  */
 

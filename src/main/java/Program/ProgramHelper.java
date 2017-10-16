@@ -1,3 +1,5 @@
+package Program;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * This is a helper to Application.class, i created this so it becomes more readable in the Application class
  * and also adding the files that needed to be added to run the program
  *
- * Last modified 11 october 2017
+ * Last modified 16 october 2017
  *
  */
 
@@ -56,7 +58,7 @@ public class ProgramHelper {
     }
 
     /**
-     * Method to i can access this in Program.class to get the file that contain all files needed to be read
+     * Method to i can access this in Program.Program.class to get the file that contain all files needed to be read
      * @return files
      */
     public ArrayList<String> getFiles() {

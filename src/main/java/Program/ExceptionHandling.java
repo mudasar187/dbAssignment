@@ -1,10 +1,18 @@
 package Program;
 
+/**
+ *
+ * @author Mudasar Ahmad
+ * @version 1.0
+ *
+ * Class for handling exceptions
+ *
+ * Last modified 16 october 2017
+ *
+ */
+
 public class ExceptionHandling {
 
-    /**
-     * Handling SQLExceptions
-     */
     public String SQLException(int se)
     {
         switch (se) {
