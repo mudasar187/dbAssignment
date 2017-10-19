@@ -4,14 +4,30 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+/**
+ * @author Mudasar Ahmad
+ * @version 1.0
+ * <p>
+ * Class creating result string for the methods in DBHandler
+ * <p>
+ * Last modified 19 october 2017
+ */
+
 public class DBOutPutHandler {
 
     /**
      * Creating a outprint for these methods in DBHandler
+     * <p>
      * getDataFromTables()
      * getCountRowsFromTable()
      * getAnyValueFromAnyTable()
      * showAllTables()
+     *
+     * @param resultSet
+     *
+     * @return output string
+     *
+     * @throws SQLException
      */
     public String printResult(ResultSet resultSet) throws SQLException
     {
@@ -23,8 +39,8 @@ public class DBOutPutHandler {
 
             for (int i = 0; i < columnCount; i++)
             {
-                String temp = resultSet.getMetaData().getColumnName(i+1).toLowerCase().replace("_"," ");
-                temp = temp.substring(0,1).toUpperCase() + temp.substring(1);
+                String temp = resultSet.getMetaData().getColumnName(i + 1).toLowerCase().replace("_", " ");
+                temp = temp.substring(0, 1).toUpperCase() + temp.substring(1);
                 output += String.format("%-20s", temp);
             }
             output += "\n";
@@ -44,9 +60,11 @@ public class DBOutPutHandler {
                 output += "\n";
 
             }
-            if (output.length() == 0) {
+            if (output.length() == 0)
+            {
                 return "### No matching value ###";
             }
+            System.out.println(output);
             return output;
         }
         catch (SQLException se)
@@ -57,7 +75,13 @@ public class DBOutPutHandler {
 
 
     /**
-     * Creating a outprint for getMetadata() method in DBHandler
+     * Creating a output string for the getMetaData() method in DBHandler
+     *
+     * @param resultSet
+     *
+     * @return output string
+     *
+     * @throws SQLException
      */
     public String printMetaData(ResultSet resultSet) throws SQLException {
 
@@ -76,9 +100,11 @@ public class DBOutPutHandler {
                 output += String.format("%-10s\n", resultSet.getMetaData().getColumnTypeName(i + 1));
             }
 
-            if (output.length() == 0) {
+            if (output.length() == 0)
+            {
                 return "### No matching value ###";
             }
+            System.out.println(output);
             return output;
         }
         catch (SQLException se)

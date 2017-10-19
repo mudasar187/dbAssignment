@@ -20,13 +20,10 @@ public class DBFileHandlerTest {
     @Test
     public void testFillTableWithRightFile() {
 
-        // Arrange
         DBTableObject table = new DBTableObject();
 
-        // Act
         dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
 
-        // Assert
         assertEquals(table.getTableName(), "Employee");
         assertEquals(table.getColumnsName()[0], "id");
         assertEquals(table.getColumnsName()[1], "firstName");

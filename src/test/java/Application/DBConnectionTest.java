@@ -15,13 +15,10 @@ public class DBConnectionTest {
     @Test
     public void testConnectionIfValidFile() {
 
-        // Arrange
         DBConnection dbConnection = new DBConnection("src/test/resources/test-DB-right.properties");
 
-        // Act
         Connection connection = dbConnection.getConnection();
 
-        // Assert
         assertNotNull(connection);
     }
 
@@ -29,13 +26,10 @@ public class DBConnectionTest {
     @Test
     public void testConnectionIfNotValidFile() {
 
-        // Arrange
         DBConnection dbConnection = new DBConnection("src/test/resources/test-DB-wrongFile.properties");
 
-        // Act
         Connection connection = dbConnection.getConnection();
 
-        // Assert
         assertNull(connection);
     }
 
@@ -43,13 +37,10 @@ public class DBConnectionTest {
     @Test
     public void testConnectionIfNullInParameter() {
 
-        // Arrange
         DBConnection dbConnection = new DBConnection(null);
 
-        // Act
         Connection connection = dbConnection.getConnection();
 
-        // Assert
         assertNull(connection);
     }
 
@@ -57,13 +48,10 @@ public class DBConnectionTest {
     @Test
     public void testConnectionIfFileNotExist() {
 
-        // Arrange
         DBConnection dbConnection = new DBConnection("fileNotExists");
 
-        // Act
         Connection connection = dbConnection.getConnection();
 
-        // Assert
         assertNull(connection);
     }
 }

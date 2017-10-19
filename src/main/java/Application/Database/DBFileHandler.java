@@ -24,15 +24,15 @@ public class DBFileHandler {
 
     /**
      * The method opens a file, reads the file and puts everything in an arraylist = allFromFile, and validating that data
-     * Then extract the metadata from arraylist = allFromFile, and send to DBTableObjectFromFile.class, so i can create an object which is used to create table in database
+     * Then extract the metadata from arraylist = allFromFile, and send to DBTableObject.class, so i can create an object which is used to create table in database
      * Then he extracts only data to his own arraylist = justDataWithoutMetadata(),
      * where i put arraylist = allFromFile into the parameter
      * which is used to input content in table
      *
      * @param fileName, the file to be read
-     * @param table,    dbTableObjectFromFile object to be created
+     * @param table, object to be created
      *
-     * @return dbTableObjectFromFile
+     * @return table object
      */
     public DBTableObject makeTable(String fileName, DBTableObject table)
     {
@@ -54,7 +54,7 @@ public class DBFileHandler {
     /**
      * The method opens and reads a file called in the makeTable() method
      *
-     * @param fileName, the file to be readed
+     * @param fileName, the file to be read
      */
     private void setRead(String fileName)
     {
@@ -82,7 +82,7 @@ public class DBFileHandler {
     /**
      * The method is called in the makeTable() method that reads everything in the file to an arraylist = allFromFile
      *
-     * @return allFromFile, the arraylist
+     * @return allFromFile, the arraylist with content of everything in the file
      */
     public ArrayList<String> getAllDataFromFile()
     {
@@ -102,9 +102,9 @@ public class DBFileHandler {
      * to be added to the tables, I create a new arraylist = justDataWithoutMetaData and extract all the data in
      * arraylist = allFromFile from index 5 and so on into arraylist = justDataWithoutMetaData
      *
-     * @param allFromFile,
+     * @param allFromFile, the arraylist
      *
-     * @return the arraylist
+     * @return the arraylist with only metadata
      */
     private ArrayList<String[]> getOnlyDataWithoutMetaData(ArrayList<String> allFromFile)
     {
@@ -138,12 +138,12 @@ public class DBFileHandler {
 
     /**
      * Here the validation checks that the file is not empty or the layout of the file is correct.
-     * Checks from the first line to the 5 line, if it is the way it should, otherwise the program can not create a dbTableObjectFromFile
+     * Checks from the first line to the 5 line, if it is the way it should, otherwise the program can not create a table object
      * See the readme file to how the set up should be
      *
-     * @param list
+     * @param list, the arraylist = allFromFile where all content is stored
      *
-     * @return boolean
+     * @return boolean status
      */
     private boolean isDataValid(ArrayList<String> list)
     {

@@ -1,21 +1,21 @@
 package Application.Program;
 
 /**
- *
  * @author Mudasar Ahmad
  * @version 1.0
- *
- * Class for handling exceptions
- *
+ * <p>
+ * Class for handling SQLExceptions
+ * <p>
  * Last modified 19 october 2017
- *
  */
 
 public class ExceptionHandling {
 
     public String SQLException(int se)
     {
-        switch (se) {
+
+        switch (se)
+        {
             case 1136:
                 return "### Column count doesn't match row count, please check file ###";
             case 1146:

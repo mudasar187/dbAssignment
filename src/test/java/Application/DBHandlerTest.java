@@ -21,14 +21,12 @@ public class DBHandlerTest {
         dbHandler = new DBHandler(new DBConnection("src/test/resources/test-DB-right.properties"),
                 new DBOutPutHandler());
         dbFileHandler = new DBFileHandler();
-        table = new DBTableObject();
     }
 
     @After
     public void tearDown() {
         dbHandler = null;
         dbFileHandler = null;
-        table = null;
     }
 
     @Test
@@ -38,12 +36,14 @@ public class DBHandlerTest {
 
         String exceptedResult = "### Database created successfully ###\n";
 
-        assertEquals(exceptedResult, dbHandler.createDataBase());
+        assertEquals(dbHandler.createDataBase(), exceptedResult);
     }
 
 
     @Test
     public void testGetQueryForCreateTableIfFileContentIsRight() {
+
+        DBTableObject table = new DBTableObject();
 
         dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
 
@@ -60,34 +60,51 @@ public class DBHandlerTest {
     @Test
     public void testCreateTable() throws SQLException {
 
+        DBTableObject table = new DBTableObject();
+
         dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
 
         dbHandler.createTable(table);
     }
 
-    @Test
-    public void testGetQueryForInsertData() throws SQLException {
+//    @Test
+//    public void testGetQueryForInsertData() throws SQLException {
+//
+//        dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
+//
+//        assertEquals(dbHandler.getInsertDataQuery(table), "INSERT INTO Employee (firstName, lastName, email)\n" +
+//                "VALUES\n" +
+//                "(?, ?, ?)");
+//    }
+//
+//    @Test
+//    public void testInsertDataIntoTable() throws SQLException {
+//
+//        dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
+//
+//        dbHandler.insertData(table);
+//    }
 
-        dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
+//    @Test
+//    public void testGetMetaDataFromTable() throws SQLException {
+//
+//        dbHandler.getMetaDataFromTable("Employee");
+//
+//        String expected = "Field          Size      DataType  \n" +
+//                "----------------------------------\n" +
+//                "id             11        INT       \n" +
+//                "firstName      255       VARCHAR   \n" +
+//                "lastName       255       VARCHAR   \n" +
+//                "email          255       VARCHAR";
+//
+//        assertEquals(dbHandler.getDataFromTable("Employee"), expected);
+//    }
 
-        assertEquals(dbHandler.getInsertDataQuery(table), "INSERT INTO Employee (firstName, lastName, email)\n" +
-                "VALUES\n" +
-                "(?, ?, ?)");
-    }
 
-    @Test
-    public void testInsertDataIntoTable() throws SQLException {
-
-        dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
-
-        dbHandler.insertData(table);
-    }
-
-
-    @Test
-    public void testDropTable() throws SQLException {
-
-        dbHandler.dropTable("Employee");
-    }
+//    @Test
+//    public void testDropTable() throws SQLException {
+//
+//        dbHandler.dropTable("Employee");
+//    }
 
 }

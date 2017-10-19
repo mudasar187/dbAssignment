@@ -34,9 +34,9 @@ public class DBConnection {
 
     /**
      * Default constructor
-     * Read the file properties and set hostName, dbName, userName, password, port
+     * Read the config file
      *
-     * @param properties, send config file for connection
+     * @param properties, get config file path
      */
     public DBConnection(String properties)
     {
@@ -69,7 +69,7 @@ public class DBConnection {
      * Get connection to database
      * Making connection without dbName, creating own method for that so user dont need to create database manually
      *
-     * @return Connection
+     * @return connection
      */
     public Connection getConnection() {
 
@@ -86,7 +86,7 @@ public class DBConnection {
         }
         catch (SQLException se)
         {
-            // se.printStackTrace();
+            se.printStackTrace();
             System.out.println("\n### Connection error ###");
         }
         return connection;
@@ -96,7 +96,7 @@ public class DBConnection {
     /**
      * Get method so I can access them in the DBHandler class
      *
-     * @return dbName
+     * @return dbName, name of the database
      */
     public String getDbName() {
 

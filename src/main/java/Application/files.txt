@@ -1,4 +1,4 @@
-
+lecturer
 room
 subject
 semester

@@ -8,7 +8,7 @@ import java.sql.SQLException;
  * @author Mudasar Ahmad
  * @version 1.0
  * <p>
- * Main class to run application with help from ProgramHelper.class
+ * Class for setting up the application
  * <p>
  * Last modified 19 october 2017
  */
@@ -64,7 +64,8 @@ public class Program {
                             {
                                 dbTableObject = new DBTableObject();
                                 dbFileHandler.makeTable(
-                                        "src/main/java/Application/inputFiles/" + programHelper.getFiles().get(i) + ".txt",
+                                        "src/main/java/Application/inputFiles/" + programHelper.getFiles().get(
+                                                i) + ".txt",
                                         dbTableObject);
                                 if (dbFileHandler.isCheckStatusOfValidationOfFile())
                                 {
@@ -90,7 +91,8 @@ public class Program {
                             {
                                 dbTableObject = new DBTableObject();
                                 dbFileHandler.makeTable(
-                                        "src/main/java/Application/inputFiles/" + programHelper.getFiles().get(i) + ".txt",
+                                        "src/main/java/Application/inputFiles/" + programHelper.getFiles().get(
+                                                i) + ".txt",
                                         dbTableObject);
 
                                 System.out.println(dbHandler.insertData(dbTableObject));
