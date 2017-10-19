@@ -1,8 +1,7 @@
-package Program;
+package Application.Program;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -52,13 +51,13 @@ public class ProgramHelper {
         catch (FileNotFoundException f)
         {
             System.out.println("### Check if there is a files.txt file in the folder 'helpMaterials' ###");
-            System.out.println("### This file is needed to add files to run the program ###");
+            System.out.println("### This file is needed to add content of files to run the program ###");
         }
         return files;
     }
 
     /**
-     * Method to i can access this in Program.Program.class to get the file that contain all files needed to be read
+     * Method to i can access this in Application.class to get the file that contain all files needed to be read
      * @return files
      */
     public ArrayList<String> getFiles() {
@@ -67,11 +66,11 @@ public class ProgramHelper {
 
 
     // Scanner for getting the input from user
-    Scanner userInput = new Scanner(System.in);
+    public Scanner userInput = new Scanner(System.in);
 
     // These are options you can make in first while loop, options3 is showed up first because its recommended to run these first
     // When you are finished with options3 when you will jump to options3, second while loop to make queries
-    String options1menu =
+    public String options1menu =
             "--------------------------------------------------------------------------------------\n" +
                     "### Choose your option by enter these numbers ###\n" +
                     "1      Create database \n" +
@@ -82,12 +81,12 @@ public class ProgramHelper {
                     "\nYour choice: ";
 
 
-    String options2menu =
+    public String options2menu =
             "--------------------------------------------------------------------------------------\n" +
                     "### Choose your query option by enter these numbers ###\n" +
                     "1      Show all tables \n" +
                     "2      Get metadata from table \n" +
-                    "3      Get data information from table \n" +
+                    "3      Get content in table \n" +
                     "4      Find number of rows in table \n" +
                     "5      Find any result based on any name, any column from any table \n" +
                     "### Type 'exit' to exit the program ###\n" +
@@ -95,17 +94,17 @@ public class ProgramHelper {
 
 
     // Holding the variable for options 1
-    String options1;
+    public String options1;
     // Holding the variable for options 2
-    String options2;
+    public String options2;
 
     // Creating a boolean for the first while loop
-    boolean stopWhileLoopOne = false;
+    public boolean stopWhileLoopOne = false;
     // Creating a boolean for the second while loop
-    boolean stopWhileLoopTwo = false;
+    public boolean stopWhileLoopTwo = false;
 
     // Check if you have created database and tables before entry options2menu
-    int createdTables = 0;
+    public int createdTables = 0;
 
 
     // Just for fancy loading

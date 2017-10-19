@@ -12,7 +12,7 @@
 
 * Drop tables
 
-* Insert data from files in inputFiles folder
+* Insert data from files in Application.inputFiles folder
 
 * Show all table names
 

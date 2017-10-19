@@ -1,9 +1,11 @@
-package Program;
+package Application;
 
+import Application.Database.DBFileHandler;
+import Application.Database.DBTableObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class DBFileHandlerTest {
 
@@ -19,7 +21,7 @@ public class DBFileHandlerTest {
     public void testFillTableWithRightFile() {
 
         // Arrange
-        DBTable table = new DBTable();
+        DBTableObject table = new DBTableObject();
 
         // Act
         dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
@@ -41,7 +43,7 @@ public class DBFileHandlerTest {
     @Test(expected = NullPointerException.class)
     public void testFillTableWithNoFileExistsInParameter() {
 
-        DBTable table = new DBTable();
+        DBTableObject table = new DBTableObject();
 
         dbFileHandler.makeTable("fsdfsdf", table);
     }
@@ -50,7 +52,7 @@ public class DBFileHandlerTest {
     @Test(expected = IndexOutOfBoundsException.class)
     public void testFillTableWithFileHasNoContent() {
 
-        DBTable table = new DBTable();
+        DBTableObject table = new DBTableObject();
 
         dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileWithNoContent.txt", table);
     }
@@ -59,7 +61,7 @@ public class DBFileHandlerTest {
     @Test
     public void testFillTableWithWrongLayOut() {
 
-        DBTable table = new DBTable();
+        DBTableObject table = new DBTableObject();
 
         dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileWithWrongLayout.txt", table);
     }

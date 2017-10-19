@@ -1,23 +1,20 @@
-package Program;
+package Application.Database;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
 import java.util.Properties;
 
 /**
- *
  * @author Mudasar Ahmad
  * @version 1.0
- *
+ * <p>
  * DBConnection
  * Class for connection to database
- *
- * Last modified 16 october 2017
- *
+ * <p>
+ * Last modified 19 october 2017
  */
 
 
@@ -38,7 +35,8 @@ public class DBConnection {
     /**
      * Default constructor
      * Read the file properties and set hostName, dbName, userName, password, port
-     * @param properties, path where file is located
+     *
+     * @param properties, send config file for connection
      */
     public DBConnection(String properties)
     {
@@ -70,6 +68,7 @@ public class DBConnection {
     /**
      * Get connection to database
      * Making connection without dbName, creating own method for that so user dont need to create database manually
+     *
      * @return Connection
      */
     public Connection getConnection() {
@@ -96,21 +95,25 @@ public class DBConnection {
 
     /**
      * Get method so I can access them in the DBHandler class
+     *
      * @return dbName
      */
     public String getDbName() {
+
         return dbName;
     }
 
 
     /**
      * Checks if connection is valid or not
-     * Have this method so I can launch the application in the Application class if connection is valid,
+     * Have this method so I can launch the application in the Program.class if connection is valid,
      * if it is not valid then the program does not run and u will get an error message
+     *
      * @return true if connection is valid, return false if connection is not valid
      */
     public boolean isConnected() {
-        if(getConnection() != null)
+
+        if (getConnection() != null)
         {
             return true;
         }

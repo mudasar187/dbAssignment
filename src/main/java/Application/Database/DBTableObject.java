@@ -1,4 +1,4 @@
-package Program;
+package Application.Database;
 
 import java.util.ArrayList;
 
@@ -7,15 +7,15 @@ import java.util.ArrayList;
  * @author Mudasar Ahmad
  * @version 1.0
  *
- * Class to create Table object
+ * Class to create Table object from files
  *
  * Last modified 16 october 2017
  *
  */
 
-public class DBTable
+public class DBTableObject
 {
-    public DBTable() { }
+    public DBTableObject() { }
 
     private String tableName;
     private String[] columnsName;
@@ -45,4 +45,6 @@ public class DBTable
     public ArrayList<String[]> getJustDataWithoutMetaData() {return justDataWithoutMetaData;}
 
     public String getPrimaryKey() { return primaryKey; }
+
+
 }

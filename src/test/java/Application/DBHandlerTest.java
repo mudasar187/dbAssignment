@@ -1,5 +1,6 @@
-package Program;
+package Application;
 
+import Application.Database.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,13 +14,14 @@ public class DBHandlerTest {
 
     private DBHandler dbHandler;
     private DBFileHandler dbFileHandler;
-    private DBTable table;
+    private DBTableObject table;
 
     @Before
     public void setUp() {
-        dbHandler = new DBHandler(new DBConnection("src/test/resources/test-DB-right.properties"));
+        dbHandler = new DBHandler(new DBConnection("src/test/resources/test-DB-right.properties"),
+                new DBOutPutHandler());
         dbFileHandler = new DBFileHandler();
-        table = new DBTable();
+        table = new DBTableObject();
     }
 
     @After
@@ -27,6 +29,16 @@ public class DBHandlerTest {
         dbHandler = null;
         dbFileHandler = null;
         table = null;
+    }
+
+    @Test
+    public void testCreateDatabase() throws SQLException {
+
+        dbHandler.createDataBase();
+
+        String exceptedResult = "### Database created successfully ###\n";
+
+        assertEquals(exceptedResult, dbHandler.createDataBase());
     }
 
 
@@ -43,7 +55,6 @@ public class DBHandlerTest {
                 "PRIMARY KEY (id)\n" +
                 ");");
 
-        System.out.println(dbHandler.getQueryCreateTable(table));
     }
 
     @Test
@@ -62,8 +73,6 @@ public class DBHandlerTest {
         assertEquals(dbHandler.getInsertDataQuery(table), "INSERT INTO Employee (firstName, lastName, email)\n" +
                 "VALUES\n" +
                 "(?, ?, ?)");
-
-        System.out.println(dbHandler.getInsertDataQuery(table));
     }
 
     @Test

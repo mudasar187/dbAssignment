@@ -1,4 +1,4 @@
-package Program;
+package Application.Program;
 
 /**
  *
@@ -7,7 +7,7 @@ package Program;
  *
  * Class for handling exceptions
  *
- * Last modified 16 october 2017
+ * Last modified 19 october 2017
  *
  */
 
@@ -19,21 +19,21 @@ public class ExceptionHandling {
             case 1136:
                 return "### Column count doesn't match row count, please check file ###";
             case 1146:
-                return "### Table not exists ###";
+                return "### Table(s) not exists ###";
             case 1046:
                 return "### No database exist ###";
             case 1049:
                 return "### No database exists ###";
             case 1050:
-                return "### Table exists ###";
+                return "### Table(s) exists ###";
             case 1051:
-                return "### Table not exists ###";
+                return "### Table(s) not exists ###";
             case 1062:
-                return "### Duplicates entry , refresh table before insert data ###";
+                return "### Duplicates entry , check content of data in files before insert data ###";
             case 1054:
                 return "### No column match, try again ###";
             default:
-                return "### Uknown error ###";
+                return "### SQL syntax error ###";
         }
     }
 }
