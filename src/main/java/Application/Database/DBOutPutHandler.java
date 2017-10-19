@@ -23,11 +23,10 @@ public class DBOutPutHandler {
      * getAnyValueFromAnyTable()
      * showAllTables()
      *
-     * @param resultSet
+     * @param resultSet, send resultSet from the methods
      *
      * @return output string
      *
-     * @throws SQLException
      */
     public String printResult(ResultSet resultSet) throws SQLException
     {
@@ -77,11 +76,10 @@ public class DBOutPutHandler {
     /**
      * Creating a output string for the getMetaData() method in DBHandler
      *
-     * @param resultSet
+     * @param resultSet, send resultSet from the method
      *
      * @return output string
      *
-     * @throws SQLException
      */
     public String printMetaData(ResultSet resultSet) throws SQLException {
 

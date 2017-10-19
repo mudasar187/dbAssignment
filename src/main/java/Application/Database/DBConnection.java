@@ -34,9 +34,8 @@ public class DBConnection {
 
     /**
      * Default constructor
-     * Read the config file
      *
-     * @param properties, get config file path
+     * @param properties, file path
      */
     public DBConnection(String properties)
     {
@@ -67,7 +66,6 @@ public class DBConnection {
 
     /**
      * Get connection to database
-     * Making connection without dbName, creating own method for that so user dont need to create database manually
      *
      * @return connection
      */
@@ -94,7 +92,7 @@ public class DBConnection {
 
 
     /**
-     * Get method so I can access them in the DBHandler class
+     * Method to acsess in DBHandler.class
      *
      * @return dbName, name of the database
      */
@@ -105,11 +103,9 @@ public class DBConnection {
 
 
     /**
-     * Checks if connection is valid or not
-     * Have this method so I can launch the application in the Program.class if connection is valid,
-     * if it is not valid then the program does not run and u will get an error message
+     * Method to check status of connection
      *
-     * @return true if connection is valid, return false if connection is not valid
+     * @return true if connection is valid / false if not
      */
     public boolean isConnected() {
 

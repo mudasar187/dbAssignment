@@ -25,6 +25,8 @@ public class ProgramHelper {
     /**
      * Constructor
      * Set the file that needed to be read
+     *
+     * @param fileName , send the file path containing all the names of the files to be read
      */
     public ProgramHelper(String fileName) {
 
@@ -35,7 +37,7 @@ public class ProgramHelper {
     /**
      * Read the files.txt in 'helpMaterials', this file contain name of the all files that need to be read to create tables and add data
      *
-     * @param fileName
+     * @param fileName, send the file path containing all the names of the files to be read
      *
      * @return file list
      */
