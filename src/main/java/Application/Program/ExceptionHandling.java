@@ -1,6 +1,8 @@
 package Application.Program;
 
 /**
+ * <p>ExceptionHandling class.</p>
+ *
  * @author Mudasar Ahmad
  * @version 1.0
  * <p>
@@ -8,9 +10,14 @@ package Application.Program;
  * <p>
  * Last modified 19 october 2017
  */
-
 public class ExceptionHandling {
 
+    /**
+     * <p>SQLException.</p>
+     *
+     * @param se a int.
+     * @return a {@link java.lang.String} object.
+     */
     public String SQLException(int se)
     {
 

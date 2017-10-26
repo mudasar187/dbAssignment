@@ -45,7 +45,7 @@ public class DBHandlerTest {
 
         DBTableObject table = new DBTableObject();
 
-        dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
+        dbFileHandler.makeObject("src/test/resources/inputFilesTest/fileIsRight.txt", table);
 
         assertEquals(dbHandler.getQueryCreateTable(table), "CREATE TABLE Employee (\n" +
                 "id INT(11) AUTO_INCREMENT,\n" +
@@ -62,7 +62,7 @@ public class DBHandlerTest {
 
         DBTableObject table = new DBTableObject();
 
-        dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
+        dbFileHandler.makeObject("src/test/resources/inputFilesTest/fileIsRight.txt", table);
 
         dbHandler.createTable(table);
     }
@@ -70,7 +70,7 @@ public class DBHandlerTest {
 //    @Test
 //    public void testGetQueryForInsertData() throws SQLException {
 //
-//        dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
+//        dbFileHandler.makeObject("src/test/resources/inputFilesTest/fileIsRight.txt", table);
 //
 //        assertEquals(dbHandler.getInsertDataQuery(table), "INSERT INTO Employee (firstName, lastName, email)\n" +
 //                "VALUES\n" +
@@ -80,7 +80,7 @@ public class DBHandlerTest {
 //    @Test
 //    public void testInsertDataIntoTable() throws SQLException {
 //
-//        dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
+//        dbFileHandler.makeObject("src/test/resources/inputFilesTest/fileIsRight.txt", table);
 //
 //        dbHandler.insertData(table);
 //    }

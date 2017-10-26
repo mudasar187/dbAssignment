@@ -8,6 +8,8 @@ import java.sql.*;
 import java.util.Properties;
 
 /**
+ * <p>DBConnection class.</p>
+ *
  * @author Mudasar Ahmad
  * @version 1.0
  * <p>
@@ -16,8 +18,6 @@ import java.util.Properties;
  * <p>
  * Last modified 19 october 2017
  */
-
-
 public class DBConnection {
 
     /**
@@ -35,7 +35,7 @@ public class DBConnection {
     /**
      * Default constructor
      *
-     * @param properties, file path
+     * @param properties a {@link java.lang.String} object.
      */
     public DBConnection(String properties)
     {
@@ -84,7 +84,7 @@ public class DBConnection {
         }
         catch (SQLException se)
         {
-            se.printStackTrace();
+            //se.printStackTrace();
             System.out.println("\n### Connection error ###");
         }
         return connection;
@@ -94,7 +94,7 @@ public class DBConnection {
     /**
      * Method to acsess in DBHandler.class
      *
-     * @return dbName, name of the database
+     * @return a {@link java.lang.String} object.
      */
     public String getDbName() {
 

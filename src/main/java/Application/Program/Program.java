@@ -5,6 +5,8 @@ import Application.Database.*;
 import java.sql.SQLException;
 
 /**
+ * <p>Program class.</p>
+ *
  * @author Mudasar Ahmad
  * @version 1.0
  * <p>
@@ -12,7 +14,6 @@ import java.sql.SQLException;
  * <p>
  * Last modified 19 october 2017
  */
-
 public class Program {
 
     DBHandler dbHandler;
@@ -21,6 +22,9 @@ public class Program {
     ProgramHelper programHelper;
     DBTableObject dbTableObject;
 
+    /**
+     * <p>Constructor for Program.</p>
+     */
     public Program() {
 
         // Creating instance of all dependencies
@@ -34,6 +38,11 @@ public class Program {
         dbTableObject = new DBTableObject();
     }
 
+    /**
+     * <p>runProgram.</p>
+     *
+     * @throws java.lang.InterruptedException if any.
+     */
     public void runProgram() throws InterruptedException {
 
         // Checks if connection is connected, if yes run while loop, if not, throw message that connection is not connected
@@ -63,7 +72,7 @@ public class Program {
                             for (int i = 0; i < programHelper.getFiles().size(); i++)
                             {
                                 dbTableObject = new DBTableObject();
-                                dbFileHandler.makeTable(
+                                dbFileHandler.makeObject(
                                         "src/main/java/Application/inputFiles/" + programHelper.getFiles().get(
                                                 i) + ".txt",
                                         dbTableObject);
@@ -90,7 +99,7 @@ public class Program {
                             for (int i = 0; i < programHelper.getFiles().size(); i++)
                             {
                                 dbTableObject = new DBTableObject();
-                                dbFileHandler.makeTable(
+                                dbFileHandler.makeObject(
                                         "src/main/java/Application/inputFiles/" + programHelper.getFiles().get(
                                                 i) + ".txt",
                                         dbTableObject);

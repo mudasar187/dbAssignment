@@ -3,6 +3,8 @@ package Application.Database;
 import java.sql.*;
 
 /**
+ * <p>DBHandler class.</p>
+ *
  * @author Mudasar Ahmad
  * @version 1.0
  * <p>
@@ -10,7 +12,6 @@ import java.sql.*;
  * <p>
  * Last modified 19 october 2017
  */
-
 public class DBHandler {
 
     private DBConnection dbConnection;
@@ -24,8 +25,8 @@ public class DBHandler {
      * Constructor
      * All dependency injections in constructor
      *
-     * @param dbConnection , DBConnection class
-     * @param dbOutPutHandler, DBOutPutHandler class
+     * @param dbConnection a {@link Application.Database.DBConnection} object.
+     * @param dbOutPutHandler a {@link Application.Database.DBOutPutHandler} object.
      */
     public DBHandler(DBConnection dbConnection, DBOutPutHandler dbOutPutHandler)
     {
@@ -50,7 +51,7 @@ public class DBHandler {
      * Drop the exists database name, and create a database name based on properties file
      *
      * @return String
-     *
+     * @throws java.sql.SQLException if any.
      */
     public String createDataBase() throws SQLException
     {
@@ -73,10 +74,9 @@ public class DBHandler {
     /**
      * This method creates a table based on the information retrieved from getQueryCreateTable() method call
      *
-     * @param dbTableObject, the object from file
-     *
      * @return String output
-     *
+     * @throws java.sql.SQLException if any.
+     * @param dbTableObject a {@link Application.Database.DBTableObject} object.
      */
     public String createTable(DBTableObject dbTableObject) throws SQLException
     {
@@ -99,9 +99,8 @@ public class DBHandler {
     /**
      * This method extracts the information from table object needed to create table and sends query to createTable()
      *
-     * @param dbTableObject, table object from file to extract metadata from
-     *
      * @return query
+     * @param dbTableObject a {@link Application.Database.DBTableObject} object.
      */
     public String getQueryCreateTable(DBTableObject dbTableObject)
     {
@@ -122,10 +121,9 @@ public class DBHandler {
     /**
      * This method insert data based on the information retrieved from getInsertDataQuery() method call
      *
-     * @param dbTableObject, the object from file
-     *
      * @return String output
-     *
+     * @throws java.sql.SQLException if any.
+     * @param dbTableObject a {@link Application.Database.DBTableObject} object.
      */
     public String insertData(DBTableObject dbTableObject) throws SQLException
     {
@@ -156,9 +154,8 @@ public class DBHandler {
     /**
      * This method extracts the information from table object needed and sends query to insertData()
      *
-     * @param dbTableObject, the table object to extract data from
-     *
      * @return query
+     * @param dbTableObject a {@link Application.Database.DBTableObject} object.
      */
     public String getInsertDataQuery(DBTableObject dbTableObject)
     {
@@ -217,10 +214,9 @@ public class DBHandler {
     /**
      * This method drop the table
      *
-     * @param tableName, name of the table you want to drop
-     *
      * @return String output
-     *
+     * @throws java.sql.SQLException if any.
+     * @param tableName a {@link java.lang.String} object.
      */
     public String dropTable(String tableName) throws SQLException {
 
@@ -242,10 +238,9 @@ public class DBHandler {
     /**
      * This method extracts meta data about the table, column names, data types and size
      *
-     * @param tableName, name of the table you want to get meta data from
-     *
      * @return printMetadata() in DBOutPutHandler
-     *
+     * @throws java.sql.SQLException if any.
+     * @param tableName a {@link java.lang.String} object.
      */
     public String getMetaDataFromTable(String tableName) throws SQLException
     {
@@ -268,10 +263,9 @@ public class DBHandler {
     /**
      * This method extract data from table
      *
-     * @param tableName, name of the table you want to get all data from
-     *
      * @return printResult() in DbOutPutHandler
-     *
+     * @throws java.sql.SQLException if any.
+     * @param tableName a {@link java.lang.String} object.
      */
     public String getDataFromTable(String tableName) throws SQLException
     {
@@ -295,10 +289,9 @@ public class DBHandler {
     /**
      * This method retrive number of rows in table
      *
-     * @param tableName, name of the table you want to count rows from
-     *
      * @return printResult() method in DBOutPutHandler
-     *
+     * @throws java.sql.SQLException if any.
+     * @param tableName a {@link java.lang.String} object.
      */
     public String getCountRowsFromTable(String tableName) throws SQLException
     {
@@ -321,12 +314,11 @@ public class DBHandler {
     /**
      * This method get the data based on tablename, column name and value of the search
      *
-     * @param tableName, the table name you want to search in
-     * @param column, which column you want to search in that table you choosed
-     * @param search, the search value you want to search for
-     *
      * @return printResult() method in DbOutPutHandler
-     *
+     * @throws java.sql.SQLException if any.
+     * @param tableName a {@link java.lang.String} object.
+     * @param column a {@link java.lang.String} object.
+     * @param search a {@link java.lang.String} object.
      */
     public String getAnyValueFromAnyTable(String tableName, String column, String search) throws SQLException
     {
@@ -350,7 +342,7 @@ public class DBHandler {
      * This method get all the tables exists in the database
      *
      * @return printResult() method in DbOutPutHandler
-     *
+     * @throws java.sql.SQLException if any.
      */
     public String showAllTables() throws SQLException
     {

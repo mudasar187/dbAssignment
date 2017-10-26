@@ -5,6 +5,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 /**
+ * <p>DBOutPutHandler class.</p>
+ *
  * @author Mudasar Ahmad
  * @version 1.0
  * <p>
@@ -12,7 +14,6 @@ import java.sql.SQLException;
  * <p>
  * Last modified 19 october 2017
  */
-
 public class DBOutPutHandler {
 
     /**
@@ -23,10 +24,9 @@ public class DBOutPutHandler {
      * getAnyValueFromAnyTable()
      * showAllTables()
      *
-     * @param resultSet, send resultSet from the methods
-     *
      * @return output string
-     *
+     * @param resultSet a java.sql.ResultSet object.
+     * @throws java.sql.SQLException if any.
      */
     public String printResult(ResultSet resultSet) throws SQLException
     {
@@ -63,7 +63,6 @@ public class DBOutPutHandler {
             {
                 return "### No matching value ###";
             }
-            System.out.println(output);
             return output;
         }
         catch (SQLException se)
@@ -76,10 +75,9 @@ public class DBOutPutHandler {
     /**
      * Creating a output string for the getMetaData() method in DBHandler
      *
-     * @param resultSet, send resultSet from the method
-     *
      * @return output string
-     *
+     * @param resultSet a java.sql.ResultSet object.
+     * @throws java.sql.SQLException if any.
      */
     public String printMetaData(ResultSet resultSet) throws SQLException {
 
@@ -102,7 +100,6 @@ public class DBOutPutHandler {
             {
                 return "### No matching value ###";
             }
-            System.out.println(output);
             return output;
         }
         catch (SQLException se)

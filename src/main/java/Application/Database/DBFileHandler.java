@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
+ * <p>DBFileHandler class.</p>
+ *
  * @author Mudasar Ahmad
  * @version 1.0
  * <p>
@@ -15,7 +17,6 @@ import java.util.Scanner;
  * <p>
  * Last modified 18 october 2017
  */
-
 public class DBFileHandler {
 
     private Scanner read;
@@ -28,12 +29,11 @@ public class DBFileHandler {
      * Then extract the metadata from arraylist(allFromFile), and send to DBTableObject.class, so i can create an object which is used to create table in database
      * Then extracts only data to new arraylist named 'justDataWithoutMetadata'
      *
-     * @param fileName, the file to be read
-     * @param table, object to be created
-     *
      * @return table object
+     * @param fileName a {@link java.lang.String} object.
+     * @param table a {@link Application.Database.DBTableObject} object.
      */
-    public DBTableObject makeTable(String fileName, DBTableObject table)
+    public DBTableObject makeObject(String fileName, DBTableObject table)
     {
 
         setRead(fileName);
@@ -51,7 +51,7 @@ public class DBFileHandler {
 
 
     /**
-     * The method opens and reads a file called in the makeTable() method
+     * The method opens and reads a file called in the makeObject() method
      *
      * @param fileName, the file to be read
      */
@@ -79,9 +79,9 @@ public class DBFileHandler {
 
 
     /**
-     * This method is called in the makeTable() method that reads everything in the file to an arraylist named 'allFromFile'
+     * This method is called in the makeObject() method that reads everything in the file to an arraylist named 'allFromFile'
      *
-     * @return allFromFile, the arraylist with content of everything in the file
+     * @return a {@link java.util.ArrayList} object.
      */
     public ArrayList<String> getAllDataFromFile()
     {

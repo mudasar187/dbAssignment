@@ -7,6 +7,8 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * <p>ProgramHelper class.</p>
+ *
  * @author Mudasar Ahmad
  * @version 1.0
  * <p>
@@ -15,7 +17,6 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * Last modified 19 october 2017
  */
-
 public class ProgramHelper {
 
     private ArrayList<String> files = new ArrayList<>();
@@ -26,7 +27,7 @@ public class ProgramHelper {
      * Constructor
      * Set the file that needed to be read
      *
-     * @param fileName , send the file path containing all the names of the files to be read
+     * @param fileName a {@link java.lang.String} object.
      */
     public ProgramHelper(String fileName) {
 
@@ -119,6 +120,11 @@ public class ProgramHelper {
 
 
     // Just for fancy loading
+    /**
+     * <p>connectionLoader.</p>
+     *
+     * @throws java.lang.InterruptedException if any.
+     */
     public void connectionLoader() throws InterruptedException
     {
 

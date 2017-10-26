@@ -22,7 +22,7 @@ public class DBFileHandlerTest {
 
         DBTableObject table = new DBTableObject();
 
-        dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileIsRight.txt", table);
+        dbFileHandler.makeObject("src/test/resources/inputFilesTest/fileIsRight.txt", table);
 
         assertEquals(table.getTableName(), "Employee");
         assertEquals(table.getColumnsName()[0], "id");
@@ -42,7 +42,7 @@ public class DBFileHandlerTest {
 
         DBTableObject table = new DBTableObject();
 
-        dbFileHandler.makeTable("fsdfsdf", table);
+        dbFileHandler.makeObject("fsdfsdf", table);
     }
 
 
@@ -51,7 +51,7 @@ public class DBFileHandlerTest {
 
         DBTableObject table = new DBTableObject();
 
-        dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileWithNoContent.txt", table);
+        dbFileHandler.makeObject("src/test/resources/inputFilesTest/fileWithNoContent.txt", table);
     }
 
 
@@ -60,7 +60,7 @@ public class DBFileHandlerTest {
 
         DBTableObject table = new DBTableObject();
 
-        dbFileHandler.makeTable("src/test/resources/inputFilesTest/fileWithWrongLayout.txt", table);
+        dbFileHandler.makeObject("src/test/resources/inputFilesTest/fileWithWrongLayout.txt", table);
     }
 
 }
