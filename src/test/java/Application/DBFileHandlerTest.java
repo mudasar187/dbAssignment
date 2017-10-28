@@ -1,7 +1,7 @@
 package Application;
 
-import Application.Database.DBFileHandler;
-import Application.Database.DBTableObject;
+import Application.Database.Filereader.DBFileHandler;
+import Application.Database.TableObject.DBTableObject;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package Application.Database;
+package Application.Database.TableObject;
 
 import java.util.ArrayList;
 

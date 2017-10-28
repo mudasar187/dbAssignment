@@ -3,8 +3,9 @@ id/name
 INT(11) AUTO_INCREMENT/VARCHAR(255) NOT NULL UNIQUE
 id
 --------------------<<SEPRATOR BETWEEN METADATA AND DATA>>--------------------
-Programmering
-Intelligente systemer
-Mobil programmering
-E-Buiness
+Frontend-mobilutvikling
 Spillprogrammering
+Intelligente systemer
+E-Buiness
+Programmering
+Interaktivt design

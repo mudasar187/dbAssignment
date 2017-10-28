@@ -1,6 +1,10 @@
 package Application.Program;
 
-import Application.Database.*;
+import Application.Database.Connection.DBConnection;
+import Application.Database.DBHandler.DBHandler;
+import Application.Database.Filereader.DBFileHandler;
+import Application.Database.OutPutHandler.DBOutPutHandler;
+import Application.Database.TableObject.DBTableObject;
 
 import java.sql.SQLException;
 
@@ -28,10 +32,8 @@ public class Program {
     public Program() {
 
         // Creating instance of all dependencies
-        dbHandler = new DBHandler(
-                new DBConnection("src/main/resources/database.properties"),
+        dbHandler = new DBHandler(new DBConnection("src/main/resources/database.properties"),
                 new DBOutPutHandler());
-
         dbFileHandler = new DBFileHandler();
         exceptionHandling = new ExceptionHandling();
         programHelper = new ProgramHelper("src/main/java/Application/files.txt");
@@ -58,8 +60,7 @@ public class Program {
             {
                 System.out.print(programHelper.options1menu);
                 programHelper.options1 = programHelper.userInput.nextLine().toLowerCase();
-                System.out.println(
-                        "--------------------------------------------------------------------------------------\n");
+                System.out.println();
                 try
                 {
                     switch (programHelper.options1)
@@ -89,15 +90,6 @@ public class Program {
                         case "3":
                             for (int i = 0; i < programHelper.getFiles().size(); i++)
                             {
-                                System.out.println(dbHandler.dropTable(programHelper.getFiles().get(i)));
-                            }
-                            System.out.println();
-                            programHelper.createdTables = 0;
-                            break;
-
-                        case "4":
-                            for (int i = 0; i < programHelper.getFiles().size(); i++)
-                            {
                                 dbTableObject = new DBTableObject();
                                 dbFileHandler.makeObject(
                                         "src/main/java/Application/inputFiles/" + programHelper.getFiles().get(
@@ -120,7 +112,7 @@ public class Program {
                             break;
 
                         case "exit":
-                            System.out.println("\n\nDisconnecting");
+                            System.out.print("\n\nDisconnecting");
                             programHelper.connectionLoader();
                             System.out.println("Good bye !");
                             System.exit(0);
@@ -144,8 +136,7 @@ public class Program {
             {
                 System.out.print(programHelper.options2menu);
                 programHelper.options2 = programHelper.userInput.nextLine().toLowerCase();
-                System.out.println(
-                        "--------------------------------------------------------------------------------------\n");
+                System.out.println();
                 try
                 {
                     switch (programHelper.options2)
@@ -186,7 +177,8 @@ public class Program {
                             System.out.print("Tablename: ");
                             String userOptionChooseTable = programHelper.userInput.nextLine().toLowerCase();
                             System.out.print("Column name: ");
-                            String userOptionChooseColumn = programHelper.userInput.nextLine();
+                            System.out.println(dbHandler.getColumnNamesFromTable(userOptionChooseTable));
+                            String userOptionChooseColumn = programHelper.userInput.nextLine().toLowerCase();
                             System.out.print("Search value: ");
                             String userOptionChooseAnyWord = programHelper.userInput.nextLine().toLowerCase();
                             System.out.println();

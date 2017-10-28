@@ -1,4 +1,8 @@
-package Application.Database;
+package Application.Database.DBHandler;
+
+import Application.Database.Connection.DBConnection;
+import Application.Database.OutPutHandler.DBOutPutHandler;
+import Application.Database.TableObject.DBTableObject;
 
 import java.sql.*;
 
@@ -25,8 +29,7 @@ public class DBHandler {
      * Constructor
      * All dependency injections in constructor
      *
-     * @param dbConnection a {@link Application.Database.DBConnection} object.
-     * @param dbOutPutHandler a {@link Application.Database.DBOutPutHandler} object.
+     * @param dbConnection a {@link DBConnection} object.
      */
     public DBHandler(DBConnection dbConnection, DBOutPutHandler dbOutPutHandler)
     {
@@ -37,9 +40,9 @@ public class DBHandler {
 
 
     /**
-     * Status for the connection from DBConnection, using that in Program.class
+     * Status for the connection from Connection, using that in Program.class
      *
-     * @return boolean of status for getConnection() in DBConnection.class
+     * @return boolean of status for getConnection() in Connection.class
      */
     public boolean getDBStatus() {
 
@@ -76,7 +79,7 @@ public class DBHandler {
      *
      * @return String output
      * @throws java.sql.SQLException if any.
-     * @param dbTableObject a {@link Application.Database.DBTableObject} object.
+     * @param dbTableObject a {@link DBTableObject} object.
      */
     public String createTable(DBTableObject dbTableObject) throws SQLException
     {
@@ -100,9 +103,9 @@ public class DBHandler {
      * This method extracts the information from table object needed to create table and sends query to createTable()
      *
      * @return query
-     * @param dbTableObject a {@link Application.Database.DBTableObject} object.
+     * @param dbTableObject a {@link DBTableObject} object.
      */
-    public String getQueryCreateTable(DBTableObject dbTableObject)
+    private String getQueryCreateTable(DBTableObject dbTableObject)
     {
 
         StringBuilder createTableQuery = new StringBuilder(
@@ -123,7 +126,7 @@ public class DBHandler {
      *
      * @return String output
      * @throws java.sql.SQLException if any.
-     * @param dbTableObject a {@link Application.Database.DBTableObject} object.
+     * @param dbTableObject a {@link DBTableObject} object.
      */
     public String insertData(DBTableObject dbTableObject) throws SQLException
     {
@@ -155,9 +158,9 @@ public class DBHandler {
      * This method extracts the information from table object needed and sends query to insertData()
      *
      * @return query
-     * @param dbTableObject a {@link Application.Database.DBTableObject} object.
+     * @param dbTableObject a {@link DBTableObject} object.
      */
-    public String getInsertDataQuery(DBTableObject dbTableObject)
+    private String getInsertDataQuery(DBTableObject dbTableObject)
     {
 
         checkIfDataTypeIndex0HaveTheWordAutoIncrement(dbTableObject);
@@ -188,11 +191,8 @@ public class DBHandler {
      * this method will handle the input of the insertDataIntoTable () method.
      * Then, this jump over the first column that is set to auto_increment and make sure it does not make any trouble to enter the data
      */
-    private void checkIfDataTypeIndex0HaveTheWordAutoIncrement(DBTableObject table)
+    private void checkIfDataTypeIndex0HaveTheWordAutoIncrement(DBTableObject table) throws NullPointerException
     {
-
-        try
-        {
             String dataTypeIndex0 = table.getDataTypes()[0];
             String auto_increment = "AUTO_INCREMENT";
 
@@ -203,35 +203,6 @@ public class DBHandler {
             {
                 startFrom = 0;
             }
-        }
-        catch (NullPointerException ne)
-        {
-            // ne.printStackTrace();
-        }
-    }
-
-
-    /**
-     * This method drop the table
-     *
-     * @return String output
-     * @throws java.sql.SQLException if any.
-     * @param tableName a {@link java.lang.String} object.
-     */
-    public String dropTable(String tableName) throws SQLException {
-
-        String chooseDBName = "USE " + dbConnection.getDbName();
-        String dropTable = "DROP TABLE " + tableName;
-
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-             PreparedStatement preparedStatement1 = connection.prepareStatement(dropTable))
-        {
-            preparedStatement.executeUpdate();
-            preparedStatement1.executeUpdate();
-
-            return "### Table " + tableName + " is dropped ###";
-        }
     }
 
 
@@ -329,6 +300,23 @@ public class DBHandler {
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
              PreparedStatement preparedStatement1 = connection.prepareStatement(selectFromTable))
+        {
+            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement1.executeQuery();
+
+            return dbOutPutHandler.printResult(resultSet);
+        }
+    }
+
+
+    public String getColumnNamesFromTable(String tableName) throws SQLException {
+
+        String chooseDBname = "USE" + dbConnection.getDbName();
+        String selectColumNames = "SELECT * FROM " + tableName;
+
+        try(Connection connection = dbConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(chooseDBname);
+        PreparedStatement preparedStatement1 = connection.prepareStatement(selectColumNames))
         {
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement1.executeQuery();

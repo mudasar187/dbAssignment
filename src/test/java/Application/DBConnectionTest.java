@@ -1,7 +1,7 @@
 package Application;
 
 
-import Application.Database.DBConnection;
+import Application.Database.Connection.DBConnection;
 import org.junit.Test;
 
 import java.sql.Connection;

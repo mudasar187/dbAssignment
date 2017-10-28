@@ -1,4 +1,4 @@
-package Application.Database;
+package Application.Database.Connection;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
@@ -8,12 +8,12 @@ import java.sql.*;
 import java.util.Properties;
 
 /**
- * <p>DBConnection class.</p>
+ * <p>Connection class.</p>
  *
  * @author Mudasar Ahmad
  * @version 1.0
  * <p>
- * DBConnection
+ * Connection
  * Class for connection to database
  * <p>
  * Last modified 19 october 2017
@@ -84,7 +84,7 @@ public class DBConnection {
         }
         catch (SQLException se)
         {
-            //se.printStackTrace();
+//            se.printStackTrace();
             System.out.println("\n### Connection error ###");
         }
         return connection;

@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
  * @author Mudasar Ahmad
  * @version 1.0
  * <p>
- * This is a helper to Program.class, i created this so it becomes more readable in the Program.class
+ * This is a helper to Program.class,
  * and also adding the files that needed to be added (the files to read from 'inputFiles' folder
  * <p>
  * Last modified 19 october 2017
@@ -58,7 +58,7 @@ public class ProgramHelper {
         catch (FileNotFoundException f)
         {
             System.out.println("### Check if there is a files.txt file in the folder 'helpMaterials' ###");
-            System.out.println("### This file is needed to add content of files to run the program ###");
+            System.out.println("### This file is needed to add content of file names to run the program ###");
         }
         return files;
     }
@@ -81,22 +81,21 @@ public class ProgramHelper {
     // These are options you can make in Program.class, options1menu is showed up first because its recommended to run these first
     // When you are finished with options1menu, you will jump to options2menu, second while loop to make queries
     public String options1menu =
-            "--------------------------------------------------------------------------------------\n" +
+            "------------------------------------------------------------------------------------------------------------\n" +
                     "### Choose your option by enter these numbers ###\n" +
                     "1      Create database \n" +
                     "2      Create tables \n" +
-                    "3      Drop tables \n" +
-                    "4      Insert data into tables \n" +
+                    "3      Insert data into tables \n" +
                     "### Type 'queries' to make queries or type 'exit' to exit program ###\n" +
                     "\nYour choice: ";
 
 
     public String options2menu =
-            "--------------------------------------------------------------------------------------\n" +
+            "-----------------------------------------------------------------------------------------------------------\n" +
                     "### Choose your query option by enter these numbers ###\n" +
                     "1      Show all tables \n" +
                     "2      Get metadata from table \n" +
-                    "3      Get content in table \n" +
+                    "3      Get all content in table \n" +
                     "4      Find number of rows in table \n" +
                     "5      Find any result based on any name, any column from any table \n" +
                     "### Type 'exit' to exit the program ###\n" +
@@ -127,7 +126,6 @@ public class ProgramHelper {
      */
     public void connectionLoader() throws InterruptedException
     {
-
         TimeUnit.MILLISECONDS.sleep(300);
         System.out.print(".");
         TimeUnit.MILLISECONDS.sleep(300);

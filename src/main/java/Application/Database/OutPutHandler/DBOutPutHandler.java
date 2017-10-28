@@ -1,4 +1,4 @@
-package Application.Database;
+package Application.Database.OutPutHandler;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -40,12 +40,12 @@ public class DBOutPutHandler {
             {
                 String temp = resultSet.getMetaData().getColumnName(i + 1).toLowerCase().replace("_", " ");
                 temp = temp.substring(0, 1).toUpperCase() + temp.substring(1);
-                output += String.format("%-20s", temp);
+                output += String.format("%-32s", temp);
             }
             output += "\n";
             for (int i = 0; i < columnCount; i++)
             {
-                output += "----------------------";
+                output += "---------------------------";
             }
             output += "\n";
             while (resultSet.next())
@@ -53,7 +53,7 @@ public class DBOutPutHandler {
                 for (int i = 0; i < columnCount; i++)
                 {
                     String columnValue = resultSet.getString(i + 1);
-                    output += String.format("%-20s", columnValue);
+                    output += String.format("%-32s", columnValue);
                 }
 
                 output += "\n";

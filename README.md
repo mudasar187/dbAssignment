@@ -10,9 +10,7 @@
 
 * Create tables
 
-* Drop tables
-
-* Insert data from files in Application.inputFiles folder
+* Insert data from files in 'inputFiles' folder
 
 * Show all table names
 

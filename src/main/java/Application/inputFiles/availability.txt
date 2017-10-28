@@ -1,13 +1,20 @@
 availability
 weekId/lecturerId/monday/tuesday/wednesday/thursday/friday
-INT(2) NOT NULL/INT(11) NOT NULL/ENUM('false','true') NOT NULL/ENUM('false','true') NOT NULL/ENUM('false','true') NOT NULL/ENUM('false','true') NOT NULL/ENUM('false','true') NOT NULL
+INT(11) NOT NULL/INT(11) NOT NULL/ENUM('false','true') NOT NULL/ENUM('false','true') NOT NULL/ENUM('false','true') NOT NULL/ENUM('false','true') NOT NULL/ENUM('false','true') NOT NULL
 weekId,lecturerId
 --------------------<<SEPRATOR BETWEEN METADATA AND DATA>>--------------------
-40/1/true/true/true/false/false/
-40/2/false/true/true/false/false/
-40/3/false/false/false/true/true/
-40/4/true/false/false/true/false/
-41/1/false/false/false/false/false/
-41/2/true/true/true/true/true/
-41/3/false/true/false/true/false/
-41/4/true/true/true/true/true/
+40/1/true/true/true/false/false
+40/2/false/true/true/false/false
+40/3/false/false/false/true/true
+40/4/true/false/false/true/false
+40/5/false/false/false/false/false
+41/1/false/false/false/false/false
+41/2/true/true/true/true/true
+41/3/false/true/false/true/false
+41/4/true/true/true/true/true
+41/5/true/true/true/true/true
+42/1/false/false/false/false/false
+42/2/true/true/true/true/true
+42/3/true/true/true/false/false
+42/4/false/false/true/true/false
+42/5/true/false/false/true/true

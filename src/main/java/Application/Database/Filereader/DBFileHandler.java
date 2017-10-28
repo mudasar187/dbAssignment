@@ -1,4 +1,6 @@
-package Application.Database;
+package Application.Database.Filereader;
+
+import Application.Database.TableObject.DBTableObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +17,7 @@ import java.util.Scanner;
  * Class for reading files and retrieving data from files as well as validating data
  * And also send data to DBTableObjectFromFile.class to create an object of information
  * <p>
- * Last modified 18 october 2017
+ * Last modified 19 october 2017
  */
 public class DBFileHandler {
 
@@ -29,15 +31,17 @@ public class DBFileHandler {
      * Then extract the metadata from arraylist(allFromFile), and send to DBTableObject.class, so i can create an object which is used to create table in database
      * Then extracts only data to new arraylist named 'justDataWithoutMetadata'
      *
+     * Set read = null when finish read the file
+     *
      * @return table object
      * @param fileName a {@link java.lang.String} object.
-     * @param table a {@link Application.Database.DBTableObject} object.
+     * @param table a {@link DBTableObject} object.
      */
     public DBTableObject makeObject(String fileName, DBTableObject table)
     {
-
         setRead(fileName);
         ArrayList<String> allFromFile = getAllDataFromFile();
+        // Validate before send information to DbTableObject
         validateData(allFromFile);
         table.setTableName(allFromFile.get(0));
         table.setColumnsName(allFromFile.get(1).split("/"));
@@ -45,7 +49,7 @@ public class DBFileHandler {
         table.setPrimaryKey(allFromFile.get(3));
         table.setSeperatorMetaDataAndData(allFromFile.get(4));
         table.setJustDataWithoutMetaData(getOnlyDataWithoutMetaData(allFromFile));
-        setReadToNull();
+        this.read = null;
         return table;
     }
 
@@ -57,7 +61,6 @@ public class DBFileHandler {
      */
     private void setRead(String fileName)
     {
-
         try
         {
             read = new Scanner(new File(fileName));
@@ -66,15 +69,6 @@ public class DBFileHandler {
         {
             System.out.println("### File not found ###");
         }
-    }
-
-
-    /**
-     * Set read to null
-     */
-    private void setReadToNull() {
-
-        this.read = null;
     }
 
 
@@ -105,7 +99,6 @@ public class DBFileHandler {
      */
     private ArrayList<String[]> getOnlyDataWithoutMetaData(ArrayList<String> allFromFile)
     {
-
         ArrayList<String[]> justDataWithoutMetaData = new ArrayList<>();
         for (int i = 5; i < allFromFile.size(); i++)
         {
@@ -125,7 +118,6 @@ public class DBFileHandler {
      */
     private void validateData(ArrayList<String> list)
     {
-
         if (!isDataValid(list))
         {
             System.out.println("### File is empty or not valid ###");

@@ -1,9 +1,17 @@
 room
-id/capacity/roomType
-VARCHAR(11) NOT NULL/INT(200) NOT NULL/VARCHAR(255) NOT NULL
-id
+roomId/capacity/roomType
+VARCHAR(255) NOT NULL/INT(11) NOT NULL/VARCHAR(255) NOT NULL
+roomId
 --------------------<<SEPRATOR BETWEEN METADATA AND DATA>>--------------------
 F101/150/Stor auditorium,med overhead
-F201/40/Liten klasserom,uten overhead
-F311/60/Liten auditorium,med overhead
+F201/300/Fellesområde
+F203/50/Vanlig klasserom med overhead
+F204/50/Vanlig klasserom med overhead
+F205/20/Liten klasserom med overhead
+F206/20/Liten klasserom uten overhead
+F207/30/Liten klasserom med overhead
+F208/30/Liten klasserom med overhead
+F301/15/Lab rom
+F303/50/Stor klasserom uten overhead
+F311/60/Liten auditorium med overhead
 F401/20/Liten musikkrom
