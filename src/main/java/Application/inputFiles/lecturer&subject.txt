@@ -1,0 +1,17 @@
+lecturerAndsubject
+lecturerId/subjectId
+INT(11) NOT NULL/VARCHAR(255) NOT NULL
+lecturerId,subjectId
+--------------------<<SEPRATOR BETWEEN METADATA AND DATA>>--------------------
+1/DB1100
+1/PGR100
+1/PGR101
+1/PGR200
+2/PG2201
+2/TK2100
+3/PG4200
+4/PGR201
+4/PRO202
+4/PRO200
+5/PG3300
+5/TK1100

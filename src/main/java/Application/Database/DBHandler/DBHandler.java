@@ -221,7 +221,7 @@ public class DBHandler {
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-             PreparedStatement preparedStatement1 = connection.prepareStatement(selectFromTable))
+             PreparedStatement preparedStatement1 = connection.prepareStatement(selectFromTable, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
         {
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement1.executeQuery();
@@ -350,16 +350,30 @@ public class DBHandler {
         }
     }
 
+
+    /**
+     * 'lecturerandsubject' ,
+     * 'subjectandprogram',
+     * 'subjectandroom'
+     */
+    public String connectTables(String tableName1, String tableName2, String column1, String column2) throws SQLException {
+        String chooseDBName = "USE DATABASE " + dbConnection.getDbName();
+        String text = "fk_" + tableName1 + "" + column1 + "" + tableName2;
+        String connectTablesQuery = "ALTER TABLE " + tableName1 + "" +
+                "  ADD CONSTRAINT " + text + "" +
+                " FOREIGN KEY (" + column1 +")" +
+                " REFERENCES " + tableName2 +" (" + column2 +");";
+
+        try(Connection connection = dbConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
+        PreparedStatement preparedStatement1 = connection.prepareStatement(connectTablesQuery))
+        {
+            preparedStatement.executeUpdate();
+            preparedStatement1.executeUpdate();
+
+            return "### Tables " + tableName1 + " and " + tableName2 + " are connected ###";
+        }
+    }
 }
 
-
-//    /**
-//     * 'lecturerandsubject' ,
-//     * 'subjectandprogram',
-//     * 'subjectandroom'
-//     */
-//     public void connectTables()
-//     {
-//          TODO: Method for connecting the tables
-//     }
 

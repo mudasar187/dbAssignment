@@ -1,10 +1,10 @@
 lecturer
-id/employeeNumber/firstName/lastName/email
-INT(11) AUTO_INCREMENT/VARCHAR(255) NOT NULL UNIQUE/VARCHAR(255) NOT NULL/VARCHAR(255) NOT NULL/VARCHAR(255) NOT NULL UNIQUE
+id/firstName/lastName/email
+INT(11) AUTO_INCREMENT/VARCHAR(255) NOT NULL/VARCHAR(255) NOT NULL/VARCHAR(255) NOT NULL UNIQUE
 id
 --------------------<<SEPRATOR BETWEEN METADATA AND DATA>>--------------------
-E7025/Per/Lauvås/per@ansatt.westerdals.no
-E9875/Tor-Morten/Grønli/tor@ansatt.westerdals.no
-E8541/Andrea/Arcuri/andrea@ansatt.westerdals.no
-E8745/Rolando/Gomez/rolando@ansatt.westerdals.no
-E9856/Tomas/Sandnes/tomas@ansatt.westerdals.no
+Per/Lauvås/per@ansatt.westerdals.no
+Tor-Morten/Grønli/tor@ansatt.westerdals.no
+Andrea/Arcuri/andrea@ansatt.westerdals.no
+Rolando/Gomez/rolando@ansatt.westerdals.no
+Tomas/Sandnes/tomas@ansatt.westerdals.no

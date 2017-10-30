@@ -1,7 +1,7 @@
 room
-roomId/capacity/roomType
+id/capacity/roomType
 VARCHAR(255) NOT NULL/INT(11) NOT NULL/VARCHAR(255) NOT NULL
-roomId
+id
 --------------------<<SEPRATOR BETWEEN METADATA AND DATA>>--------------------
 F101/150/Stor auditorium,med overhead
 F201/300/Fellesområde

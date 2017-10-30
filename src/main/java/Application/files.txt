@@ -1,6 +1,9 @@
 lecturer
 room
 subject
-program
-availability
 semester
+availability
+program
+lecturer&subject
+subject&program
+subject&room

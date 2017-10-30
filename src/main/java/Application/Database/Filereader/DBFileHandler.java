@@ -67,7 +67,7 @@ public class DBFileHandler {
         }
         catch (FileNotFoundException f)
         {
-            System.out.println("### File not found ###");
+            System.out.println("### Some file(s) not found ###");
         }
     }
 

@@ -100,7 +100,6 @@ public class Program {
                             }
                             System.out.println();
                             break;
-
                         case "queries":
                             if (programHelper.createdTables == 1)
                             {
@@ -127,7 +126,7 @@ public class Program {
                 {
                     System.out.println(exceptionHandling.SQLException(se.getErrorCode()) + "\n");
                 }
-                catch (Exception e)
+                catch (NullPointerException e)
                 {
                     System.out.println("### Please check the file list where all file name are located ###" + "\n");
                 }

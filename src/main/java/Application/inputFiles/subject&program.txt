@@ -1,0 +1,15 @@
+subjectAndprogram
+subjectId/programId
+VARCHAR(255) NOT NULL/INT(11) NOT NULL
+subjectId,programId
+--------------------<<SEPRATOR BETWEEN METADATA AND DATA>>--------------------
+PGR200/5
+PGR200/2
+PG4200/5
+PG4200/2
+PR0200/1
+PR0200/2
+PR0200/3
+PR0200/4
+PR0200/5
+PR0200/6

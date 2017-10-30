@@ -86,6 +86,7 @@ public class ProgramHelper {
                     "1      Create database \n" +
                     "2      Create tables \n" +
                     "3      Insert data into tables \n" +
+                    "4      Connect tables (Required if you want to connect tables)\n" +
                     "### Type 'queries' to make queries or type 'exit' to exit program ###\n" +
                     "\nYour choice: ";
 
