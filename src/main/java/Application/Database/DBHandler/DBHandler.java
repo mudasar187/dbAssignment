@@ -5,6 +5,8 @@ import Application.Database.OutPutHandler.DBOutPutHandler;
 import Application.Database.TableObject.DBTableObject;
 
 import java.sql.*;
+import com.mysql.jdbc.ResultSetMetaData;
+
 
 /**
  * <p>DBHandler class.</p>
@@ -29,7 +31,8 @@ public class DBHandler {
      * Constructor
      * All dependency injections in constructor
      *
-     * @param dbConnection a {@link DBConnection} object.
+     * @param dbConnection a {@link Application.Database.Connection.DBConnection} object.
+     * @param dbOutPutHandler a {@link Application.Database.OutPutHandler.DBOutPutHandler} object.
      */
     public DBHandler(DBConnection dbConnection, DBOutPutHandler dbOutPutHandler)
     {
@@ -79,7 +82,7 @@ public class DBHandler {
      *
      * @return String output
      * @throws java.sql.SQLException if any.
-     * @param dbTableObject a {@link DBTableObject} object.
+     * @param dbTableObject a {@link Application.Database.TableObject.DBTableObject} object.
      */
     public String createTable(DBTableObject dbTableObject) throws SQLException
     {
@@ -126,7 +129,7 @@ public class DBHandler {
      *
      * @return String output
      * @throws java.sql.SQLException if any.
-     * @param dbTableObject a {@link DBTableObject} object.
+     * @param dbTableObject a {@link Application.Database.TableObject.DBTableObject} object.
      */
     public String insertData(DBTableObject dbTableObject) throws SQLException
     {
@@ -208,6 +211,7 @@ public class DBHandler {
 
     /**
      * This method extracts meta data about the table, column names, data types and size
+     * Using getQueryForSelectColumnNames() method to get Select (columnNames) query
      *
      * @return printMetadata() in DBOutPutHandler
      * @throws java.sql.SQLException if any.
@@ -217,7 +221,7 @@ public class DBHandler {
     {
 
         String chooseDBName = "USE " + dbConnection.getDbName();
-        String selectFromTable = "SELECT * FROM " + tableName;
+        String selectFromTable = getQueryForSelectColumnNames(tableName);
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
@@ -233,6 +237,7 @@ public class DBHandler {
 
     /**
      * This method extract data from table
+     * Using getQueryForSelectColumnNames() method to get Select (columnNames) query
      *
      * @return printResult() in DbOutPutHandler
      * @throws java.sql.SQLException if any.
@@ -242,48 +247,24 @@ public class DBHandler {
     {
 
         String chooseDBName = "USE " + dbConnection.getDbName();
-        String selectFromTable = "SELECT * FROM " + tableName;
+        String selectFromTable = getQueryForSelectColumnNames(tableName);
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-             PreparedStatement preparedStatement1 = connection.prepareStatement(selectFromTable))
+             PreparedStatement preparedStatement1 = connection.prepareStatement(selectFromTable, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
         {
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement1.executeQuery();
 
             return dbOutPutHandler.printResult(resultSet);
 
-        }
-    }
-
-
-    /**
-     * This method retrive number of rows in table
-     *
-     * @return printResult() method in DBOutPutHandler
-     * @throws java.sql.SQLException if any.
-     * @param tableName a {@link java.lang.String} object.
-     */
-    public String getCountRowsFromTable(String tableName) throws SQLException
-    {
-
-        String chooseDbName = "USE " + dbConnection.getDbName();
-        String selectCountRowFromTable = "SELECT COUNT(*) as 'Number of rows' FROM " + tableName;
-
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(chooseDbName);
-             PreparedStatement preparedStatement1 = connection.prepareStatement(selectCountRowFromTable))
-        {
-            preparedStatement.executeUpdate();
-            ResultSet resultSet = preparedStatement1.executeQuery();
-
-            return dbOutPutHandler.printResult(resultSet);
         }
     }
 
 
     /**
      * This method get the data based on tablename, column name and value of the search
+     * Using getQueryForSelectColumnNames() method to get Select (columnNames) query
      *
      * @return printResult() method in DbOutPutHandler
      * @throws java.sql.SQLException if any.
@@ -295,11 +276,11 @@ public class DBHandler {
     {
 
         String chooseDBName = "USE " + dbConnection.getDbName();
-        String selectFromTable = "SELECT * FROM " + tableName + " WHERE " + column + " LIKE " + "'" + search + "'";
+        String selectFromTable = getQueryForSelectColumnNames(tableName) + " WHERE " + column + " LIKE " + "'" + search + "'";
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-             PreparedStatement preparedStatement1 = connection.prepareStatement(selectFromTable))
+             PreparedStatement preparedStatement1 = connection.prepareStatement(selectFromTable, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
         {
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement1.executeQuery();
@@ -309,20 +290,37 @@ public class DBHandler {
     }
 
 
-    public String getColumnNamesFromTable(String tableName) throws SQLException {
+    /**
+     * This method get query for Select (columnNames)
+     * @param tableName
+     * @return query
+     * @throws java.sql.SQLException if any
+     */
+    private String getQueryForSelectColumnNames(String tableName) throws SQLException
+    {
 
-        String chooseDBname = "USE" + dbConnection.getDbName();
-        String selectColumNames = "SELECT * FROM " + tableName;
+        String chooseDBName = "USE " + dbConnection.getDbName();
+        StringBuilder buildString = new StringBuilder("SELECT ");
 
-        try(Connection connection = dbConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(chooseDBname);
-        PreparedStatement preparedStatement1 = connection.prepareStatement(selectColumNames))
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
+             PreparedStatement selectAll = connection.prepareStatement(
+                     "SELECT * FROM " + tableName, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
         {
             preparedStatement.executeUpdate();
-            ResultSet resultSet = preparedStatement1.executeQuery();
+            ResultSet resultSet = selectAll.executeQuery();
 
-            return dbOutPutHandler.printResult(resultSet);
+            ResultSetMetaData resultSetMetaData = (ResultSetMetaData) resultSet.getMetaData();
+
+            for (int i = 1; i < resultSetMetaData.getColumnCount(); i++)
+            {
+                buildString.append(resultSetMetaData.getColumnName(i) + ", ");
+            }
+
+            buildString.append(resultSetMetaData.getColumnName(resultSetMetaData.getColumnCount()) + " from " + tableName);
         }
+
+        return buildString.toString();
     }
 
 
@@ -336,11 +334,11 @@ public class DBHandler {
     {
 
         String chooseDBName = "USE " + dbConnection.getDbName();
-        String showTables = "SHOW tables";
+        String showTables = "SELECT table_name FROM information_schema.tables where table_schema = " + "'"+dbConnection.getDbName()+"'";
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-             PreparedStatement preparedStatement1 = connection.prepareStatement(showTables))
+             PreparedStatement preparedStatement1 = connection.prepareStatement(showTables, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
 
         {
             preparedStatement.executeUpdate();
@@ -355,6 +353,13 @@ public class DBHandler {
      * 'lecturerandsubject' ,
      * 'subjectandprogram',
      * 'subjectandroom'
+     *
+     * @param tableName1 a {@link java.lang.String} object.
+     * @param tableName2 a {@link java.lang.String} object.
+     * @param column1 a {@link java.lang.String} object.
+     * @param column2 a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     * @throws java.sql.SQLException if any.
      */
     public String connectTables(String tableName1, String tableName2, String column1, String column2) throws SQLException {
         String chooseDBName = "USE DATABASE " + dbConnection.getDbName();

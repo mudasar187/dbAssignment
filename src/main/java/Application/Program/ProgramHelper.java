@@ -74,49 +74,44 @@ public class ProgramHelper {
     }
 
 
-    // Scanner for getting the input from user
-    public Scanner userInput = new Scanner(System.in);
+    // Menu for while loop one
+    /**
+     * <p>options1Menu.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
+    public String options1Menu() {
+        String options1menu =
+                "------------------------------------------------------------------------------------------------------------\n" +
+                        "### Choose your option by enter these numbers ###\n" +
+                        "1      Create database \n" +
+                        "2      Create tables \n" +
+                        "3      Insert data into tables \n" +
+                        "4      Connect tables (Required if you want to connect tables)\n" +
+                        "### Type 'queries' to make queries or type 'exit' to exit program ###\n" +
+                        "\nYour choice: ";
 
+        return options1menu;
+    }
 
-    // These are options you can make in Program.class, options1menu is showed up first because its recommended to run these first
-    // When you are finished with options1menu, you will jump to options2menu, second while loop to make queries
-    public String options1menu =
-            "------------------------------------------------------------------------------------------------------------\n" +
-                    "### Choose your option by enter these numbers ###\n" +
-                    "1      Create database \n" +
-                    "2      Create tables \n" +
-                    "3      Insert data into tables \n" +
-                    "4      Connect tables (Required if you want to connect tables)\n" +
-                    "### Type 'queries' to make queries or type 'exit' to exit program ###\n" +
-                    "\nYour choice: ";
-
-
-    public String options2menu =
-            "-----------------------------------------------------------------------------------------------------------\n" +
-                    "### Choose your query option by enter these numbers ###\n" +
-                    "1      Show all tables \n" +
-                    "2      Get metadata from table \n" +
-                    "3      Get all content in table \n" +
-                    "4      Find number of rows in table \n" +
-                    "5      Find any result based on any name, any column from any table \n" +
-                    "### Type 'exit' to exit the program ###\n" +
-                    "\nYour choice: ";
-
-
-    // Holding the variable for options 1
-    public String options1;
-    // Holding the variable for options 2
-    public String options2;
-
-
-    // Creating a boolean for the first while loop
-    public boolean stopWhileLoopOne = false;
-    // Creating a boolean for the second while loop
-    public boolean stopWhileLoopTwo = false;
-
-
-    // Check if you have created database and tables before entry options2menu
-    public int createdTables = 0;
+    // menu for while loop two
+    /**
+     * <p>options2Menu.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
+    public String options2Menu() {
+        String options2menu =
+                "-----------------------------------------------------------------------------------------------------------\n" +
+                        "### Choose your query option by enter these numbers ###\n" +
+                        "1      Show all tables \n" +
+                        "2      Get metadata from table \n" +
+                        "3      Get all content in table \n" +
+                        "4      Find any result based on any name, any column from any table \n" +
+                        "### Type 'exit' to exit the program ###\n" +
+                        "\nYour choice: ";
+        return options2menu;
+    }
 
 
     // Just for fancy loading
@@ -127,6 +122,7 @@ public class ProgramHelper {
      */
     public void connectionLoader() throws InterruptedException
     {
+
         TimeUnit.MILLISECONDS.sleep(300);
         System.out.print(".");
         TimeUnit.MILLISECONDS.sleep(300);

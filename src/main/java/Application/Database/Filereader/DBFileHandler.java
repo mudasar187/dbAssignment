@@ -35,7 +35,7 @@ public class DBFileHandler {
      *
      * @return table object
      * @param fileName a {@link java.lang.String} object.
-     * @param table a {@link DBTableObject} object.
+     * @param table a {@link Application.Database.TableObject.DBTableObject} object.
      */
     public DBTableObject makeObject(String fileName, DBTableObject table)
     {

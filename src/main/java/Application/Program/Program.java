@@ -7,6 +7,7 @@ import Application.Database.OutPutHandler.DBOutPutHandler;
 import Application.Database.TableObject.DBTableObject;
 
 import java.sql.SQLException;
+import java.util.Scanner;
 
 /**
  * <p>Program class.</p>
@@ -25,6 +26,7 @@ public class Program {
     ExceptionHandling exceptionHandling;
     ProgramHelper programHelper;
     DBTableObject dbTableObject;
+    Scanner userInput;
 
     /**
      * <p>Constructor for Program.</p>
@@ -38,6 +40,7 @@ public class Program {
         exceptionHandling = new ExceptionHandling();
         programHelper = new ProgramHelper("src/main/java/Application/files.txt");
         dbTableObject = new DBTableObject();
+        userInput = new Scanner(System.in);
     }
 
     /**
@@ -46,6 +49,11 @@ public class Program {
      * @throws java.lang.InterruptedException if any.
      */
     public void runProgram() throws InterruptedException {
+
+        boolean stopWhileLoopOne = false;
+        boolean stopWhileLoopTwo = false;
+        int createdDatabase = 0;
+        int createdTables = 0;
 
         // Checks if connection is connected, if yes run while loop, if not, throw message that connection is not connected
         if (dbHandler.getDBStatus() == true)
@@ -56,17 +64,19 @@ public class Program {
             System.out.println(
                     "### Welcome to Database application, please enter the number to make your choice ###\n");
 
-            while (!programHelper.stopWhileLoopOne)
+            while (!stopWhileLoopOne)
             {
-                System.out.print(programHelper.options1menu);
-                programHelper.options1 = programHelper.userInput.nextLine().toLowerCase();
+                System.out.print(programHelper.options1Menu());
+                String options1 = userInput.nextLine().toLowerCase();
                 System.out.println();
                 try
                 {
-                    switch (programHelper.options1)
+                    switch (options1)
                     {
                         case "1":
                             System.out.println(dbHandler.createDataBase());
+                            // If database is created, set to 1
+                            createdDatabase = 1;
                             break;
 
                         case "2":
@@ -83,7 +93,8 @@ public class Program {
                                     System.out.println(dbHandler.createTable(dbTableObject));
                                 }
                             }
-                            programHelper.createdTables = 1;
+                            // If tables is created, set to 1
+                            createdTables = 1;
                             System.out.println();
                             break;
 
@@ -100,10 +111,17 @@ public class Program {
                             }
                             System.out.println();
                             break;
+
+                        case "4":
+
+
+                            break;
+
                         case "queries":
-                            if (programHelper.createdTables == 1)
+                            // If you have created database and tables, then you are allowed to go to queries
+                            if (createdTables == 1 && createdDatabase == 1)
                             {
-                                programHelper.stopWhileLoopOne = true;
+                                stopWhileLoopOne = true;
                             } else
                             {
                                 System.out.println("### Please create database and tables first ###\n");
@@ -131,14 +149,14 @@ public class Program {
                     System.out.println("### Please check the file list where all file name are located ###" + "\n");
                 }
             }
-            while (!programHelper.stopWhileLoopTwo)
+            while (!stopWhileLoopTwo)
             {
-                System.out.print(programHelper.options2menu);
-                programHelper.options2 = programHelper.userInput.nextLine().toLowerCase();
+                System.out.print(programHelper.options2Menu());
+                String options2 = userInput.nextLine().toLowerCase();
                 System.out.println();
                 try
                 {
-                    switch (programHelper.options2)
+                    switch (options2)
                     {
                         case "1":
                             System.out.println(dbHandler.showAllTables());
@@ -148,7 +166,7 @@ public class Program {
                         case "2":
                             System.out.println(dbHandler.showAllTables());
                             System.out.print("Tablename: ");
-                            String userOptionMetaData = programHelper.userInput.nextLine().toLowerCase();
+                            String userOptionMetaData = userInput.nextLine().toLowerCase();
                             System.out.println(dbHandler.getMetaDataFromTable(userOptionMetaData));
                             System.out.println();
                             break;
@@ -156,7 +174,7 @@ public class Program {
                         case "3":
                             System.out.println(dbHandler.showAllTables());
                             System.out.print("Tablename: ");
-                            String userOptionGetInformationFromTable = programHelper.userInput.nextLine().toLowerCase();
+                            String userOptionGetInformationFromTable = userInput.nextLine().toLowerCase();
                             System.out.println();
                             System.out.println(dbHandler.getDataFromTable(userOptionGetInformationFromTable));
                             System.out.println();
@@ -165,21 +183,11 @@ public class Program {
                         case "4":
                             System.out.println(dbHandler.showAllTables());
                             System.out.print("Tablename: ");
-                            String userOptionGetNumberOfRows = programHelper.userInput.nextLine().toLowerCase();
-                            System.out.println();
-                            System.out.print(dbHandler.getCountRowsFromTable(userOptionGetNumberOfRows));
-                            System.out.println();
-                            break;
-
-                        case "5":
-                            System.out.println(dbHandler.showAllTables());
-                            System.out.print("Tablename: ");
-                            String userOptionChooseTable = programHelper.userInput.nextLine().toLowerCase();
+                            String userOptionChooseTable = userInput.nextLine().toLowerCase();
                             System.out.print("Column name: ");
-                            System.out.println(dbHandler.getColumnNamesFromTable(userOptionChooseTable));
-                            String userOptionChooseColumn = programHelper.userInput.nextLine().toLowerCase();
+                            String userOptionChooseColumn = userInput.nextLine().toLowerCase();
                             System.out.print("Search value: ");
-                            String userOptionChooseAnyWord = programHelper.userInput.nextLine().toLowerCase();
+                            String userOptionChooseAnyWord = userInput.nextLine().toLowerCase();
                             System.out.println();
                             System.out.print(
                                     dbHandler.getAnyValueFromAnyTable(userOptionChooseTable, userOptionChooseColumn,
