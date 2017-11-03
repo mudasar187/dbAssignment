@@ -1,7 +1,0 @@
-semester
-id/name/start/end
-INT(11) AUTO_INCREMENT/VARCHAR(255) NOT NULL UNIQUE/date NOT NULL/date NOT NULL
-id
---------------------<<SEPRATOR BETWEEN METADATA AND DATA>>--------------------
-Høst semester/2017-08-20/2017-12-22
-Vår semester/2018-01-03/2018-06-12

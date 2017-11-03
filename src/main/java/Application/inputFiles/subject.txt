@@ -1,18 +1,17 @@
 subject
-subjectCode/name/participants/
-VARCHAR(255) NOT NULL/VARCHAR(255) NOT NULL UNIQUE/INT(11) NOT NULL/
-subjectCode
+id/name/participants/lecturerId/
+VARCHAR(255) NOT NULL/VARCHAR(255) NOT NULL UNIQUE/INT(11) NOT NULL/INT(11) NOT NULL
+id
 --------------------<<SEPRATOR BETWEEN METADATA AND DATA>>--------------------
-DB1100/Databaser 1/60
-PG2201/Unity utvikling/20
-PG3300/Software Design/30
-PG4200/Algoritmer og datastrukturer/40
-PGR100/Objektorientert programmering 1/150
-PGR101/Objektorientert programmering 2/150
-PGR200/Avansert javaprogrammering/60
-PGR201/Kreativt webprosjekt/150
-PRO202/Webprosjekt/150
-PRO200/Smidig prosjekt/200
-TK1100/Digital teknologi/150
-TK2100/Informasjonssikkerhet/150
+DB1100/Databaser 1/60/1
+PG3300/Software Design/30/5
+PG4200/Algoritmer og datastrukturer/40/3
+PGR100/Objektorientert programmering 1/150/1
+PGR101/Objektorientert programmering 2/150/1
+PGR200/Avansert javaprogrammering/60/1
+PGR201/Kreativt webprosjekt/150/4
+PRO202/Webprosjekt/150/4
+PRO200/Smidig prosjekt/200/1
+TK1100/Digital teknologi/150/2
+TK2100/Informasjonssikkerhet/150/2
 

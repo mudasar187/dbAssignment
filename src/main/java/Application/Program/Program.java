@@ -113,8 +113,8 @@ public class Program {
                             break;
 
                         case "4":
-
-
+                            System.out.println(dbHandler.addConstraintTables("availability", "lecturer", "lecturerId", "id"));
+                            System.out.println(dbHandler.addConstraintTables("subject", "lecturer", "lecturerId", "id" ));
                             break;
 
                         case "queries":
@@ -195,6 +195,16 @@ public class Program {
                             System.out.println();
                             break;
 
+                        case "5":
+                            System.out.print("Week number: ");
+                            String weekNumber = userInput.nextLine();
+                            System.out.println(weekNumber);
+                            int weekNumber1 = Integer.parseInt(weekNumber);
+                            System.out.println(weekNumber1);
+                            System.out.println(dbHandler.getAllTeachersAvailabilitiesInWeekX(weekNumber1));
+                            System.out.println();
+                            break;
+
                         case "exit":
                             System.out.print("\n\nDisconnecting");
                             programHelper.connectionLoader();
@@ -209,6 +219,7 @@ public class Program {
                 }
                 catch (SQLException se)
                 {
+                    se.printStackTrace();
                     System.out.println(exceptionHandling.SQLException(se.getErrorCode()) + "\n");
                 }
             }

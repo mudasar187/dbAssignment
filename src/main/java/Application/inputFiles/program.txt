@@ -1,11 +1,11 @@
 program
-id/name
-INT(11) AUTO_INCREMENT/VARCHAR(255) NOT NULL UNIQUE
+id/name/participants/start/end
+INT(11) AUTO_INCREMENT/VARCHAR(255) NOT NULL UNIQUE/INT(11) NOT NULL/date NOT NULL/date NOT NULL
 id
 --------------------<<SEPRATOR BETWEEN METADATA AND DATA>>--------------------
-Frontend-mobilutvikling
-Spillprogrammering
-Intelligente systemer
-E-Buiness
-Programmering
-Interaktivt design
+Frontend-mobilutvikling/20/2017-08-19/2017-12-22
+Spillprogrammering/30/2017-08-30/2017-12-22
+Intelligente systemer/42/2017-08-25/2017-12-22
+E-Buiness/60/2017-08-20/2017-12-22
+Programmering/60/2017-08-22/2017-12-22
+Interaktivt design/10/2017-08-25/2017-12-22

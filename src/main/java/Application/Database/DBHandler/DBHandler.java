@@ -292,11 +292,12 @@ public class DBHandler {
 
     /**
      * This method get query for Select (columnNames)
-     * @param tableName
-     * @return query
+     *
+     * @param tableName a {@link java.lang.String} object.
+     * @return select (columnNames) query
      * @throws java.sql.SQLException if any
      */
-    private String getQueryForSelectColumnNames(String tableName) throws SQLException
+    public String getQueryForSelectColumnNames(String tableName) throws SQLException
     {
 
         String chooseDBName = "USE " + dbConnection.getDbName();
@@ -348,6 +349,22 @@ public class DBHandler {
         }
     }
 
+    public String getAllTeachersAvailabilitiesInWeekX(int weekX) throws SQLException
+    {
+        String chooseDBName = "USE " + dbConnection.getDbName();
+        String selectQuery = "SELECT lecturer.firstName, lecturer.lastName, availability.monday, availability.thursday, availability.wednesday, availability.thursday, availability.friday FROM lecturer LEFT JOIN availability ON lecturer.id = availability.lecturerId  WHERE weekId = "+ weekX;
+
+        try(Connection connection = dbConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
+            PreparedStatement preparedStatement1 = connection.prepareStatement(selectQuery, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
+        {
+            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement1.executeQuery();
+
+            return dbOutPutHandler.printResult(resultSet);
+        }
+    }
+
 
     /**
      * 'lecturerandsubject' ,
@@ -361,8 +378,8 @@ public class DBHandler {
      * @return a {@link java.lang.String} object.
      * @throws java.sql.SQLException if any.
      */
-    public String connectTables(String tableName1, String tableName2, String column1, String column2) throws SQLException {
-        String chooseDBName = "USE DATABASE " + dbConnection.getDbName();
+    public String addConstraintTables(String tableName1, String tableName2, String column1, String column2) throws SQLException {
+        String chooseDBName = "USE " + dbConnection.getDbName();
         String text = "fk_" + tableName1 + "" + column1 + "" + tableName2;
         String connectTablesQuery = "ALTER TABLE " + tableName1 + "" +
                 "  ADD CONSTRAINT " + text + "" +
