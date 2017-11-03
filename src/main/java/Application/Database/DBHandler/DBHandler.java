@@ -367,9 +367,7 @@ public class DBHandler {
 
 
     /**
-     * 'lecturerandsubject' ,
-     * 'subjectandprogram',
-     * 'subjectandroom'
+     * Method for making constraint keys between tables
      *
      * @param tableName1 a {@link java.lang.String} object.
      * @param tableName2 a {@link java.lang.String} object.

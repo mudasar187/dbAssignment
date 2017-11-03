@@ -113,8 +113,10 @@ public class Program {
                             break;
 
                         case "4":
+
                             System.out.println(dbHandler.addConstraintTables("availability", "lecturer", "lecturerId", "id"));
                             System.out.println(dbHandler.addConstraintTables("subject", "lecturer", "lecturerId", "id" ));
+
                             break;
 
                         case "queries":
