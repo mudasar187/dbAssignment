@@ -12,6 +12,8 @@
 
 * Insert data from files in 'inputFiles' folder
 
+* Connect tables which need to be connected
+
 * Show all table names
 
 * Get metadata from each table
@@ -20,4 +22,10 @@
 
 * Find any result from any table
 
-* Important to read the information.pdf file inside 'helpMaterials' for how use the program
+* Get all teachers availabilities at day X and week X
+
+* Get wich teacher have wich subject
+
+* Go to [Config file](src/main/resources/database.properties) and change to your own settings to try out this application
+
+* To run test gå to [Config file for test](src/test/resources/test-DB-right.properties) and change settings to your own, but you need to manually create database with name you choose before run test
