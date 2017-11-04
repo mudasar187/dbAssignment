@@ -54,6 +54,7 @@ public class Program {
         boolean stopWhileLoopTwo = false;
         int createdDatabase = 0;
         int createdTables = 0;
+        int createdConnectingBetweenTables = 0;
 
         // Checks if connection is connected, if yes run while loop, if not, throw message that connection is not connected
         if (dbHandler.getDBStatus() == true)
@@ -116,17 +117,19 @@ public class Program {
 
                             System.out.println(dbHandler.addConstraintTables("availability", "lecturer", "lecturerId", "id"));
                             System.out.println(dbHandler.addConstraintTables("subject", "lecturer", "lecturerId", "id" ));
-
+                            // If tables are connected, set to 1
+                            createdConnectingBetweenTables = 1;
+                            System.out.println();
                             break;
 
                         case "queries":
                             // If you have created database and tables, then you are allowed to go to queries
-                            if (createdTables == 1 && createdDatabase == 1)
+                            if (createdTables == 1 && createdDatabase == 1 && createdConnectingBetweenTables == 1)
                             {
                                 stopWhileLoopOne = true;
                             } else
                             {
-                                System.out.println("### Please create database and tables first ###\n");
+                                System.out.println("### Please run option 1,2 and 4 before doing queries ###\n");
                             }
                             break;
 
@@ -198,14 +201,20 @@ public class Program {
                             break;
 
                         case "5":
-                            System.out.print("Week number: ");
-                            String weekNumber = userInput.nextLine();
-                            System.out.println(weekNumber);
+                            System.out.print("Day: ");
+                            String day = userInput.nextLine().toLowerCase();
+                            System.out.print("Week: ");
+                            String weekNumber = userInput.nextLine().toLowerCase();
                             int weekNumber1 = Integer.parseInt(weekNumber);
-                            System.out.println(weekNumber1);
-                            System.out.println(dbHandler.getAllTeachersAvailabilitiesInWeekX(weekNumber1));
+                            System.out.println(dbHandler.getAllTeachersAvailabilitiesAtDayXAndWeekX(weekNumber1, day));
                             System.out.println();
                             break;
+
+                        case "6":
+                            System.out.println("Lecturer name: ");
+                            String name = userInput.nextLine().toLowerCase();
+                            System.out.println(dbHandler.getWichTeacherHaveWichSubject(name));
+                            System.out.println();
 
                         case "exit":
                             System.out.print("\n\nDisconnecting");

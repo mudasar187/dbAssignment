@@ -349,14 +349,48 @@ public class DBHandler {
         }
     }
 
-    public String getAllTeachersAvailabilitiesInWeekX(int weekX) throws SQLException
+
+    /**
+     * Query to check all teachers availabilities on day X at week X
+     *
+     * @param weekX a int.
+     * @param day a {@link java.lang.String} object.
+     * @return printResult() method in DbOutPutHandler
+     * @throws java.sql.SQLException if any
+     */
+    public String getAllTeachersAvailabilitiesAtDayXAndWeekX(int weekX, String day) throws SQLException
     {
         String chooseDBName = "USE " + dbConnection.getDbName();
-        String selectQuery = "SELECT lecturer.firstName, lecturer.lastName, availability.monday, availability.thursday, availability.wednesday, availability.thursday, availability.friday FROM lecturer LEFT JOIN availability ON lecturer.id = availability.lecturerId  WHERE weekId = "+ weekX;
-
+        String selectQuery = "SELECT availability.weekId, lecturer.firstName, lecturer.lastName, availability." + day+"\n" +
+                "FROM availability LEFT JOIN lecturer ON availability.lecturerId = lecturer.id\n" +
+                "WHERE weekId ="+weekX;
         try(Connection connection = dbConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
             PreparedStatement preparedStatement1 = connection.prepareStatement(selectQuery, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
+        {
+            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement1.executeQuery();
+
+            return dbOutPutHandler.printResult(resultSet);
+        }
+    }
+
+
+    /**
+     * Query to check wich teacher have wich subject
+     *
+     * @param name a {@link java.lang.String} object.
+     * @return printResult() method in DbOutPutHandler
+     * @throws java.sql.SQLException if any
+     */
+    public String getWichTeacherHaveWichSubject(String name) throws SQLException {
+        String chooseDBName = "USE " + dbConnection.getDbName();
+        String selectQuery = "SELECT subject.id, lecturer.firstName, lecturer.lastName\n" +
+                "FROM subject LEFT JOIN lecturer ON subject.lecturerId = lecturer.id\n" +
+                "WHERE firstName = '"+name+"'";
+        try(Connection connection = dbConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
+        PreparedStatement preparedStatement1 = connection.prepareStatement(selectQuery, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
         {
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement1.executeQuery();

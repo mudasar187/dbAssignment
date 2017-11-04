@@ -108,7 +108,8 @@ public class ProgramHelper {
                         "2      Get metadata from table \n" +
                         "3      Get all content in table \n" +
                         "4      Find any result based on any name, any column from any table \n" +
-                        "5      Find all teachers availabilities on week X\n" +
+                        "5      Find all teachers availabilities on day (?) at week(?)\n" +
+                        "6      Find which subjects a lecturer have\n" +
                         "### Type 'exit' to exit the program ###\n" +
                         "\nYour choice: ";
         return options2menu;
