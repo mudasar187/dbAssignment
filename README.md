@@ -1,6 +1,7 @@
-# Database Maven Project
+# Database Project
 
 * Java
+* Maven
 * MySql
 * JDBC
 
@@ -25,6 +26,8 @@
 * Get all teachers availabilities at day X and week X
 
 * Get wich teacher have wich subject
+
+# Settings
 
 * Go to [Config file](src/main/resources/database.properties) and change to your own settings to try out this application
 

@@ -1,4 +1,4 @@
-package Application;
+package DBFileHandlerTest;
 
 import Application.Database.Filereader.DBFileHandler;
 import Application.Database.TableObject.DBTableObject;

@@ -26,9 +26,8 @@ public class DBOutPutHandler {
      *
      * @return output string
      * @param resultSet a java.sql.ResultSet object.
-     * @throws java.sql.SQLException if any.
      */
-    public String printResult(ResultSet resultSet) throws SQLException
+    public String printResult(ResultSet resultSet)
     {
 
         try

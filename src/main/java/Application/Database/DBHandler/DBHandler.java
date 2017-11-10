@@ -225,7 +225,7 @@ public class DBHandler {
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-             PreparedStatement preparedStatement1 = connection.prepareStatement(selectFromTable, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
+             PreparedStatement preparedStatement1 = connection.prepareStatement(selectFromTable))
         {
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement1.executeQuery();
@@ -251,7 +251,7 @@ public class DBHandler {
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-             PreparedStatement preparedStatement1 = connection.prepareStatement(selectFromTable, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
+             PreparedStatement preparedStatement1 = connection.prepareStatement(selectFromTable))
         {
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement1.executeQuery();
@@ -280,7 +280,7 @@ public class DBHandler {
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-             PreparedStatement preparedStatement1 = connection.prepareStatement(selectFromTable, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
+             PreparedStatement preparedStatement1 = connection.prepareStatement(selectFromTable))
         {
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement1.executeQuery();
@@ -297,7 +297,7 @@ public class DBHandler {
      * @return select (columnNames) query
      * @throws java.sql.SQLException if any
      */
-    public String getQueryForSelectColumnNames(String tableName) throws SQLException
+    private String getQueryForSelectColumnNames(String tableName) throws SQLException
     {
 
         String chooseDBName = "USE " + dbConnection.getDbName();
@@ -306,7 +306,7 @@ public class DBHandler {
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
              PreparedStatement selectAll = connection.prepareStatement(
-                     "SELECT * FROM " + tableName, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
+                     "SELECT * FROM " + tableName))
         {
             preparedStatement.executeUpdate();
             ResultSet resultSet = selectAll.executeQuery();
@@ -339,7 +339,7 @@ public class DBHandler {
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-             PreparedStatement preparedStatement1 = connection.prepareStatement(showTables, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
+             PreparedStatement preparedStatement1 = connection.prepareStatement(showTables))
 
         {
             preparedStatement.executeUpdate();
@@ -366,7 +366,7 @@ public class DBHandler {
                 "WHERE weekId ="+weekX;
         try(Connection connection = dbConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-            PreparedStatement preparedStatement1 = connection.prepareStatement(selectQuery, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
+            PreparedStatement preparedStatement1 = connection.prepareStatement(selectQuery))
         {
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement1.executeQuery();
@@ -390,7 +390,7 @@ public class DBHandler {
                 "WHERE firstName = '"+name+"'";
         try(Connection connection = dbConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-        PreparedStatement preparedStatement1 = connection.prepareStatement(selectQuery, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY))
+        PreparedStatement preparedStatement1 = connection.prepareStatement(selectQuery))
         {
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement1.executeQuery();

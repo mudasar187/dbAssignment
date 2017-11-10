@@ -1,4 +1,4 @@
-package Application;
+package DBConnectionTest;
 
 
 import Application.Database.Connection.DBConnection;
