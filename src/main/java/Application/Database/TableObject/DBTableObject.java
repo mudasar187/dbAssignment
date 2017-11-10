@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * <p>
  * Class to create Table object from files
  * <p>
- * Last modified 19 october 2017
+ * Last modified 10 november 2017
  */
 public class DBTableObject {
     /**

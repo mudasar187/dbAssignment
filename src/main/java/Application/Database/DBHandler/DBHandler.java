@@ -16,7 +16,7 @@ import com.mysql.jdbc.ResultSetMetaData;
  * <p>
  * Class for handling tables and queries
  * <p>
- * Last modified 19 october 2017
+ * Last modified 10 november 2017
  */
 public class DBHandler {
 
@@ -29,7 +29,6 @@ public class DBHandler {
 
     /**
      * Constructor
-     * All dependency injections in constructor
      *
      * @param dbConnection a {@link Application.Database.Connection.DBConnection} object.
      * @param dbOutPutHandler a {@link Application.Database.OutPutHandler.DBOutPutHandler} object.
@@ -54,7 +53,7 @@ public class DBHandler {
 
 
     /**
-     * Drop the exists database name, and create a database name based on properties file
+     * Drop database name if exists, and create a database name based on name from properties file
      *
      * @return String
      * @throws java.sql.SQLException if any.
@@ -291,7 +290,7 @@ public class DBHandler {
 
 
     /**
-     * This method get query for Select (columnNames)
+     * This method get query for Select (columnNames), have this one because you should never do "Select * from 'tablename'"
      *
      * @param tableName a {@link java.lang.String} object.
      * @return select (columnNames) query

@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * <p>
  * Class creating result string for the methods in DBHandler
  * <p>
- * Last modified 19 october 2017
+ * Last modified 10 november 2017
  */
 public class DBOutPutHandler {
 
