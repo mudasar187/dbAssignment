@@ -94,7 +94,7 @@ public class ProgramHelper {
         return options1menu;
     }
 
-    // menu for while loop two
+    // Menu for while loop two
     /**
      * <p>options2Menu.</p>
      *

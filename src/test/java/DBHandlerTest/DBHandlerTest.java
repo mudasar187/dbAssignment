@@ -7,6 +7,8 @@ import Application.Database.OutPutHandler.DBOutPutHandler;
 import Application.Database.TableObject.DBTableObject;
 import org.junit.*;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import static org.junit.Assert.assertEquals;
@@ -18,7 +20,27 @@ public class DBHandlerTest {
     private DBTableObject dbTableObject;
     private DBHandler dbHandler;
 
+    @BeforeClass
+    public static void createDatabase() throws SQLException {
+        DBConnection dbConnection = new DBConnection("src/test/resources/test-DB-right.properties");
 
+        try(Connection connection = dbConnection.getConnection();
+        PreparedStatement createDatabase = connection.prepareStatement("CREATE DATABASE "+dbConnection.getDbName());)
+        {
+            createDatabase.executeUpdate();
+        }
+    }
+
+    @AfterClass
+    public static void dropDatabase() throws SQLException {
+        DBConnection dbConnection = new DBConnection("src/test/resources/test-DB-right.properties");
+
+        try(Connection connection = dbConnection.getConnection();
+            PreparedStatement dropDatabase = connection.prepareStatement("DROP DATABASE "+dbConnection.getDbName());)
+        {
+            dropDatabase.executeUpdate();
+        }
+    }
 
     @Before
     public void setUp() throws SQLException {
@@ -81,7 +103,5 @@ public class DBHandlerTest {
 
         assertNotNull(returnString);
     }
-
-
 
 }
