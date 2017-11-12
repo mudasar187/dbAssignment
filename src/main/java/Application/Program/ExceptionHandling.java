@@ -23,24 +23,26 @@ public class ExceptionHandling {
 
         switch (se)
         {
+            case 1005:
+                return "\n### Tables are connected already ###";
             case 1136:
-                return "### Column count doesn't match row count, please check file ###";
+                return "\n### Column count doesn't match row count, please check file ###";
             case 1146:
-                return "### Table(s) not exists ###";
+                return "\n### Table(s) not exists ###";
             case 1046:
-                return "### No database exist ###";
+                return "\n### No database exist ###";
             case 1049:
-                return "### No database exists ###";
+                return "\n### No database exists ###";
             case 1050:
-                return "### Table(s) exists ###";
+                return "\n### Table(s) exists ###";
             case 1051:
-                return "### Table(s) not exists ###";
+                return "\n### Table(s) not exists ###";
             case 1062:
-                return "### Duplicates entry , check content of data in files before insert data ###";
+                return "\n### Duplicates entry , check content of data in files before insert data ###";
             case 1054:
-                return "### No column match, try again ###";
+                return "\n### No column match, try again ###";
             default:
-                return "### SQL syntax error ###";
+                return "\n### SQL syntax error ###";
         }
     }
 }

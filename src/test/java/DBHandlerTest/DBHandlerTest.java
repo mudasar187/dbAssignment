@@ -25,20 +25,9 @@ public class DBHandlerTest {
         DBConnection dbConnection = new DBConnection("src/test/resources/test-DB-right.properties");
 
         try(Connection connection = dbConnection.getConnection();
-        PreparedStatement createDatabase = connection.prepareStatement("CREATE DATABASE "+dbConnection.getDbName());)
+        PreparedStatement createDatabase = connection.prepareStatement("CREATE DATABASE IF NOT EXISTS "+dbConnection.getDbName());)
         {
             createDatabase.executeUpdate();
-        }
-    }
-
-    @AfterClass
-    public static void dropDatabase() throws SQLException {
-        DBConnection dbConnection = new DBConnection("src/test/resources/test-DB-right.properties");
-
-        try(Connection connection = dbConnection.getConnection();
-            PreparedStatement dropDatabase = connection.prepareStatement("DROP DATABASE "+dbConnection.getDbName());)
-        {
-            dropDatabase.executeUpdate();
         }
     }
 

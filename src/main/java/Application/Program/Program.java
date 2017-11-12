@@ -6,6 +6,7 @@ import Application.Database.Filereader.DBFileHandler;
 import Application.Database.OutPutHandler.DBOutPutHandler;
 import Application.Database.TableObject.DBTableObject;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -123,13 +124,13 @@ public class Program {
                             break;
 
                         case "queries":
-                            // If you have created database and tables, then you are allowed to go to queries
+                            // If you have created database, tables and connected tables, then you are allowed to go to queries
                             if (createdTables == 1 && createdDatabase == 1 && createdConnectingBetweenTables == 1)
                             {
                                 stopWhileLoopOne = true;
                             } else
                             {
-                                System.out.println("### Please run option 1,2 and 4 before doing queries ###\n");
+                                System.out.println("### Please run option 1,2 and 4 before make queries ###\n");
                             }
                             break;
 
@@ -189,6 +190,7 @@ public class Program {
                             System.out.println(dbHandler.showAllTables());
                             System.out.print("Tablename: ");
                             String userOptionChooseTable = userInput.nextLine().toLowerCase();
+                            System.out.println("\n" + dbHandler.getColumnNames(userOptionChooseTable));
                             System.out.print("Column name: ");
                             String userOptionChooseColumn = userInput.nextLine().toLowerCase();
                             System.out.print("Search value: ");
@@ -211,10 +213,11 @@ public class Program {
                             break;
 
                         case "6":
-                            System.out.println("Lecturer name: ");
+                            System.out.print("Lecturer name: ");
                             String name = userInput.nextLine().toLowerCase();
                             System.out.println(dbHandler.getWichTeacherHaveWichSubject(name));
                             System.out.println();
+                            break;
 
                         case "exit":
                             System.out.print("\n\nDisconnecting");
@@ -230,7 +233,6 @@ public class Program {
                 }
                 catch (SQLException se)
                 {
-                    se.printStackTrace();
                     System.out.println(exceptionHandling.SQLException(se.getErrorCode()) + "\n");
                 }
             }

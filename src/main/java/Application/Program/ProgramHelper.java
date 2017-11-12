@@ -42,7 +42,7 @@ public class ProgramHelper {
      *
      * @return file list
      */
-    private ArrayList<String> readFiles(String fileName)
+    private void readFiles(String fileName)
     {
 
         try
@@ -57,10 +57,8 @@ public class ProgramHelper {
         }
         catch (FileNotFoundException f)
         {
-            System.out.println("### Check if there is a files.txt file in the folder 'helpMaterials' ###");
-            System.out.println("### This file is needed to add content of file names to run the program ###");
+            System.out.println("### 'files.txt' not found, this file is required to run all the files with metadata/data ### ");
         }
-        return files;
     }
 
     /**

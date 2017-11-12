@@ -92,7 +92,7 @@ public class DBConnection {
 
 
     /**
-     * Method to acsess in DBHandler.class
+     * Created a getter so i can access this in DBHandler.class
      *
      * @return a {@link java.lang.String} object.
      */

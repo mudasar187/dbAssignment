@@ -44,7 +44,7 @@ public class DBHandler {
     /**
      * Status for the connection from Connection, using that in Program.class
      *
-     * @return boolean of status for getConnection() in Connection.class
+     * @return boolean of status for getConnection() in DBConnection.class
      */
     public boolean getDBStatus() {
 
@@ -395,6 +395,30 @@ public class DBHandler {
             ResultSet resultSet = preparedStatement1.executeQuery();
 
             return dbOutPutHandler.printResult(resultSet);
+        }
+    }
+
+
+    /**
+     * Query to get column names in each table, so user can see which table to search in
+     *
+     * @param tableName a {@link java.lang.String} object.
+     * @throws java.sql.SQLException if any.
+     * @return a {@link java.lang.String} object.
+     */
+    public String getColumnNames(String tableName) throws SQLException {
+
+        String columnNames = "SELECT COLUMN_NAME \n" +
+                "FROM INFORMATION_SCHEMA.COLUMNS\n" +
+                "WHERE TABLE_NAME = '"+tableName+"' AND TABLE_SCHEMA='" + dbConnection.getDbName()+"'";
+
+        try(Connection connection = dbConnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(columnNames);
+            {
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                return dbOutPutHandler.printResult(resultSet);
+            }
         }
     }
 
