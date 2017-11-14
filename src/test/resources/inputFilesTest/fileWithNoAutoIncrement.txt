@@ -1,0 +1,6 @@
+Student
+id/firstName/lastName/email
+INT(11) NOT NULL/VARCHAR(255) NOT NULL/VARCHAR(255) NOT NULL/VARCHAR(255) NOT NULL UNIQUE
+id
+------------------------------------------------------------
+1/Jason/Statham/jason@hotmail.com

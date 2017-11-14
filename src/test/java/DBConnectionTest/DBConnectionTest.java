@@ -2,12 +2,12 @@ package DBConnectionTest;
 
 
 import Application.Database.Connection.DBConnection;
+import Application.Database.OutPutHandler.DBOutPutHandler;
 import org.junit.Test;
 
 import java.sql.Connection;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class DBConnectionTest {
 
@@ -53,5 +53,26 @@ public class DBConnectionTest {
         Connection connection = dbConnection.getConnection();
 
         assertNull(connection);
+    }
+
+    @Test
+    public void testBooleanStatusIfConnected() {
+
+        DBConnection dbConnection = new DBConnection("src/test/resources/test-DB-right.properties");
+
+        boolean check = dbConnection.isConnected();
+
+        assertTrue(check);
+    }
+
+    @Test
+    public void testBooleanStatusIfNotConnected() {
+
+        DBConnection dbConnection = new DBConnection("src/test/resources/test-DB-wrongFile.properties");
+
+        boolean check = dbConnection.isConnected();
+
+        assertFalse(check);
+
     }
 }

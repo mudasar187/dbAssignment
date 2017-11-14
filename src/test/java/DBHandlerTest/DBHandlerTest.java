@@ -25,7 +25,7 @@ public class DBHandlerTest {
         DBConnection dbConnection = new DBConnection("src/test/resources/test-DB-right.properties");
 
         try(Connection connection = dbConnection.getConnection();
-        PreparedStatement createDatabase = connection.prepareStatement("CREATE DATABASE IF NOT EXISTS "+dbConnection.getDbName());)
+            PreparedStatement createDatabase = connection.prepareStatement("CREATE DATABASE IF NOT EXISTS "+dbConnection.getDbName());)
         {
             createDatabase.executeUpdate();
         }
@@ -41,13 +41,25 @@ public class DBHandlerTest {
     }
 
     @Test
-    public void createTable() throws SQLException {
+    public void createTableWithAutoIncrement() throws SQLException {
 
         dbFileHandler.makeObject("src/test/resources/inputFilesTest/fileIsRight.txt", dbTableObject);
 
         String returnString = dbHandler.createTable(dbTableObject);
 
         assertEquals(returnString, "### Table Employee created succsessfully ###");
+    }
+
+    @Test
+    public void insertDataWithNoAutoIncrement() throws SQLException {
+
+        dbFileHandler.makeObject("src/test/resources/inputFilesTest/fileWithNoAutoIncrement.txt", dbTableObject);
+
+        dbHandler.createTable(dbTableObject);
+
+        String returnString = dbHandler.insertData(dbTableObject);
+
+        assertEquals("### Inserted 1 rows in table Student ###", returnString);
     }
 
     @Test
@@ -66,13 +78,27 @@ public class DBHandlerTest {
 
         String returString = dbHandler.getMetaDataFromTable("Employee");
 
-        assertNotNull(returString);
+
+        assertEquals("\nField          Size      DataType  \n" +
+                "----------------------------------\n" +
+                "id             11        INT       \n" +
+                "firstName      255       VARCHAR   \n" +
+                "lastName       255       VARCHAR   \n" +
+                "email          255       VARCHAR   \n", returString);
     }
 
     @Test
     public void getDataFromTable() throws SQLException {
 
         String returnString = dbHandler.getDataFromTable("Employee");
+
+        assertNotNull(returnString);
+    }
+
+    @Test
+    public void getColumnNames() throws SQLException {
+
+        String returnString = dbHandler.getColumnNames("Employee");
 
         assertNotNull(returnString);
     }
