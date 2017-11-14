@@ -35,13 +35,25 @@ public class Program {
     public Program() {
 
         // Creating instance of all dependencies
-        dbHandler = new DBHandler(new DBConnection("src/main/resources/database.properties"),
+        dbHandler = new DBHandler(
+                new DBConnection("src/main/resources/database.properties"),
                 new DBOutPutHandler());
         dbFileHandler = new DBFileHandler();
         exceptionHandling = new ExceptionHandling();
-        programHelper = new ProgramHelper("src/main/java/Application/files.txt");
         dbTableObject = new DBTableObject();
         userInput = new Scanner(System.in);
+
+        try
+        {
+            programHelper = new ProgramHelper("src/main/java/Application/files.txt");
+        }
+        catch (FileNotFoundException f)
+        {
+            System.out.println(
+                    "### 'files.txt' not found, this file is required to run all the files with metadata/data ###" +
+                            "### This file should be located in 'Application' package ###");
+            System.exit(1);
+        }
     }
 
     /**
@@ -116,8 +128,10 @@ public class Program {
 
                         case "4":
 
-                            System.out.println(dbHandler.addConstraintTables("availability", "lecturer", "lecturerId", "id"));
-                            System.out.println(dbHandler.addConstraintTables("subject", "lecturer", "lecturerId", "id" ));
+                            System.out.println(
+                                    dbHandler.addConstraintTables("availability", "lecturer", "lecturerId", "id"));
+                            System.out.println(
+                                    dbHandler.addConstraintTables("subject", "lecturer", "lecturerId", "id"));
                             // If tables are connected, set to 1
                             createdConnectingBetweenTables = 1;
                             System.out.println();

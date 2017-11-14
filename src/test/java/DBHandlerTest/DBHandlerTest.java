@@ -31,6 +31,17 @@ public class DBHandlerTest {
         }
     }
 
+    @AfterClass
+    public static void dropDatabase() throws SQLException {
+        DBConnection dbConnection = new DBConnection("src/test/resources/test-DB-right.properties");
+
+        try(Connection connection = dbConnection.getConnection();
+            PreparedStatement createDatabase = connection.prepareStatement("DROP DATABASE IF EXISTS "+dbConnection.getDbName());)
+        {
+            createDatabase.executeUpdate();
+        }
+    }
+
     @Before
     public void setUp() throws SQLException {
 

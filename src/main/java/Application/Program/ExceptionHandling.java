@@ -42,7 +42,7 @@ public class ExceptionHandling {
             case 1054:
                 return "\n### No column match, try again ###";
             default:
-                return "\n### SQL syntax error ###";
+                return "\n### Not valid input from user ###";
         }
     }
 }

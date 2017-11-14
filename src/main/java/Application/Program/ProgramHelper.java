@@ -29,7 +29,7 @@ public class ProgramHelper {
      *
      * @param fileName a {@link java.lang.String} object.
      */
-    public ProgramHelper(String fileName) {
+    public ProgramHelper(String fileName) throws FileNotFoundException {
 
         readFiles(fileName);
     }
@@ -42,11 +42,8 @@ public class ProgramHelper {
      *
      * @return file list
      */
-    private void readFiles(String fileName)
+    private void readFiles(String fileName) throws FileNotFoundException
     {
-
-        try
-        {
             read = new Scanner(new File(fileName));
 
             while (read.hasNextLine())
@@ -54,11 +51,6 @@ public class ProgramHelper {
                 String file = read.nextLine();
                 files.add(file);
             }
-        }
-        catch (FileNotFoundException f)
-        {
-            System.out.println("### 'files.txt' not found, this file is required to run all the files with metadata/data ### ");
-        }
     }
 
     /**
