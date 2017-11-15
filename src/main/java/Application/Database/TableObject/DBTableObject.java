@@ -1,6 +1,9 @@
 package Application.Database.TableObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>DBTableObject class.</p>
@@ -24,7 +27,7 @@ public class DBTableObject {
     private String[] columnsName;
     private String[] dataTypes;
     private ArrayList<String[]> justDataWithoutMetaData;
-    private String primaryKey;
+    private String[] primaryKey;
     private String seperatorMetaDataAndData;
 
     /**
@@ -72,7 +75,7 @@ public class DBTableObject {
      *
      * @param primaryKey a {@link java.lang.String} object.
      */
-    public void setPrimaryKey(String primaryKey) {
+    public void setPrimaryKey(String[] primaryKey) {
 
         this.primaryKey = primaryKey;
     }
@@ -132,10 +135,20 @@ public class DBTableObject {
      *
      * @return a {@link java.lang.String} object.
      */
-    public String getPrimaryKey() {
+    public String[] getPrimaryKey() {
 
         return primaryKey;
     }
 
-
+    /**
+     * Streams to get the list of rows in table (Java 8 function learned from Visma lecture)
+     * @return list of content
+     */
+    public String toString()
+    {
+        ArrayList<String[]> data = justDataWithoutMetaData;
+        return data.stream()
+                .map(s -> Arrays.asList(s).toString())
+                .collect(Collectors.joining("\n"));
+    }
 }

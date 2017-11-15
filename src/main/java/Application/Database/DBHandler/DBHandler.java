@@ -5,6 +5,8 @@ import Application.Database.OutPutHandler.DBOutPutHandler;
 import Application.Database.TableObject.DBTableObject;
 
 import java.sql.*;
+import java.util.ArrayList;
+
 import com.mysql.jdbc.ResultSetMetaData;
 
 
@@ -117,7 +119,21 @@ public class DBHandler {
             createTableQuery.append(
                     dbTableObject.getColumnsName()[i] + " " + dbTableObject.getDataTypes()[i] + ",\n");
         }
-        createTableQuery.append("PRIMARY KEY " + "(" + dbTableObject.getPrimaryKey() + ")))");
+        createTableQuery.append("PRIMARY KEY " + "(");
+        for (int i = 0; i < dbTableObject.getPrimaryKey().length; i++)
+        {
+            String primaryKey = dbTableObject.getPrimaryKey()[i];
+            if(dbTableObject.getPrimaryKey().length <= 1)
+            {
+                createTableQuery.append(primaryKey);
+            } else {
+                createTableQuery.append(primaryKey);
+            }
+            createTableQuery.append(",");
+
+        }
+        createTableQuery.deleteCharAt(createTableQuery.length() -1);
+        createTableQuery.append(")))");
 
         return createTableQuery.toString().substring(0, createTableQuery.length() - 2) + "\n);";
     }
@@ -259,6 +275,86 @@ public class DBHandler {
 
         }
     }
+
+    /**
+     * Example of how to use preparedstatement in correct way
+     * This method is getting data from specific lecturer from lecturer table
+     * @param lecturerName
+     * @return
+     * @throws SQLException
+     */
+    public DBTableObject getDataAboutSpecificLecturerWithCorrectUseOfPreparedStatement(String lecturerName) throws SQLException
+    {
+        DBTableObject dbTableObject = new DBTableObject();
+        String chooseDBName = "USE " + dbConnection.getDbName();
+
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
+             PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT id, firstname, lastName, email FROM lecturer where firstName = ?"))
+        {
+            preparedStatement.executeUpdate();
+
+            preparedStatement1.setString(1, lecturerName);
+            ResultSet resultSet = preparedStatement1.executeQuery();
+
+            int columnCount = resultSet.getMetaData().getColumnCount();
+            ArrayList<String[]> list = new ArrayList<>();
+            while (resultSet.next()) {
+
+                String[] rows = new String[columnCount];
+
+                for (int i = 0; i < columnCount; i++)
+                {
+                    rows[i] = resultSet.getString(i+1);
+                }
+               list.add(rows);
+            }
+            dbTableObject.setJustDataWithoutMetaData(list);
+
+        }
+        return dbTableObject;
+    }
+
+
+    /**
+     * Example of how to use preparedstatement in correct way
+     * This method is getting data about specific subject from subject table
+     * @param subjectCode
+     * @return
+     * @throws SQLException
+     */
+    public DBTableObject getDataAboutSpecificSubjectWithCorrectUseOfPreparedStatement(String subjectCode) throws SQLException
+    {
+        DBTableObject dbTableObject = new DBTableObject();
+        String chooseDBName = "USE " + dbConnection.getDbName();
+
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
+             PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT id, name, participants, lecturerId FROM subject where id = ?"))
+        {
+            preparedStatement.executeUpdate();
+
+            preparedStatement1.setString(1, subjectCode);
+            ResultSet resultSet = preparedStatement1.executeQuery();
+
+            int columnCount = resultSet.getMetaData().getColumnCount();
+            ArrayList<String[]> list = new ArrayList<>();
+            while (resultSet.next()) {
+
+                String[] rows = new String[columnCount];
+
+                for (int i = 0; i < columnCount; i++)
+                {
+                    rows[i] = resultSet.getString(i+1);
+                }
+                list.add(rows);
+            }
+            dbTableObject.setJustDataWithoutMetaData(list);
+
+        }
+        return dbTableObject;
+    }
+
 
 
     /**

@@ -41,6 +41,8 @@ public class ExceptionHandling {
                 return "\n### Duplicates entry , check content of data in files before insert data ###";
             case 1054:
                 return "\n### No column match, try again ###";
+            case 1072:
+                return "\n### Key column doesn't exists in table";
             default:
                 return "\n### Not valid input from user ###";
         }

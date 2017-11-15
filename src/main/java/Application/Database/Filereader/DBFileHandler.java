@@ -5,6 +5,8 @@ import Application.Database.TableObject.DBTableObject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -46,7 +48,7 @@ public class DBFileHandler {
         table.setTableName(allFromFile.get(0));
         table.setColumnsName(allFromFile.get(1).split("/"));
         table.setDataTypes(allFromFile.get(2).split("/"));
-        table.setPrimaryKey(allFromFile.get(3));
+        table.setPrimaryKey(allFromFile.get(3).split("/"));
         table.setSeperatorMetaDataAndData(allFromFile.get(4));
         table.setJustDataWithoutMetaData(getOnlyDataWithoutMetaData(allFromFile));
         this.read = null;
@@ -145,10 +147,10 @@ public class DBFileHandler {
         String firstLineTableName = list.get(0);
         String[] secondLineColumname = list.get(1).split("/");
         String[] thirdLineDatatypes = list.get(2).split("/");
-        String fourthLinePrimaryKey = list.get(3);
+        String[] fourthLinePrimaryKey = list.get(3).split("/");
         String fifthLineSperator = list.get(4);
 
-        if ((firstLineTableName.length() == 0) && fourthLinePrimaryKey.length() == 0)
+        if (firstLineTableName.length() == 0 || firstLineTableName.isEmpty() || firstLineTableName.equals("") || firstLineTableName == null)
         {
             checkStatusOfValidationOfFile = false;
             return false;
@@ -161,11 +163,37 @@ public class DBFileHandler {
             return false;
         }
 
-        if (fifthLineSperator.length() == 0)
+        if(secondLineColumname.length == 0 && thirdLineDatatypes.length == 0) {
+            checkStatusOfValidationOfFile = false;
+            return false;
+        }
+
+
+
+        if(fourthLinePrimaryKey.length != list.get(3).split("/").length) {
+            checkStatusOfValidationOfFile = false;
+            return false;
+        }
+
+        if(fourthLinePrimaryKey.length == 0) {
+            checkStatusOfValidationOfFile = false;
+            return false;
+        }
+
+        if (fifthLineSperator.length() == 0 || fifthLineSperator.isEmpty() || fifthLineSperator.equals("") || fifthLineSperator == null)
         {
             checkStatusOfValidationOfFile = false;
             return false;
         }
+
+        List column = Arrays.asList(secondLineColumname);
+        List primary = Arrays.asList(fourthLinePrimaryKey);
+        if(column.contains(primary)) {
+            checkStatusOfValidationOfFile = false;
+            return false;
+        }
+
+
 
         checkStatusOfValidationOfFile = true;
         return true;

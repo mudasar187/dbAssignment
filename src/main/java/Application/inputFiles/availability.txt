@@ -1,7 +1,7 @@
 availability
 weekId/lecturerId/monday/tuesday/wednesday/thursday/friday
 INT(11) NOT NULL/INT(11) NOT NULL/ENUM('false','true') NOT NULL/ENUM('false','true') NOT NULL/ENUM('false','true') NOT NULL/ENUM('false','true') NOT NULL/ENUM('false','true') NOT NULL
-weekId,lecturerId
+weekId/lecturerId
 --------------------<<SEPRATOR BETWEEN METADATA AND DATA>>--------------------
 40/1/true/true/true/false/false
 40/2/false/true/true/false/false

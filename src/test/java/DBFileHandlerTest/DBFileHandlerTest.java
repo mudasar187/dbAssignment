@@ -33,7 +33,7 @@ public class DBFileHandlerTest {
         assertEquals(table.getDataTypes()[1],"VARCHAR(255) NOT NULL");
         assertEquals(table.getDataTypes()[2],"VARCHAR(255) NOT NULL");
         assertEquals(table.getDataTypes()[3],"VARCHAR(255) NOT NULL UNIQUE");
-        assertEquals(table.getPrimaryKey(), "id");
+        assertEquals(table.getPrimaryKey()[0], "id");
     }
 
 

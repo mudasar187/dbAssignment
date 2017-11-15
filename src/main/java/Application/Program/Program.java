@@ -63,11 +63,8 @@ public class Program {
      */
     public void runProgram() throws InterruptedException {
 
-        boolean stopWhileLoopOne = false;
-        boolean stopWhileLoopTwo = false;
-        int createdDatabase = 0;
-        int createdTables = 0;
-        int createdConnectingBetweenTables = 0;
+        boolean stopWhileLoopOne = false, stopWhileLoopTwo = false;
+        int createdDatabase = 0, createdTables = 0, createdConnectingBetweenTables = 0, insertedData = 0;
 
         // Checks if connection is connected, if yes run while loop, if not, throw message that connection is not connected
         if (dbHandler.getDBStatus() == true)
@@ -123,6 +120,7 @@ public class Program {
 
                                 System.out.println(dbHandler.insertData(dbTableObject));
                             }
+                            insertedData = 1;
                             System.out.println();
                             break;
 
@@ -139,7 +137,7 @@ public class Program {
 
                         case "queries":
                             // If you have created database, tables and connected tables, then you are allowed to go to queries
-                            if (createdTables == 1 && createdDatabase == 1 && createdConnectingBetweenTables == 1)
+                            if (createdTables == 1 && createdDatabase == 1 && createdConnectingBetweenTables == 1 && insertedData == 1)
                             {
                                 stopWhileLoopOne = true;
                             } else
@@ -233,6 +231,20 @@ public class Program {
                             System.out.println();
                             break;
 
+                        case "7":
+                            System.out.print("Lecturer name: ");
+                            String lecturName = userInput.nextLine().toLowerCase();
+                            System.out.println("\n" + dbHandler.getDataAboutSpecificLecturerWithCorrectUseOfPreparedStatement(lecturName));
+                            System.out.println();
+                            break;
+
+                        case "8":
+                            System.out.print("Subject code: ");
+                            String subjectCode = userInput.nextLine().toLowerCase();
+                            System.out.println("\n" + dbHandler.getDataAboutSpecificSubjectWithCorrectUseOfPreparedStatement(subjectCode));
+                            System.out.println();
+                            break;
+
                         case "exit":
                             System.out.print("\n\nDisconnecting");
                             programHelper.connectionLoader();
@@ -247,6 +259,7 @@ public class Program {
                 }
                 catch (SQLException se)
                 {
+                    se.printStackTrace();
                     System.out.println(exceptionHandling.SQLException(se.getErrorCode()) + "\n");
                 }
             }

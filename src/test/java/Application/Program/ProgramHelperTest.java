@@ -71,9 +71,10 @@ public class ProgramHelperTest {
                         "4      Find any result based on any name, any column from any table \n" +
                         "5      Find all teachers availabilities on day (?) at week(?)\n" +
                         "6      Find which subjects a lecturer have\n" +
+                        "7      Find data about specific teacher with use of PreparedStatement in right way\n" +
+                        "8      Find data about specific subject with use of PreparedStatement in right way\n" +
                         "### Type 'exit' to exit the program ###\n" +
-                        "\n" +
-                        "Your choice: ", returnString);
+                        "\nYour choice: ", returnString);
     }
 
 }
