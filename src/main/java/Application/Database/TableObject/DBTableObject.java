@@ -2,7 +2,6 @@ package Application.Database.TableObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -13,7 +12,7 @@ import java.util.stream.Collectors;
  * <p>
  * Class to create Table object from files
  * <p>
- * Last modified 10 november 2017
+ * Last modified 15 november 2017
  */
 public class DBTableObject {
     /**

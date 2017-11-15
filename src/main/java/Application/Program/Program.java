@@ -18,7 +18,7 @@ import java.util.Scanner;
  * <p>
  * Class for setting up the application
  * <p>
- * Last modified 10 november 2017
+ * Last modified 15 november 2017
  */
 public class Program {
 

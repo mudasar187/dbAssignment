@@ -2,7 +2,6 @@ package DBConnectionTest;
 
 
 import Application.Database.Connection.DBConnection;
-import Application.Database.OutPutHandler.DBOutPutHandler;
 import org.junit.Test;
 
 import java.sql.Connection;

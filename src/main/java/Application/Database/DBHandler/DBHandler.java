@@ -18,7 +18,7 @@ import com.mysql.jdbc.ResultSetMetaData;
  * <p>
  * Class for handling tables and queries
  * <p>
- * Last modified 10 november 2017
+ * Last modified 15 november 2017
  */
 public class DBHandler {
 

@@ -1,12 +1,9 @@
 package Application.Program;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
