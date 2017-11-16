@@ -145,9 +145,24 @@ public class DBTableObject {
      */
     public String toString()
     {
-        ArrayList<String[]> data = justDataWithoutMetaData;
-        return data.stream()
-                .map(s -> Arrays.asList(s).toString())
+        ArrayList<String[]> content = justDataWithoutMetaData;
+
+        String returnContent = content.stream()
+                .map(c -> Arrays.asList(c).toString())
                 .collect(Collectors.joining("\n"));
+
+        validateOutPut(returnContent);
+
+        return returnContent;
+    }
+
+    /**
+     * Validate output of content string
+     * @param content
+     */
+    private void validateOutPut(String content) {
+        if(content.isEmpty() || content.equals("") || content == null) {
+            System.out.println("\n### No match found ###");
+        }
     }
 }

@@ -285,34 +285,22 @@ public class DBHandler {
      */
     public DBTableObject getDataAboutSpecificLecturerWithCorrectUseOfPreparedStatement(String lecturerName) throws SQLException
     {
+
         DBTableObject dbTableObject = new DBTableObject();
         String chooseDBName = "USE " + dbConnection.getDbName();
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-             PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT id, firstname, lastName, email FROM lecturer where firstName = ?"))
+             PreparedStatement preparedStatement1 = connection.prepareStatement(
+                     "SELECT id, firstname, lastName, email FROM lecturer where firstName = ?"))
         {
             preparedStatement.executeUpdate();
 
             preparedStatement1.setString(1, lecturerName);
             ResultSet resultSet = preparedStatement1.executeQuery();
 
-            int columnCount = resultSet.getMetaData().getColumnCount();
-            ArrayList<String[]> list = new ArrayList<>();
-            while (resultSet.next()) {
-
-                String[] rows = new String[columnCount];
-
-                for (int i = 0; i < columnCount; i++)
-                {
-                    rows[i] = resultSet.getString(i+1);
-                }
-               list.add(rows);
-            }
-            dbTableObject.setJustDataWithoutMetaData(list);
-
+            return dbOutPutHandler.returnResultFromDB(resultSet);
         }
-        return dbTableObject;
     }
 
 
@@ -325,7 +313,6 @@ public class DBHandler {
      */
     public DBTableObject getDataAboutSpecificSubjectWithCorrectUseOfPreparedStatement(String subjectCode) throws SQLException
     {
-        DBTableObject dbTableObject = new DBTableObject();
         String chooseDBName = "USE " + dbConnection.getDbName();
 
         try (Connection connection = dbConnection.getConnection();
@@ -337,22 +324,8 @@ public class DBHandler {
             preparedStatement1.setString(1, subjectCode);
             ResultSet resultSet = preparedStatement1.executeQuery();
 
-            int columnCount = resultSet.getMetaData().getColumnCount();
-            ArrayList<String[]> list = new ArrayList<>();
-            while (resultSet.next()) {
-
-                String[] rows = new String[columnCount];
-
-                for (int i = 0; i < columnCount; i++)
-                {
-                    rows[i] = resultSet.getString(i+1);
-                }
-                list.add(rows);
-            }
-            dbTableObject.setJustDataWithoutMetaData(list);
-
+            return dbOutPutHandler.returnResultFromDB(resultSet);
         }
-        return dbTableObject;
     }
 
 
@@ -386,7 +359,8 @@ public class DBHandler {
 
 
     /**
-     * This method get query for Select (columnNames), have this one because you should never do "Select * from 'tablename'"
+     * This method get query for Select (columnNames), have this one because you should never do "Select * from 'tablename'" but specify wich column you want
+     * So i do this  query to get column name for the table i want and use it on othe queries that require all columns
      *
      * @param tableName a {@link java.lang.String} object.
      * @return select (columnNames) query

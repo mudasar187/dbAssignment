@@ -1,8 +1,11 @@
 package Application.Database.OutPutHandler;
 
+import Application.Database.TableObject.DBTableObject;
+
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * <p>DBOutPutHandler class.</p>
@@ -86,4 +89,33 @@ public class DBOutPutHandler {
         }
         return output;
     }
+
+
+    /**
+     * Creating a object og DbTableObject, fill the rows into an arraylist in DBTableObject
+     * @param resultSet
+     * @return
+     * @throws SQLException
+     */
+    public DBTableObject returnResultFromDB(ResultSet resultSet) throws SQLException {
+
+        DBTableObject dbTableObject = new DBTableObject();
+
+        int columnCount = resultSet.getMetaData().getColumnCount();
+        ArrayList<String[]> list = new ArrayList<>();
+
+        while (resultSet.next()) {
+
+            String[] rows = new String[columnCount];
+
+            for (int i = 0; i < columnCount; i++)
+            {
+                rows[i] = resultSet.getString(i+1);
+            }
+            list.add(rows);
+        }
+        dbTableObject.setJustDataWithoutMetaData(list);
+        return dbTableObject;
+    }
 }
+
