@@ -150,12 +150,14 @@ public class DBFileHandler {
         String[] fourthLinePrimaryKey = list.get(3).split("/");
         String fifthLineSperator = list.get(4);
 
+        // Table name should not be empty
         if (firstLineTableName.length() == 0 || firstLineTableName.isEmpty() || firstLineTableName.equals("") || firstLineTableName == null)
         {
             checkStatusOfValidationOfFile = false;
             return false;
         }
 
+        // Check if array has same length as arraylist for secondline & thirdline
         if ((secondLineColumname.length != list.get(2).split("/").length) && (thirdLineDatatypes.length != list.get(
                 1).split("/").length))
         {
@@ -163,29 +165,32 @@ public class DBFileHandler {
             return false;
         }
 
+        // Secondline and thirdline should not be empty
         if(secondLineColumname.length == 0 && thirdLineDatatypes.length == 0) {
             checkStatusOfValidationOfFile = false;
             return false;
         }
 
-
-
+        // Check if array has same length as arraylist for fourthline
         if(fourthLinePrimaryKey.length != list.get(3).split("/").length) {
             checkStatusOfValidationOfFile = false;
             return false;
         }
 
+        // Fourthline should not be empty
         if(fourthLinePrimaryKey.length == 0) {
             checkStatusOfValidationOfFile = false;
             return false;
         }
 
+        // Fifthline should not be empty, this is because it should be a seperator between data and metadata
         if (fifthLineSperator.length() == 0 || fifthLineSperator.isEmpty() || fifthLineSperator.equals("") || fifthLineSperator == null)
         {
             checkStatusOfValidationOfFile = false;
             return false;
         }
 
+        // Check if primarykey is equals to one of columnName
         List column = Arrays.asList(secondLineColumname);
         List primary = Arrays.asList(fourthLinePrimaryKey);
         if(column.contains(primary)) {
@@ -193,8 +198,7 @@ public class DBFileHandler {
             return false;
         }
 
-
-
+        // If everything is fine then true for validation of file
         checkStatusOfValidationOfFile = true;
         return true;
     }

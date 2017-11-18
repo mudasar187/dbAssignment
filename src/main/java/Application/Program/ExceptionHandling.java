@@ -44,7 +44,7 @@ public class ExceptionHandling {
             case 1072:
                 return "\n### Key column doesn't exists in table";
             default:
-                return "\n### Not valid input from user ###";
+                return "\n### SQL syntax error ###";
         }
     }
 }

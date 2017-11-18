@@ -27,6 +27,10 @@
 
 * Get wich teacher have wich subject
 
+* Find data about specific teacher with use of PreparedStatement in right way
+
+* Find data about specific subject with use of PreparedStatement in right way
+
 # Settings
 
 * Go to [Config file](src/main/resources/database.properties) and change to your own settings to try out this application
