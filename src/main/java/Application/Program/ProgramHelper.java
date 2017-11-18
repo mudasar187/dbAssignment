@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * This is a helper to Program.class,
  * and also adding the files that needed to be added (the files to read from 'inputFiles' folder
  * <p>
- * Last modified 15 november 2017
+ * Last modified 18 november 2017
  */
 public class ProgramHelper {
 

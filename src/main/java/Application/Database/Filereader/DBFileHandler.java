@@ -19,7 +19,7 @@ import java.util.Scanner;
  * Class for reading files and retrieving data from files as well as validating data
  * And also send data to DBTableObjectFromFile.class to create an object of information
  * <p>
- * Last modified 15 november 2017
+ * Last modified 18 november 2017
  */
 public class DBFileHandler {
 

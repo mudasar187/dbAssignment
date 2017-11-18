@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * <p>
  * Class to create Table object from files
  * <p>
- * Last modified 15 november 2017
+ * Last modified 18 november 2017
  */
 public class DBTableObject {
     /**

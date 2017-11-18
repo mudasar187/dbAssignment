@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * <p>
  * Class creating result string for the methods in DBHandler
  * <p>
- * Last modified 15 november 2017
+ * Last modified 18 november 2017
  */
 public class DBOutPutHandler {
 

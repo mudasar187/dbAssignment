@@ -16,7 +16,7 @@ import java.util.Properties;
  * Connection
  * Class for connection to database
  * <p>
- * Last modified 15 november 2017
+ * Last modified 18 november 2017
  */
 public class DBConnection {
 

@@ -10,7 +10,7 @@ import Application.Program.Program;
  * <p>
  * Main class to run whole the application
  * <p>
- * Last modified 15 november 2017
+ * Last modified 18 november 2017
  */
 public class RunProgram {
 
