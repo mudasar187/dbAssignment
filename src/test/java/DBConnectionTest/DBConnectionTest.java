@@ -47,7 +47,7 @@ public class DBConnectionTest {
     @Test
     public void testConnectionIfFileNotExist() {
 
-        DBConnection dbConnection = new DBConnection("fileNotExists");
+        DBConnection dbConnection = new DBConnection("gfgfdgdf");
 
         Connection connection = dbConnection.getConnection();
 
