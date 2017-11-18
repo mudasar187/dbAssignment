@@ -35,4 +35,6 @@
 
 * Go to [Config file](src/main/resources/database.properties) and change to your own settings to try out this application
 
-* To run test gå to [Config file for test](src/test/resources/test-DB-right.properties) and change settings to your own, but you need to manually create database with name you choose before run test
+* To run test gå to [Config file for test](src/test/resources/test-DB-right.properties) and change settings to your own, you dont need to manually create database, test will do it for you and test methods
+
+* To run coverage test, run this command -> mvn test
