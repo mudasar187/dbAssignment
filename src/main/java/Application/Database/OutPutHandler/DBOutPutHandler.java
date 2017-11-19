@@ -28,8 +28,8 @@ public class DBOutPutHandler {
      * showAllTables()
      *
      * @param resultSet a java.sql.ResultSet object.
-     *
      * @return output string
+     * @throws java.sql.SQLException if any.
      */
     public String printResult(ResultSet resultSet) throws SQLException
     {
@@ -67,9 +67,7 @@ public class DBOutPutHandler {
      * Creating a output string for the getMetaData() method in DBHandler
      *
      * @param resultSet a java.sql.ResultSet object.
-     *
      * @return output string
-     *
      * @throws java.sql.SQLException if any.
      */
     public String printMetaData(ResultSet resultSet) throws SQLException {
@@ -92,9 +90,10 @@ public class DBOutPutHandler {
 
     /**
      * Creating a object og DbTableObject, fill the rows into an arraylist in DBTableObject
-     * @param resultSet
-     * @return
-     * @throws SQLException
+     *
+     * @param resultSet a java.sql.ResultSet object.
+     * @throws java.sql.SQLException if any.
+     * @return a {@link Application.Database.TableObject.DBTableObject} object.
      */
     public DBTableObject returnResultFromDB(ResultSet resultSet) throws SQLException {
 

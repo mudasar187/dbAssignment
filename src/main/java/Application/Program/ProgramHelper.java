@@ -28,6 +28,7 @@ public class ProgramHelper {
      * Set the file that needed to be read
      *
      * @param fileName a {@link java.lang.String} object.
+     * @throws java.io.FileNotFoundException if any.
      */
     public ProgramHelper(String fileName) throws FileNotFoundException {
 

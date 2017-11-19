@@ -287,9 +287,10 @@ public class DBHandler {
     /**
      * Example of how to use preparedstatement in correct way
      * This method is getting data from specific lecturer from lecturer table
-     * @param lecturerName
+     *
+     * @param lecturerName a {@link java.lang.String} object.
      * @return returnResultFromDB() in DBOutPutHandler
-     * @throws SQLException
+     * @throws java.sql.SQLException if any.
      */
     public DBTableObject getDataAboutSpecificLecturerWithCorrectUseOfPreparedStatement(String lecturerName) throws SQLException
     {
@@ -315,9 +316,10 @@ public class DBHandler {
     /**
      * Example of how to use preparedstatement in correct way
      * This method is getting data about specific subject from subject table
-     * @param subjectCode
+     *
+     * @param subjectCode a {@link java.lang.String} object.
      * @return returnResultFromDB() in DBOutPutHandler
-     * @throws SQLException
+     * @throws java.sql.SQLException if any.
      */
     public DBTableObject getDataAboutSpecificSubjectWithCorrectUseOfPreparedStatement(String subjectCode) throws SQLException
     {
