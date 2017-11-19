@@ -142,7 +142,7 @@ public class Program {
                                 stopWhileLoopOne = true;
                             } else
                             {
-                                System.out.println("### Please run option 1,2 and 4 before make queries ###\n");
+                                System.out.println("### Have you runned options 1,2,3 and 4 before make queries? if not, please run these ###\n");
                             }
                             break;
 
