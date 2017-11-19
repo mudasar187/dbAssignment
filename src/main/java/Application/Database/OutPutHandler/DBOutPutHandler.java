@@ -33,7 +33,6 @@ public class DBOutPutHandler {
      */
     public String printResult(ResultSet resultSet) throws SQLException
     {
-
         String output = "";
         int columnCount = resultSet.getMetaData().getColumnCount();
 
@@ -101,8 +100,11 @@ public class DBOutPutHandler {
 
         DBTableObject dbTableObject = new DBTableObject();
 
+        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+
         int columnCount = resultSet.getMetaData().getColumnCount();
         ArrayList<String[]> list = new ArrayList<>();
+        String[] columnNames = new String[columnCount];
 
         while (resultSet.next()) {
 
@@ -110,11 +112,17 @@ public class DBOutPutHandler {
 
             for (int i = 0; i < columnCount; i++)
             {
+                columnNames[i] = resultSetMetaData.getColumnName(i+1);
+            }
+            for (int i = 0; i < columnCount; i++)
+            {
                 rows[i] = resultSet.getString(i+1);
             }
             list.add(rows);
         }
+        dbTableObject.setColumnsName(columnNames);
         dbTableObject.setJustDataWithoutMetaData(list);
+
         return dbTableObject;
     }
 }

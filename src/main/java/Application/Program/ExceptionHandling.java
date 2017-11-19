@@ -38,11 +38,11 @@ public class ExceptionHandling {
             case 1051:
                 return "\n### Table(s) not exists ###";
             case 1062:
-                return "\n### Duplicates entry , check content of data in files before insert data ###";
+                return "\n### Duplicates data, data already exists in table, check content of data in files before insert data ###";
             case 1054:
                 return "\n### No column match, try again ###";
             case 1072:
-                return "\n### Key column doesn't exists in table";
+                return "\n### Key column doesn't exists in one of the table, please check file ###";
             default:
                 return "\n### SQL syntax error ###";
         }

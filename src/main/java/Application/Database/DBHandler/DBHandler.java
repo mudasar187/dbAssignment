@@ -81,6 +81,8 @@ public class DBHandler {
     /**
      * This method creates a table based on the information retrieved from getQueryCreateTable() method call
      *
+     * source -> https://github.com/NikitaZhevnitskiy/dbService/blob/master/src/main/java/program/DBManager.java
+     *
      * @return String output
      * @throws java.sql.SQLException if any.
      * @param dbTableObject a {@link Application.Database.TableObject.DBTableObject} object.
@@ -104,7 +106,11 @@ public class DBHandler {
 
 
     /**
-     * This method extracts the information from table object needed to create table and sends query to createTable()
+     * This method make an "Create table ..." string with information from table object and send the string to createTable() method
+     *
+     * source -> https://github.com/NikitaZhevnitskiy/dbService/blob/master/src/main/java/program/DBManager.java
+     *
+     * Extended so i can handle multiple primary keys
      *
      * @return query
      * @param dbTableObject a {@link DBTableObject} object.
@@ -140,7 +146,9 @@ public class DBHandler {
 
 
     /**
-     * This method insert data based on the information retrieved from getInsertDataQuery() method call
+     * This method insert data based on the string from getInsertDataQuery() and replace all '?' with real
+     *
+     * source -> https://github.com/NikitaZhevnitskiy/dbService/blob/master/src/main/java/program/DBManager.java
      *
      * @return String output
      * @throws java.sql.SQLException if any.
@@ -173,7 +181,9 @@ public class DBHandler {
 
 
     /**
-     * This method extracts the information from table object needed and sends query to insertData()
+     * This method make an "Insert into..." string based on column names and how many row that need to insert, each row with '?'
+     *
+     * source -> https://github.com/NikitaZhevnitskiy/dbService/blob/master/src/main/java/program/DBManager.java
      *
      * @return query
      * @param dbTableObject a {@link DBTableObject} object.
@@ -226,7 +236,6 @@ public class DBHandler {
 
     /**
      * This method extracts meta data about the table, column names, data types and size
-     * Using getQueryForSelectColumnNames() method to get Select (columnNames) query
      *
      * @return printMetadata() in DBOutPutHandler
      * @throws java.sql.SQLException if any.
@@ -236,7 +245,7 @@ public class DBHandler {
     {
 
         String chooseDBName = "USE " + dbConnection.getDbName();
-        String selectFromTable = getQueryForSelectColumnNames(tableName);
+        String selectFromTable = "SELECT * FROM " + tableName;
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
@@ -252,9 +261,8 @@ public class DBHandler {
 
     /**
      * This method extract data from table
-     * Using getQueryForSelectColumnNames() method to get Select (columnNames) query
      *
-     * @return printResult() in DbOutPutHandler
+     * @return printResult() in DBOutPutHandler
      * @throws java.sql.SQLException if any.
      * @param tableName a {@link java.lang.String} object.
      */
@@ -262,7 +270,7 @@ public class DBHandler {
     {
 
         String chooseDBName = "USE " + dbConnection.getDbName();
-        String selectFromTable = getQueryForSelectColumnNames(tableName);
+        String selectFromTable = "SELECT * FROM " + tableName;
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
@@ -280,7 +288,7 @@ public class DBHandler {
      * Example of how to use preparedstatement in correct way
      * This method is getting data from specific lecturer from lecturer table
      * @param lecturerName
-     * @return
+     * @return returnResultFromDB() in DBOutPutHandler
      * @throws SQLException
      */
     public DBTableObject getDataAboutSpecificLecturerWithCorrectUseOfPreparedStatement(String lecturerName) throws SQLException
@@ -308,7 +316,7 @@ public class DBHandler {
      * Example of how to use preparedstatement in correct way
      * This method is getting data about specific subject from subject table
      * @param subjectCode
-     * @return
+     * @return returnResultFromDB() in DBOutPutHandler
      * @throws SQLException
      */
     public DBTableObject getDataAboutSpecificSubjectWithCorrectUseOfPreparedStatement(String subjectCode) throws SQLException
@@ -332,7 +340,6 @@ public class DBHandler {
 
     /**
      * This method get the data based on tablename, column name and value of the search
-     * Using getQueryForSelectColumnNames() method to get Select (columnNames) query
      *
      * @return printResult() method in DbOutPutHandler
      * @throws java.sql.SQLException if any.
@@ -344,7 +351,7 @@ public class DBHandler {
     {
 
         String chooseDBName = "USE " + dbConnection.getDbName();
-        String selectFromTable = getQueryForSelectColumnNames(tableName) + " WHERE " + column + " LIKE " + "'" + search + "'";
+        String selectFromTable = "SELECT * FROM " + tableName + " WHERE " + column + " LIKE " + "'" + search + "'";
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
@@ -355,42 +362,6 @@ public class DBHandler {
 
             return dbOutPutHandler.printResult(resultSet);
         }
-    }
-
-
-    /**
-     * This method get query for Select (columnNames), have this one because you should never do "Select * from 'tablename'" but specify wich column you want
-     * So i do this  query to get column name for the table i want and use it on othe queries that require all columns
-     *
-     * @param tableName a {@link java.lang.String} object.
-     * @return select (columnNames) query
-     * @throws java.sql.SQLException if any
-     */
-    private String getQueryForSelectColumnNames(String tableName) throws SQLException
-    {
-
-        String chooseDBName = "USE " + dbConnection.getDbName();
-        StringBuilder buildString = new StringBuilder("SELECT ");
-
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(chooseDBName);
-             PreparedStatement selectAll = connection.prepareStatement(
-                     "SELECT * FROM " + tableName))
-        {
-            preparedStatement.executeUpdate();
-            ResultSet resultSet = selectAll.executeQuery();
-
-            ResultSetMetaData resultSetMetaData = (ResultSetMetaData) resultSet.getMetaData();
-
-            for (int i = 1; i < resultSetMetaData.getColumnCount(); i++)
-            {
-                buildString.append(resultSetMetaData.getColumnName(i) + ", ");
-            }
-
-            buildString.append(resultSetMetaData.getColumnName(resultSetMetaData.getColumnCount()) + " from " + tableName);
-        }
-
-        return buildString.toString();
     }
 
 

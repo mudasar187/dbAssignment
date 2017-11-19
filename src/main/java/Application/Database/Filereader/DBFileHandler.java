@@ -18,12 +18,15 @@ import java.util.Scanner;
  * DBFileReader
  * Class for reading files and retrieving data from files as well as validating data
  * And also send data to DBTableObjectFromFile.class to create an object of information
+ *
+ * source ->  https://github.com/NikitaZhevnitskiy/dbService/blob/master/src/main/java/program/InputManager.java
+ *
  * <p>
  * Last modified 18 november 2017
  */
 public class DBFileHandler {
 
-    private Scanner read;
+    private Scanner readFile;
     private boolean checkStatusOfValidationOfFile;
 
 
@@ -41,17 +44,17 @@ public class DBFileHandler {
      */
     public DBTableObject makeObject(String fileName, DBTableObject table)
     {
-        setRead(fileName);
+        readFile(fileName);
         ArrayList<String> allFromFile = getAllDataFromFile();
         // Validate before send information to DbTableObject
-        validateData(allFromFile);
+        validateMetadata(allFromFile);
         table.setTableName(allFromFile.get(0));
         table.setColumnsName(allFromFile.get(1).split("/"));
         table.setDataTypes(allFromFile.get(2).split("/"));
         table.setPrimaryKey(allFromFile.get(3).split("/"));
         table.setSeperatorMetaDataAndData(allFromFile.get(4));
         table.setJustDataWithoutMetaData(getOnlyDataWithoutMetaData(allFromFile));
-        this.read = null;
+        this.readFile = null;
         return table;
     }
 
@@ -61,11 +64,11 @@ public class DBFileHandler {
      *
      * @param fileName, the file to be read
      */
-    private void setRead(String fileName)
+    private void readFile(String fileName)
     {
         try
         {
-            read = new Scanner(new File(fileName));
+            readFile = new Scanner(new File(fileName));
         }
         catch (FileNotFoundException f)
         {
@@ -84,16 +87,16 @@ public class DBFileHandler {
 
         ArrayList<String> allFromFile = new ArrayList<>();
 
-        while (read.hasNext())
+        while (readFile.hasNext())
         {
-            allFromFile.add(read.nextLine());
+            allFromFile.add(readFile.nextLine());
         }
         return allFromFile;
     }
 
 
     /**
-     * This method create an arraylist named 'justDataWithoutMetaData' and extract it from the arraylist(allFromFile) from 5'th index
+     * This method create an arraylist with array of strings named 'justDataWithoutMetaData' and extract it from the arraylist(allFromFile) from 5'th index
      *
      * @param allFromFile arraylist
      *
@@ -118,9 +121,9 @@ public class DBFileHandler {
      *
      * @param list, sending the arraylist(allFromFile) to validate the data
      */
-    private void validateData(ArrayList<String> list)
+    private void validateMetadata(ArrayList<String> list)
     {
-        if (!isDataValid(list))
+        if (!isMetadataValid(list))
         {
             System.out.println("### File is empty or not valid ###");
         }
@@ -129,16 +132,16 @@ public class DBFileHandler {
 
     /**
      * Here the validation checks that the file is not empty or the layout of the file is correct.
-     * Checks from the first line to the 5 line, if it is the way it should, otherwise the program can not create a table object
+     * Checks from the first line to the 5 line, if file is right then create object, otherwise cant not create a table object
      *
      * @param list, the arraylist(allFromFile) where all content is stored
      *
      * @return if file is correct or not by true/false
      */
-    private boolean isDataValid(ArrayList<String> list)
+    private boolean isMetadataValid(ArrayList<String> list)
     {
-
-        if (list.isEmpty())
+        // List should not be empty or null
+        if (list.isEmpty() || list == null)
         {
             checkStatusOfValidationOfFile = false;
             return false;
@@ -157,7 +160,7 @@ public class DBFileHandler {
             return false;
         }
 
-        // Check if array has same length as arraylist for secondline & thirdline
+        // Check if column length is same as data type length, and data type length is same as column name length
         if ((secondLineColumname.length != list.get(2).split("/").length) && (thirdLineDatatypes.length != list.get(
                 1).split("/").length))
         {
@@ -171,13 +174,7 @@ public class DBFileHandler {
             return false;
         }
 
-        // Check if array has same length as arraylist for fourthline
-        if(fourthLinePrimaryKey.length != list.get(3).split("/").length) {
-            checkStatusOfValidationOfFile = false;
-            return false;
-        }
-
-        // Fourthline should not be empty
+        // Check if primary key is not empty, every table should have declared a primary key
         if(fourthLinePrimaryKey.length == 0) {
             checkStatusOfValidationOfFile = false;
             return false;
@@ -191,17 +188,19 @@ public class DBFileHandler {
         }
 
         // Check if primarykey is equals to one of columnName
-        List column = Arrays.asList(secondLineColumname);
-        List primary = Arrays.asList(fourthLinePrimaryKey);
-        if(column.contains(primary)) {
-            checkStatusOfValidationOfFile = false;
-            return false;
+        List columnnames = Arrays.asList(secondLineColumname);
+        List primaryKeys = Arrays.asList(fourthLinePrimaryKey);
+        if(columnnames.contains(primaryKeys)) {
+            checkStatusOfValidationOfFile = true;
+            return true;
         }
 
         // If everything is fine then true for validation of file
         checkStatusOfValidationOfFile = true;
         return true;
     }
+
+    // TODO: Validate all rows length with column name length, also handle if there is auto increment
 
 
     /**

@@ -140,29 +140,37 @@ public class DBTableObject {
     }
 
     /**
-     * Streams to get the list of rows in table (Java 8 function learned from Visma lecture)
+     * Print out information from DB
      * @return list of content
      */
     public String toString()
     {
-        ArrayList<String[]> content = justDataWithoutMetaData;
 
-        String returnContent = content.stream()
-                .map(c -> Arrays.asList(c).toString())
-                .collect(Collectors.joining("\n"));
+        if(!justDataWithoutMetaData.isEmpty())
+        {
+            ArrayList<String[]> content = justDataWithoutMetaData;
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < columnsName.length; i++)
+            {
+                builder.append(String.format("%-15s", columnsName[i]));
+            }
+            builder.append("\n");
+            for (int i = 0; i < columnsName.length * 15; i++)
+            {
+                builder.append("-");
+            }
+            builder.append("\n");
+            for (String[] array : content)
+            {
+                for (String text : array)
+                {
+                    builder.append(String.format("%-15s", text));
+                }
+                builder.append("\n");
 
-        validateOutPut(returnContent);
-
-        return returnContent;
-    }
-
-    /**
-     * Validate output of content string
-     * @param content
-     */
-    private void validateOutPut(String content) {
-        if(content.isEmpty() || content.equals("") || content == null) {
-            System.out.println("\n### No match found ###");
+            }
+            return builder.toString();
         }
+        return "### No match found ###";
     }
 }
