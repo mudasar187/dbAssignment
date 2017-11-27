@@ -160,6 +160,7 @@ public class Program {
                 }
                 catch (SQLException se)
                 {
+                    se.printStackTrace();
                     System.out.println(exceptionHandling.SQLException(se.getErrorCode()) + "\n");
                 }
                 catch (NullPointerException e)
