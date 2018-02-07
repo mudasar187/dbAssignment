@@ -1,4 +1,4 @@
-## Exam Project
+## Advanded Java PGR200
 
 This was part of the exam in PGR200
 
