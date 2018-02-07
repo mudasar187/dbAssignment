@@ -1,8 +1,8 @@
-## Advanded Java PGR200
+## Advanced Java PGR200
 
-This was part of the exam in PGR200
+## Exam Fall 2017
 
-## Database Project
+## JDBC Project
 
 * Java
 * Maven
