@@ -1,11 +1,15 @@
-# Database Project
+## Exam Project
+
+This was part of the exam in PGR200
+
+## Database Project
 
 * Java
 * Maven
 * MySql
 * JDBC
 
-# Functionality
+## Functionality
 
 * Create database
 
@@ -31,7 +35,7 @@
 
 * Find data about specific subject with use of PreparedStatement in right way
 
-# Settings
+## Settings
 
 * Go to [Config file](src/main/resources/database.properties) and change to your own settings to try out this application
 
